@@ -1,0 +1,35 @@
+# postgres and redis images
+# environment variables required in .env file:
+  # - POSTGRES_USER
+  # - POSTGRES_PASSWORD
+  # - POSTGRES_DB
+  # - POSTGRES_PORT
+  # - REDIS_PORT
+
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:16.0
+    restart: always
+    container_name: instagram-clone-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  redis_db:
+    image: redis:7.2.3
+    restart: always
+    container_name: instagram-clone-redis
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
