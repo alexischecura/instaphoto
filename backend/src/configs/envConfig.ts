@@ -25,6 +25,13 @@ const envSchema = z.object({
     })
     .transform(Number),
   REDIS_URL: z.string(),
+
+  PORT: z
+    .string()
+    .regex(positiveNumbersRegex, {
+      message: 'Port for server must be a positive integer number',
+    })
+    .transform(Number),
 });
 
 /**
