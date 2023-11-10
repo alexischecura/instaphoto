@@ -1,0 +1,11 @@
+extends emailTemplate
+
+block content
+  p Hi #{firstName},
+
+  p Thank you for registering in the Instagram Clone! To complete your registration, please use the next link to verify your account:
+
+  a(href=`${url}` target='_blank') Verify Email
+
+  p This code will expire in 24 hours for security reasons. Please enter the code on the verification page to activate your account.
+

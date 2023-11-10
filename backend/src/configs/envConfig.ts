@@ -32,6 +32,12 @@ const envSchema = z.object({
       message: 'Port for server must be a positive integer number',
     })
     .transform(Number),
+
+  EMAIL_USER: z.string(),
+  EMAIL_PASS: z.string(),
+  EMAIL_HOST: z.string(),
+  EMAIL_PORT: z.string().regex(positiveNumbersRegex).transform(Number),
+  EMAIL_FROM: z.string(),
 });
 
 /**
