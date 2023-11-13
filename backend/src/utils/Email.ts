@@ -14,14 +14,12 @@ const smtpTransport = {
 };
 
 export default class Email {
-  private firstName: string;
   private username: string;
   private to: string;
   private from: string;
 
   constructor(user: User, private url: string) {
-    this.firstName = user.fullName.split(' ')[0];
-    this.username = user.userName;
+    this.username = user.username;
     this.to = user.email;
     this.from = envVars.EMAIL_FROM;
   }
@@ -32,7 +30,7 @@ export default class Email {
 
   private async send(template: string, subject: string) {
     const html = pug.renderFile(`${__dirname}/../views/${template}.pug`, {
-      firstName: this.firstName,
+      username: this.username,
       subject,
       url: this.url,
     });
