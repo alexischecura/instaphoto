@@ -4,10 +4,15 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
 import { envVars } from '../configs/envConfig';
-import { ConflictError, InternalServerError } from '../utils/AppError';
+import {
+  AuthenticationError,
+  ConflictError,
+  InternalServerError,
+  NotFoundError,
+} from '../utils/AppError';
 import Email from '../utils/Email';
 import { CreateUserType } from '../schemas/userSchema';
-import { createUser } from '../services/userService';
+import { createUser, findUser, updateUser } from '../services/userService';
 
 export const createUserHandler = async (
   req: Request<{}, {}, CreateUserType>,
@@ -57,5 +62,40 @@ export const createUserHandler = async (
     }
     console.error(error);
     next(new InternalServerError('Something went wrong when signing in'));
+  }
+};
+
+export const verifyUserHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const verificationCode = crypto
+      .createHash('sha256')
+      .update(req.params.code)
+      .digest('hex');
+
+    const user = await findUser({ verificationCode });
+
+    if (!user) {
+      return next(new AuthenticationError('Invalid verification code'));
+    }
+
+    await updateUser(
+      {
+        id: user.id,
+      },
+      { verified: true, verificationCode: null }
+    );
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Email verified successfully',
+    });
+  } catch (error) {
+    next(
+      new InternalServerError('Something went wrong when verifying the email')
+    );
   }
 };

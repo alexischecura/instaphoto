@@ -44,3 +44,9 @@ export type CreateUserType = Omit<
   z.infer<typeof createUserSchema>,
   'passwordConfirm'
 >;
+
+export const verificationCodeSchema = z.object({
+  code: z.string({
+    required_error: 'Verification Code is required',
+  }),
+});
