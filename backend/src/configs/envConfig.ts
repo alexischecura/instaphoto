@@ -7,6 +7,14 @@ const positiveNumbersRegex = /^\d+$/;
  * The schema specifies the expected data types and constraints for each variable.
  */
 const envSchema = z.object({
+  PORT: z
+    .string()
+    .regex(positiveNumbersRegex, {
+      message: 'Port for server must be a positive integer number',
+    })
+    .transform(Number),
+  ORIGIN: z.string(),
+
   POSTGRES_USER: z.string(),
   POSTGRES_PASSWORD: z.string(),
   POSTGRES_DB: z.string(),
@@ -25,13 +33,6 @@ const envSchema = z.object({
     })
     .transform(Number),
   REDIS_URL: z.string(),
-
-  PORT: z
-    .string()
-    .regex(positiveNumbersRegex, {
-      message: 'Port for server must be a positive integer number',
-    })
-    .transform(Number),
 
   EMAIL_USER: z.string(),
   EMAIL_PASS: z.string(),
