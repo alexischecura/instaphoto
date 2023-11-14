@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import {
   createUserHandler,
+  loginUserHandler,
   verifyUserHandler,
 } from '../controllers/authController';
 import { validate } from '../middlewares/validateRequest';
 import {
   createUserSchema,
+  loginUserSchema,
   verificationCodeSchema,
 } from '../schemas/userSchema';
 
@@ -18,5 +20,7 @@ router
     validate(verificationCodeSchema, 'params'),
     verifyUserHandler
   );
+
+router.post('/login', validate(loginUserSchema, 'body'), loginUserHandler);
 
 export default router;

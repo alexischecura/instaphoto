@@ -50,3 +50,19 @@ export const verificationCodeSchema = z.object({
     required_error: 'Verification Code is required',
   }),
 });
+
+export const loginUserSchema = z.object({
+  userInput: z
+    .string({
+      required_error: 'e-mail or username is required',
+      invalid_type_error: 'e-mail or username must be a string',
+    })
+    .max(255),
+  password: z
+    .string({
+      required_error: 'Please provide your password',
+      invalid_type_error: 'Password must be a string',
+    })
+    .min(8, 'Password must be more than 8 characters')
+    .max(32, 'Password too long, please provide a shorter password'),
+});
