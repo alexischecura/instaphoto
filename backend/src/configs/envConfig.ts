@@ -26,19 +26,25 @@ const envSchema = z.object({
     .transform(Number),
   DATABASE_URL: z.string(),
 
-  REDIS_PORT: z
-    .string()
-    .regex(positiveNumbersRegex, {
-      message: 'Redis database port must be a positive integer number',
-    })
-    .transform(Number),
-  REDIS_URL: z.string(),
-
   EMAIL_USER: z.string(),
   EMAIL_PASS: z.string(),
   EMAIL_HOST: z.string(),
   EMAIL_PORT: z.string().regex(positiveNumbersRegex).transform(Number),
   EMAIL_FROM: z.string(),
+
+  JWT_SECRET_KEY: z.string(),
+  JWT_EXPIRES_IN: z
+    .string()
+    .regex(positiveNumbersRegex, {
+      message: 'Jwt expiration must be a number',
+    })
+    .transform(Number),
+  JWT_COOKIE_EXPIRES_IN: z
+    .string()
+    .regex(positiveNumbersRegex, {
+      message: 'Cookie expiration must be a number',
+    })
+    .transform(Number),
 });
 
 /**
