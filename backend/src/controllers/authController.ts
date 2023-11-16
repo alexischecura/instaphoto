@@ -6,13 +6,16 @@ import crypto from 'crypto';
 import { envVars } from '../configs/envConfig';
 import {
   AuthenticationError,
+  AuthorizationError,
   ConflictError,
   InternalServerError,
+  NotFoundError,
 } from '../utils/AppError';
 import Email from '../utils/Email';
 import { CreateUserType } from '../schemas/userSchema';
 import {
   createUser,
+  findUniqueUser,
   findUser,
   findUserByEmailOrUsername,
   updateUser,
@@ -20,7 +23,7 @@ import {
 import { signJwt } from '../utils/jwtUtils';
 
 export const createUserHandler = async (
-  req: Request<{}, {}, CreateUserType>,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -83,7 +86,7 @@ export const verifyUserHandler = async (
       .update(req.params.code)
       .digest('hex');
 
-    const user = await findUser({ verificationCode });
+    const user = await findUniqueUser({ verificationCode });
 
     if (!user) {
       return next(new AuthenticationError('Invalid verification code'));
@@ -113,19 +116,23 @@ export const loginUserHandler = async (
   next: NextFunction
 ) => {
   try {
-    // 1 - find a user with the provider email
+    // 1 - find a user with the provided email
     const user = await findUserByEmailOrUsername(req.body.userInput);
 
     // 2 - compare the password
-    //   - If user doesn't exist or password doesn't match throw error
+
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
       return next(new AuthenticationError('Incorrect credentials'));
     }
 
-    // 3 - Generate access token and refresh token
-    //   - Set access token and refresh in cookies
+    if (!user.verified) {
+      return next(new AuthorizationError('Please verify your email'));
+    }
+
+    // 3 - Generate token
+    //   - Set token in cookies
     const token = signJwt(
-      { id: user.id, email: user.email },
+      { id: user.id },
       { expiresIn: `${envVars.JWT_EXPIRES_IN}h` }
     );
     const cookieOptions: CookieOptions = {
@@ -137,7 +144,7 @@ export const loginUserHandler = async (
     };
     res.cookie('token', token, cookieOptions);
 
-    // 4 - Response user and token
+    // 4 - Response json with user's info and token
     res.status(200).json({
       user: {
         fullName: user.fullName,
@@ -147,5 +154,150 @@ export const loginUserHandler = async (
       },
       token,
     });
-  } catch (error: any) {}
+  } catch (error: any) {
+    return next(
+      new InternalServerError('Something went wrong when logging in')
+    );
+  }
 };
+
+export const logoutUserHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.cookie('token', '', { maxAge: -1 });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'User successfully logged out',
+  });
+};
+
+// Send reset password link to user email
+export const forgotPasswordHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await findUniqueUser({ email: req.body.email.toLowerCase() });
+
+    if (!user) {
+      return next(
+        new NotFoundError('There is no user with that email address.')
+      );
+    }
+
+    if (!user.verified) {
+      return next(new AuthorizationError('Please verify your email.'));
+    }
+
+    if (user.provider) {
+      return next(
+        new AuthorizationError(
+          `Please use your social account to login (${user.provider}).`
+        )
+      );
+    }
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    const passwordResetToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+
+    await updateUser(
+      {
+        id: user.id,
+      },
+      {
+        passwordResetToken,
+        passwordResetExpires: new Date(Date.now() + 10 * 60 * 1000),
+      }
+    );
+    try {
+      const url = `${envVars.ORIGIN}/api/v1/users/resetPassword/${resetToken}`;
+
+      await new Email(user, url).sendPasswordResetToken();
+
+      res.status(200).json({
+        status: 'success',
+        message: 'You will receive an email to reset your password.',
+      });
+    } catch (error) {
+      await updateUser(
+        {
+          id: user.id,
+        },
+        {
+          passwordResetToken: null,
+          passwordResetExpires: null,
+        }
+      );
+      console.error(error);
+      return next(
+        new InternalServerError(
+          'Something went wrong when sending the email to reset your password.'
+        )
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return next(
+      new InternalServerError(
+        'Something went wrong when handling the forgot password.'
+      )
+    );
+  }
+};
+
+//Reset the password
+export const resetPasswordHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const passwordResetToken = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex');
+
+    const user = await findUser({
+      passwordResetToken,
+      passwordResetExpires: {
+        gt: new Date(),
+      },
+    });
+    if (!user)
+      return next(new AuthorizationError('Token is invalid or has expired.'));
+
+    const { password } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    await updateUser(
+      { id: user.id },
+      {
+        password: hashedPassword,
+        passwordResetToken: null,
+        passwordResetExpires: null,
+      }
+    );
+
+    res.status(202).json({
+      status: 'success',
+      message: 'Your password was successfully updated',
+    });
+  } catch (error) {
+    console.error(error);
+    return next(
+      new InternalServerError(
+        'Something went wrong when handling the reset password.'
+      )
+    );
+  }
+};
+
+

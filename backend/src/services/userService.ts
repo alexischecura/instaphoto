@@ -7,9 +7,13 @@ export const createUser = async (input: Prisma.UserCreateInput) => {
     data: input,
   })) as User;
 };
-export const findUser = async (where: Prisma.UserWhereUniqueInput) => {
+export const findUniqueUser = async (where: Prisma.UserWhereUniqueInput) => {
   where.active = true;
   return await prisma.user.findUnique({ where });
+};
+export const findUser = async (where: Prisma.UserWhereInput) => {
+  where.active = true;
+  return await prisma.user.findFirst({ where });
 };
 
 export const findUserByEmailOrUsername = async (userInput: string) => {
