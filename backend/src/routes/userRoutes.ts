@@ -10,6 +10,7 @@ import {
   loginUserSchema,
   verificationCodeSchema,
 } from '../schemas/userSchema';
+import { authenticateUser } from '../middlewares/authenticateUser';
 
 const router = Router();
 
@@ -22,5 +23,11 @@ router
   );
 
 router.post('/login', validate(loginUserSchema, 'body'), loginUserHandler);
+
+router.use(authenticateUser);
+
+router.get('/private', (req, res) => {
+  res.status(200).json({ message: 'You access to a private route' });
+});
 
 export default router;
