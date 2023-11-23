@@ -16,10 +16,10 @@ export const findUser = async (where: Prisma.UserWhereInput) => {
   return await prisma.user.findFirst({ where });
 };
 
-export const findUserByEmailOrUsername = async (userInput: string) => {
+export const findUserByEmailOrUsername = async (identifier: string) => {
   return await prisma.user.findFirst({
     where: {
-      OR: [{ email: userInput }, { username: userInput }],
+      OR: [{ email: identifier }, { username: identifier }],
       AND: [{ active: true }],
     },
   });

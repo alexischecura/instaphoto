@@ -116,8 +116,8 @@ export const loginUserHandler = async (
   next: NextFunction
 ) => {
   try {
-    // 1 - find a user with the provided email
-    const user = await findUserByEmailOrUsername(req.body.userInput);
+    // 1 - find a user with the provided email or username
+    const user = await findUserByEmailOrUsername(req.body.identifier);
 
     // 2 - compare the password
 

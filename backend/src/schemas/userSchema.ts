@@ -52,7 +52,7 @@ export const verificationCodeSchema = z.object({
 });
 
 export const loginUserSchema = z.object({
-  userInput: z
+  identifier: z
     .string({
       required_error: 'e-mail or username is required',
       invalid_type_error: 'e-mail or username must be a string',
