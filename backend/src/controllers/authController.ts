@@ -122,7 +122,11 @@ export const loginUserHandler = async (
     // 2 - compare the password
 
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-      return next(new AuthenticationError('Incorrect credentials'));
+      return next(
+        new AuthenticationError(
+          'Sorry, your password was incorrect. Please double-check your password.'
+        )
+      );
     }
 
     if (!user.verified) {
@@ -299,5 +303,3 @@ export const resetPasswordHandler = async (
     );
   }
 };
-
-
