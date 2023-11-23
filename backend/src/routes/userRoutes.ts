@@ -6,6 +6,8 @@ import {
   resetPasswordHandler,
   verifyUserHandler,
 } from '../controllers/authController';
+import { getCurrentUserHandler } from '../controllers/userController';
+
 import { validate } from '../middlewares/validateRequest';
 import {
   createUserSchema,
@@ -42,6 +44,8 @@ router
   );
 
 router.use(authenticateUser);
+
+router.get('/me', getCurrentUserHandler);
 
 router.get('/private', (req, res) => {
   res.status(200).json({ message: 'You access to a private route' });

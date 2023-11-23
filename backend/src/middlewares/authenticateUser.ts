@@ -32,12 +32,6 @@ export const authenticateUser = async (
   if (!user)
     return next(new AuthenticationError('Invalid token or session expired.'));
 
-  const localUser = {
-    fullName: user.fullName,
-    username: user.username,
-    email: user.email,
-    id: user.id,
-  };
-  res.locals.user = localUser;
+  res.locals.user = user;
   next();
 };
