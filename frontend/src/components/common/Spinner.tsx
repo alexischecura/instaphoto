@@ -14,7 +14,7 @@ const calculateDegree = (numBars: number) => 360 / numBars;
 const calculateAnimationDelay = (animationTime: number, numBars: number) =>
   animationTime / numBars;
 
-const Spinner = styled.div`
+const SpinnerContainer = styled.div`
   position: relative;
   width: 3.2rem;
   height: 3.2rem;
@@ -46,14 +46,11 @@ type ButtonSpinnerProps = {
   animationTime?: number;
 };
 
-function ButtonSpinner({
-  numBars = 8,
-  animationTime = 0.5,
-}: ButtonSpinnerProps) {
+function Spinner({ numBars = 8, animationTime = 0.5 }: ButtonSpinnerProps) {
   const degree = calculateDegree(numBars);
 
   return (
-    <Spinner>
+    <SpinnerContainer>
       {[...Array(numBars)].map((_, index) => (
         <Bar
           key={index}
@@ -66,8 +63,8 @@ function ButtonSpinner({
           }
         />
       ))}
-    </Spinner>
+    </SpinnerContainer>
   );
 }
 
-export default ButtonSpinner;
+export default Spinner;

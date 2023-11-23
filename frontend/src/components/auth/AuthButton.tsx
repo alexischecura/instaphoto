@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import ButtonSpinner from './ButtonSpinner';
+import Spinner from '../common/Spinner';
 
 type AuthButtonProps = {
   text: string;
@@ -31,7 +31,7 @@ const AuthButtonStyled = styled.button`
 function AuthButton({ text, isLoading = true }: AuthButtonProps) {
   return (
     <AuthButtonStyled type="submit" disabled={isLoading}>
-      {isLoading ? <ButtonSpinner animationTime={0.5} /> : text}
+      {isLoading ? <Spinner animationTime={0.5} /> : text}
     </AuthButtonStyled>
   );
 }
