@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { getEnvVariables } from '../helpers/getEnvVariables';
-import { LoginUserType, LoginUserResponse, User } from '../types/user';
+import {
+  LoginUserType,
+  LoginUserResponse,
+  User,
+  GetUserResponse,
+} from '../types/user';
 
 const { VITE_API_URL } = getEnvVariables();
 
@@ -18,9 +23,9 @@ export const loginUser = async ({ identifier, password }: LoginUserType) => {
 };
 
 export const getCurrentUser = async () => {
-  const user = await instagramApi.get<User>('/users/me');
+  const { data } = await instagramApi.get<GetUserResponse>('/users/me');
 
-  return user;
+  return data.user;
 };
 
 export default instagramApi;
