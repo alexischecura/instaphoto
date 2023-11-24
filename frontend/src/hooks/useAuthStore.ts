@@ -2,7 +2,7 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 
 import { LoginUserResponse, LoginUserType } from '../types/user';
 
-import { loginUser } from '../api/instagramApi';
+import { getCurrentUser, loginUser } from '../api/instagramApi';
 import type { RootState, AppDispatch } from '../store/store';
 import {
   clearErrorMessage,
@@ -24,7 +24,6 @@ export const useAuthStore = () => {
 
     try {
       const data: LoginUserResponse = await loginUser({ identifier, password });
-      console.log(data);
       dispatch(onLogin(data.user));
     } catch (error) {
       console.error({ error });
@@ -38,6 +37,19 @@ export const useAuthStore = () => {
       setTimeout(() => {
         dispatch(clearErrorMessage());
       }, 10000);
+    }
+  };
+
+  const checkAuthToken = async () => {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        dispatch(onLogin(user));
+      } else {
+        dispatch(onLogout());
+      }
+    } catch (error) {
+      dispatch(onLogout());
     }
   };
 
