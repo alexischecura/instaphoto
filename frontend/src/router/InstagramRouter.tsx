@@ -3,24 +3,25 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useAuthStore } from '../hooks/useAuthStore';
 import { AuthStatus } from '../store/auth/authSlice';
+import LoadingPage from '../components/common/LoadingPage';
 
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 
 function AppRouter() {
-  const { status } = useAuthStore();
+  const { status, checkAuthToken } = useAuthStore();
 
   useEffect(() => {
-    // checkAuthToken();
+    checkAuthToken();
   }, []);
 
-  //   if (status === AuthStatus.checking) {
-  //     return <h3>Loading...</h3>;
-  //   }
+  if (status === AuthStatus.checking) {
+    return <LoadingPage />;
+  }
 
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
+    <Suspense fallback={<LoadingPage />}>
       <Routes>
-        {'hithere' ? (
+        {status === AuthStatus.notAuthenticated ? (
           <>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/*" element={<Navigate to="/login" />} />
