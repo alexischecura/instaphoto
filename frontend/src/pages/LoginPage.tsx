@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -78,7 +78,11 @@ const ErrorMessage = styled.p`
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { startLogin, errorMessage, status } = useAuthStore();
+  const { startLogin, errorMessage, status, checkAuthToken } = useAuthStore();
+
+  useEffect(() => {
+    checkAuthToken();
+  }, []);
 
   const isLoading = useMemo(() => status === AuthStatus.checking, [status]);
 

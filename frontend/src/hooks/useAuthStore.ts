@@ -4,18 +4,16 @@ import { LoginUserResponse, LoginUserType } from '../types/user';
 
 import { getCurrentUser, loginUser } from '../api/instagramApi';
 import type { RootState, AppDispatch } from '../store/store';
-import {
-  onChecking,
-  onLogin,
-  onLogout,
-} from '../store/auth/authSlice';
+import { onChecking, onLogin, onLogout } from '../store/auth/authSlice';
 import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export const useAuthStore = () => {
   const { status, errorMessage, user } = useAppSelector((store) => store.auth);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const startLogin = async ({ identifier, password }: LoginUserType) => {
@@ -24,6 +22,7 @@ export const useAuthStore = () => {
     try {
       const data: LoginUserResponse = await loginUser({ identifier, password });
       dispatch(onLogin(data.user));
+      navigate('/');
     } catch (error) {
       console.error({ error });
       if (error instanceof AxiosError) {
@@ -41,6 +40,7 @@ export const useAuthStore = () => {
       const user = await getCurrentUser();
       if (user) {
         dispatch(onLogin(user));
+        navigate('/');
       } else {
         dispatch(onLogout());
       }
