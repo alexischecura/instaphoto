@@ -5,7 +5,6 @@ import { LoginUserResponse, LoginUserType } from '../types/user';
 import { getCurrentUser, loginUser } from '../api/instagramApi';
 import type { RootState, AppDispatch } from '../store/store';
 import {
-  clearErrorMessage,
   onChecking,
   onLogin,
   onLogout,
@@ -34,9 +33,6 @@ export const useAuthStore = () => {
       } else {
         dispatch(onLogout('An unknown error occurred.'));
       }
-      setTimeout(() => {
-        dispatch(clearErrorMessage());
-      }, 10000);
     }
   };
 
