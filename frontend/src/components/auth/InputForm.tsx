@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-type FieldHolderProps = {
-  children: React.ReactNode;
-};
-
 const FieldHolderStyled = styled.div`
   position: relative;
   margin-bottom: 0.6rem;
@@ -58,8 +54,50 @@ const FieldHolderStyled = styled.div`
   }
 `;
 
-function FieldHolder({ children }: FieldHolderProps) {
-  return <FieldHolderStyled>{children}</FieldHolderStyled>;
+type InputFormProps = {
+  type: 'password' | 'text' | 'tel';
+  field: string;
+  placeholder: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  autoComplete?: string;
+  disable?: boolean;
+  required?: boolean;
+  showBtn?: boolean;
+  btnLabel?: string;
+  onClickBtn?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
+function InputForm({
+  type,
+  field,
+  placeholder,
+  disable = false,
+  required = false,
+  autoComplete = '',
+  onChange,
+  showBtn = false,
+  btnLabel,
+  onClickBtn,
+}: InputFormProps) {
+  return (
+    <FieldHolderStyled>
+      <input
+        type={type}
+        id={field}
+        name={field}
+        disabled={disable}
+        onChange={onChange}
+        required={required}
+        autoComplete={autoComplete}
+      />
+      <label htmlFor={field}>{placeholder}</label>
+      {showBtn && (
+        <button type="button" onClick={onClickBtn}>
+          {btnLabel}
+        </button>
+      )}
+    </FieldHolderStyled>
+  );
 }
 
-export default FieldHolder;
+export default InputForm;

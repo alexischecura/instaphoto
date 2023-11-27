@@ -4,6 +4,7 @@ import Spinner from '../common/Spinner';
 type AuthButtonProps = {
   text: string;
   isLoading?: boolean;
+  disabled?: boolean;
 };
 
 const AuthButtonStyled = styled.button`
@@ -24,13 +25,13 @@ const AuthButtonStyled = styled.button`
 
   &:disabled {
     cursor: default;
-    background-color: var(--bg-btn-color);
+    background-color: var(--bg-btn-color-disabled);
   }
 `;
 
-function AuthButton({ text, isLoading = true }: AuthButtonProps) {
+function AuthButton({ text, isLoading = true, disabled }: AuthButtonProps) {
   return (
-    <AuthButtonStyled type="submit" disabled={isLoading}>
+    <AuthButtonStyled type="submit" disabled={isLoading || disabled}>
       {isLoading ? <Spinner animationTime={0.5} /> : text}
     </AuthButtonStyled>
   );

@@ -1,13 +1,17 @@
+import { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { useForm, type SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { LoginUserType, loginUserSchema } from '../types/userTypes';
-import Logo from '../components/Logo';
-import InputForm from '../components/FieldHolder';
-import AuthButton from '../components/AuthButton';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { LoginUserType } from '../types/user';
+import { loginUserSchema } from '../schemas/authSchemas';
+
+import Logo from '../components/common/Logo';
+import InputForm from '../components/auth/InputForm';
+import AuthButton from '../components/auth/AuthButton';
+import { useAuthStore } from '../hooks/useAuthStore';
+
+import { AuthStatus } from '../store/auth/authSlice';
+import { useForm } from '../hooks/useForm';
 
 const LoginPageStyled = styled.div`
   display: flex;
@@ -65,67 +69,74 @@ const LinkForm = styled(Link)`
   text-decoration: none;
 `;
 
+const ErrorMessage = styled.p`
+  color: var(--text-color-error);
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 1.4rem 0;
+`;
+
 function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { startLogin, errorMessage, status } = useAuthStore();
 
-  // 🔴 Todo - Replace with auth login hook
-  const isLoading = false;
+  const isLoading = useMemo(() => status === AuthStatus.checking, [status]);
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    watch,
-    setValue,
-  } = useForm<LoginUserType>({ resolver: zodResolver(loginUserSchema) });
-
-  const watchPassword = watch('password');
-
-  const onSubmit: SubmitHandler<LoginUserType> = (credentials) => {
-    console.log(credentials);
+  const initialValues = {
+    identifier: '',
+    password: '',
   };
 
-  console.log(errors);
+  const {
+    formValues,
+    onInputChange,
+    validationResult: { isFormValid },
+  } = useForm<LoginUserType>(initialValues, loginUserSchema);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    startLogin(formValues);
+  };
+
   return (
     <LoginPageStyled>
       <LoginImage src="./login-image.webp" />
       <LoginFormStyled>
         <Logo variation="medium" />
-        <StyledForm onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
-          <InputForm>
-            <input
-              type="text"
-              id="user"
-              {...(register('user'), { required: true })}
-              disabled={isLoading}
-            />
-            <label htmlFor="user">Phone number, username, or email</label>
-          </InputForm>
-          <InputForm>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              {...(register('password'), { required: true })}
-              disabled={isLoading}
-              onChange={(e) => setValue('password', e.target.value)}
-            />
-            <label htmlFor="password">Password</label>
-            {watchPassword && (
-              <button
-                type="button"
-                onClick={() => setShowPassword((cur) => !cur)}
-              >
-                {showPassword ? 'Hide' : 'Show'}
-              </button>
-            )}
-          </InputForm>
-          <AuthButton text="Log in" isLoading={isLoading} />
+        <StyledForm onSubmit={handleSubmit}>
+          <InputForm
+            type="text"
+            field="identifier"
+            placeholder="Phone number, username, or email"
+            disable={isLoading}
+            autoComplete="on"
+            onChange={onInputChange}
+            required
+          />
+          <InputForm
+            type={showPassword ? 'text' : 'password'}
+            field="password"
+            placeholder="Password"
+            autoComplete="current-password"
+            disable={isLoading}
+            onChange={onInputChange}
+            required
+            showBtn={!!formValues.password}
+            btnLabel={showPassword ? 'Hide' : 'Show'}
+            onClickBtn={() => setShowPassword((show) => !show)}
+          />
+          <AuthButton
+            text="Log in"
+            isLoading={isLoading}
+            disabled={!isFormValid}
+          />
         </StyledForm>
         <Divider>
           <div></div>
           <span>or</span>
           <div></div>
         </Divider>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         <LinkForm to={'/password/reset'}>Forgot password?</LinkForm>
       </LoginFormStyled>
     </LoginPageStyled>
