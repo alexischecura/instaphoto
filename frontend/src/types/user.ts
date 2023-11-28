@@ -1,13 +1,19 @@
 import { z } from 'zod';
-import { loginUserSchema } from '../schemas/authSchemas';
+import { loginUserSchema, signUpUserSchema } from '../schemas/authSchemas';
 
 export type LoginUserType = z.infer<typeof loginUserSchema>;
+export type SignUpUserType = z.infer<typeof signUpUserSchema>;
 
 export type User = {
   fullName: string;
   username: string;
   email: string;
   profilePhoto: string;
+};
+
+export type SignUpUserResponse = {
+  status: string;
+  message: string;
 };
 
 export type LoginUserResponse = {
