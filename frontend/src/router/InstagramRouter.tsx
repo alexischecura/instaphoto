@@ -4,6 +4,7 @@ import LoadingPage from '../components/common/LoadingPage';
 import ProtectedRoute from '../components/auth/ProtectedRoute';
 
 const LoginPage = lazy(() => import('../pages/LoginPage'));
+const SignUpPage = lazy(() => import('../pages/SignUpPage'));
 
 function AppRouter() {
   return (
@@ -20,6 +21,7 @@ function AppRouter() {
           <Route path="/*" element={<Navigate to="/" />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/*" element={<Navigate to="/login" />} />
       </Routes>
     </Suspense>
