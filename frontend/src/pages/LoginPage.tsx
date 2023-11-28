@@ -60,7 +60,7 @@ function LoginPage() {
     checkAuthToken();
   }, []);
 
-  const isLoading = useMemo(() => status === AuthStatus.checking, [status]);
+  const isLoading = useMemo(() => status === AuthStatus.loading, [status]);
 
   const initialValues = {
     identifier: '',

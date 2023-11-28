@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../types/user';
 
 export enum AuthStatus {
-  checking = 'checking',
+  loading = 'loading',
+  registering = 'registering',
   authenticated = 'authenticated',
   notAuthenticated = 'not-authenticated',
 }
@@ -14,7 +15,7 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  status: AuthStatus.checking,
+  status: AuthStatus.loading,
   user: {},
   errorMessage: undefined,
 };
@@ -23,8 +24,8 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    onChecking: (state) => {
-      state.status = AuthStatus.checking;
+    onLoading: (state) => {
+      state.status = AuthStatus.loading;
       state.user = {};
       state.errorMessage = undefined;
     },
@@ -44,7 +45,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { onChecking, onLogin, onLogout, clearErrorMessage } =
+export const { onLoading, onLogin, onLogout, clearErrorMessage } =
   authSlice.actions;
 
 export default authSlice;

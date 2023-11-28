@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
     }
   }, [status]);
 
-  if (status === AuthStatus.checking) return <LoadingPage />;
+  if (status === AuthStatus.loading) return <LoadingPage />;
 
   if (status === AuthStatus.authenticated) return children;
 };
