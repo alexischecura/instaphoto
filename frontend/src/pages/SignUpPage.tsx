@@ -1,42 +1,27 @@
 import { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-import { LoginUserType } from '../types/user';
-import { loginUserSchema } from '../schemas/authSchemas';
+import { SignUpUserType } from '../types/user';
+import { signUpUserSchema } from '../schemas/authSchemas';
+import { AuthStatus } from '../store/auth/authSlice';
+import { useAuthStore } from '../hooks/useAuthStore';
+import { useForm } from '../hooks/useForm';
 
 import Logo from '../components/common/Logo';
 import InputForm from '../components/auth/InputForm';
 import AuthButton from '../components/auth/AuthButton';
-import { useAuthStore } from '../hooks/useAuthStore';
-
-import { AuthStatus } from '../store/auth/authSlice';
-import { useForm } from '../hooks/useForm';
-import FormDivider from '../components/auth/FormDivider';
 import AuthBox from '../components/auth/AuthBox';
 import AuthLink from '../components/auth/AuthLink';
 
-const LoginPageStyled = styled.div`
+const SingUpPageStyled = styled.div`
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
 `;
 
-const LoginImage = styled.img`
-  height: 58rem;
-`;
-
-const StyledForm = styled.form`
+const FormStyled = styled.form`
   margin-top: 4rem;
-`;
-
-const ForgotPasswordLink = styled(Link)`
-  margin-top: 1rem;
-  color: inherit;
-  font-size: 1.1rem;
-  text-decoration: none;
 `;
 
 const ErrorMessage = styled.p`
@@ -52,9 +37,17 @@ const FormContainer = styled.div`
   gap: 1rem;
 `;
 
-function LoginPage() {
+const HeadingInfo = styled.h3`
+  color: var(--text-color-gray);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2rem;
+`;
+
+function SignUpPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { startLogin, errorMessage, status, checkAuthToken } = useAuthStore();
+  const { errorMessage, status, checkAuthToken } = useAuthStore();
 
   useEffect(() => {
     checkAuthToken();
@@ -63,7 +56,9 @@ function LoginPage() {
   const isLoading = useMemo(() => status === AuthStatus.checking, [status]);
 
   const initialValues = {
-    identifier: '',
+    email: '',
+    fullName: '',
+    username: '',
     password: '',
   };
 
@@ -71,26 +66,43 @@ function LoginPage() {
     formValues,
     onInputChange,
     validationResult: { isFormValid },
-  } = useForm<LoginUserType>(initialValues, loginUserSchema);
+  } = useForm<SignUpUserType>(initialValues, signUpUserSchema);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    startLogin(formValues);
+    console.log(formValues);
   };
 
   return (
-    <LoginPageStyled>
-      <LoginImage src="./login-image.webp" />
+    <SingUpPageStyled>
       <FormContainer>
         <AuthBox>
           <Logo variation="medium" />
-          <StyledForm onSubmit={handleSubmit}>
+          <HeadingInfo>
+            Sign up to see photos and videos from your friends
+          </HeadingInfo>
+          <FormStyled onSubmit={handleSubmit}>
             <InputForm
               type="text"
-              field="identifier"
-              placeholder="Phone number, username, or email"
+              field="email"
+              placeholder="Email"
               disable={isLoading}
-              autoComplete="on"
+              onChange={onInputChange}
+              required
+            />
+            <InputForm
+              type="text"
+              field="fullName"
+              placeholder="Full Name"
+              disable={isLoading}
+              onChange={onInputChange}
+              required
+            />
+            <InputForm
+              type="text"
+              field="username"
+              placeholder="Username"
+              disable={isLoading}
               onChange={onInputChange}
               required
             />
@@ -98,7 +110,7 @@ function LoginPage() {
               type={showPassword ? 'text' : 'password'}
               field="password"
               placeholder="Password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               disable={isLoading}
               onChange={onInputChange}
               required
@@ -107,25 +119,21 @@ function LoginPage() {
               onClickBtn={() => setShowPassword((show) => !show)}
             />
             <AuthButton
-              text="Log in"
+              text="Sign up"
               isLoading={isLoading}
               disabled={!isFormValid}
             />
-          </StyledForm>
-          <FormDivider>or</FormDivider>
+          </FormStyled>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-          <ForgotPasswordLink to="/password/reset">
-            Forgot password?
-          </ForgotPasswordLink>
         </AuthBox>
         <AuthBox>
-          <AuthLink linkLabel="Sign up" to="/signup">
-            Don't have an account?
+          <AuthLink to="/login" linkLabel="Log in">
+            Have an account?
           </AuthLink>
         </AuthBox>
       </FormContainer>
-    </LoginPageStyled>
+    </SingUpPageStyled>
   );
 }
 
-export default LoginPage;
+export default SignUpPage;

@@ -14,6 +14,7 @@ const FieldHolderStyled = styled.div`
     padding: 1.2rem 0.8rem;
     border-radius: 3px;
     outline: none;
+    cursor: text;
   }
   & input:focus {
     border: 1px solid var(--border-gray-900);
@@ -37,6 +38,7 @@ const FieldHolderStyled = styled.div`
     font-size: 1.2rem;
     left: 8px;
     transition: 0.3s all;
+    cursor: text;
   }
   & button {
     position: absolute;
@@ -55,7 +57,7 @@ const FieldHolderStyled = styled.div`
 `;
 
 type InputFormProps = {
-  type: 'password' | 'text' | 'tel';
+  type: 'password' | 'text' | 'tel' | 'email';
   field: string;
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
