@@ -4,6 +4,8 @@ import {
   LoginUserType,
   LoginUserResponse,
   GetUserResponse,
+  SignUpUserType,
+  SignUpUserResponse,
 } from '../types/user';
 
 const { VITE_API_URL } = getEnvVariables();
@@ -20,6 +22,24 @@ export const loginUser = async ({ identifier, password }: LoginUserType) => {
     identifier,
     password,
   });
+  return data;
+};
+
+export const signUpUser = async ({
+  email,
+  fullName,
+  username,
+  password,
+}: SignUpUserType) => {
+  const { data } = await instagramApi.post<SignUpUserResponse>(
+    '/users/signup',
+    {
+      email,
+      fullName,
+      username,
+      password,
+    }
+  );
   return data;
 };
 
