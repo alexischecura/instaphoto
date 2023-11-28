@@ -21,13 +21,13 @@ const LoginPageStyled = styled.div`
   gap: 3rem;
 `;
 
-const LoginFormStyled = styled.div`
+const BoxStyled = styled.div`
   border: solid 1px var(--border-gray-700);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 38rem;
-  padding: 5.4rem;
+  width: 34.8rem;
+  padding: 2.4rem 4rem;
 `;
 
 const LoginImage = styled.img`
@@ -62,11 +62,25 @@ const Divider = styled.div`
   }
 `;
 
-const LinkForm = styled(Link)`
+const ForgotPasswordLink = styled(Link)`
   margin-top: 1rem;
   color: inherit;
   font-size: 1.1rem;
   text-decoration: none;
+`;
+
+const SignUpLink = styled(Link)`
+  margin-top: 1rem;
+  color: var(--bg-btn-color);
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+`;
+
+const SignUpContainer = styled.div`
+  & span {
+    font-size: 1.3rem;
+  }
 `;
 
 const ErrorMessage = styled.p`
@@ -74,6 +88,12 @@ const ErrorMessage = styled.p`
   font-size: 1.4rem;
   text-align: center;
   margin: 1.4rem 0;
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 function LoginPage() {
@@ -105,44 +125,54 @@ function LoginPage() {
   return (
     <LoginPageStyled>
       <LoginImage src="./login-image.webp" />
-      <LoginFormStyled>
-        <Logo variation="medium" />
-        <StyledForm onSubmit={handleSubmit}>
-          <InputForm
-            type="text"
-            field="identifier"
-            placeholder="Phone number, username, or email"
-            disable={isLoading}
-            autoComplete="on"
-            onChange={onInputChange}
-            required
-          />
-          <InputForm
-            type={showPassword ? 'text' : 'password'}
-            field="password"
-            placeholder="Password"
-            autoComplete="current-password"
-            disable={isLoading}
-            onChange={onInputChange}
-            required
-            showBtn={!!formValues.password}
-            btnLabel={showPassword ? 'Hide' : 'Show'}
-            onClickBtn={() => setShowPassword((show) => !show)}
-          />
-          <AuthButton
-            text="Log in"
-            isLoading={isLoading}
-            disabled={!isFormValid}
-          />
-        </StyledForm>
-        <Divider>
-          <div></div>
-          <span>or</span>
-          <div></div>
-        </Divider>
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <LinkForm to={'/password/reset'}>Forgot password?</LinkForm>
-      </LoginFormStyled>
+      <FormContainer>
+        <BoxStyled>
+          <Logo variation="medium" />
+          <StyledForm onSubmit={handleSubmit}>
+            <InputForm
+              type="text"
+              field="identifier"
+              placeholder="Phone number, username, or email"
+              disable={isLoading}
+              autoComplete="on"
+              onChange={onInputChange}
+              required
+            />
+            <InputForm
+              type={showPassword ? 'text' : 'password'}
+              field="password"
+              placeholder="Password"
+              autoComplete="current-password"
+              disable={isLoading}
+              onChange={onInputChange}
+              required
+              showBtn={!!formValues.password}
+              btnLabel={showPassword ? 'Hide' : 'Show'}
+              onClickBtn={() => setShowPassword((show) => !show)}
+            />
+            <AuthButton
+              text="Log in"
+              isLoading={isLoading}
+              disabled={!isFormValid}
+            />
+          </StyledForm>
+          <Divider>
+            <div></div>
+            <span>or</span>
+            <div></div>
+          </Divider>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <ForgotPasswordLink to="/password/reset">
+            Forgot password?
+          </ForgotPasswordLink>
+        </BoxStyled>
+        <BoxStyled>
+          <SignUpContainer>
+            <span>Don't have an account? </span>
+            <SignUpLink to="/signup">Sign Up</SignUpLink>
+          </SignUpContainer>
+        </BoxStyled>
+      </FormContainer>
     </LoginPageStyled>
   );
 }
