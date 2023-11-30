@@ -5,7 +5,8 @@ import {
   LoginUserResponse,
   GetUserResponse,
   SignUpUserType,
-  SignUpUserResponse,
+  BasicResponse,
+  EmailVerificationType,
 } from '../types/user';
 
 const { VITE_API_URL } = getEnvVariables();
@@ -25,20 +26,19 @@ export const loginUser = async ({ identifier, password }: LoginUserType) => {
   return data;
 };
 
-export const signUpUser = async ({
-  email,
-  fullName,
-  username,
-  password,
-}: SignUpUserType) => {
-  const { data } = await instagramApi.post<SignUpUserResponse>(
+export const signUpUser = async (user: SignUpUserType) => {
+  const { data } = await instagramApi.post<BasicResponse>(
     '/users/signup',
-    {
-      email,
-      fullName,
-      username,
-      password,
-    }
+    user
+  );
+  return data;
+};
+
+export const verifyUser = async ({
+  verificationCode,
+}: EmailVerificationType) => {
+  const { data } = await instagramApi.get<BasicResponse>(
+    `/users/verification/${verificationCode}`
   );
   return data;
 };
