@@ -5,6 +5,9 @@ import ProtectedRoute from '../components/auth/ProtectedRoute';
 
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const SignUpPage = lazy(() => import('../pages/SignUpPage'));
+const EmailVerificationPage = lazy(
+  () => import('../pages/EmailVerificationPage')
+);
 
 function AppRouter() {
   return (
@@ -22,6 +25,9 @@ function AppRouter() {
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/verification" element={<EmailVerificationPage />}>
+          <Route path=":verificationCode" element={<EmailVerificationPage />} />
+        </Route>
         <Route path="/*" element={<Navigate to="/login" />} />
       </Routes>
     </Suspense>
