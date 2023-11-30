@@ -47,8 +47,8 @@ export const useForm = <T = FormValues>(initialValue: T, schema: Schema<T>) => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const onResetForm = () => {
-    setFormValues(initialValue);
+  const onResetForm = (newValues = initialValue) => {
+    setFormValues(newValues);
   };
 
   return {
