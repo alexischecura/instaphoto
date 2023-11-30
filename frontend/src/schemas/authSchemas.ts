@@ -26,3 +26,7 @@ export const signUpUserSchema = z.object({
     .min(8, 'Password must be at least 8 characters')
     .max(32, 'Password must be less than 32 characters'),
 });
+
+export const emailVerificationSchema = z.object({
+  verificationCode: z.string().min(1, 'Please provide an verification code'),
+});

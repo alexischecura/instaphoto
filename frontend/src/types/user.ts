@@ -1,8 +1,13 @@
 import { z } from 'zod';
-import { loginUserSchema, signUpUserSchema } from '../schemas/authSchemas';
+import {
+  emailVerificationSchema,
+  loginUserSchema,
+  signUpUserSchema,
+} from '../schemas/authSchemas';
 
 export type LoginUserType = z.infer<typeof loginUserSchema>;
 export type SignUpUserType = z.infer<typeof signUpUserSchema>;
+export type EmailVerificationType = z.infer<typeof emailVerificationSchema>;
 
 export type User = {
   fullName: string;
@@ -11,7 +16,7 @@ export type User = {
   profilePhoto: string;
 };
 
-export type SignUpUserResponse = {
+export type BasicResponse = {
   status: string;
   message: string;
 };
