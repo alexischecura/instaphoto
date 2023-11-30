@@ -59,6 +59,7 @@ const FieldHolderStyled = styled.div`
 type InputFormProps = {
   type: 'password' | 'text' | 'tel' | 'email';
   field: string;
+  value: string;
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   autoComplete?: string;
@@ -73,6 +74,7 @@ function InputForm({
   type,
   field,
   placeholder,
+  value,
   disable = false,
   required = false,
   autoComplete = '',
@@ -87,6 +89,7 @@ function InputForm({
         type={type}
         id={field}
         name={field}
+        value={value}
         disabled={disable}
         onChange={onChange}
         required={required}

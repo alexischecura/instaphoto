@@ -47,7 +47,7 @@ const HeadingInfo = styled.h3`
 
 function SignUpPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { errorMessage, status, checkAuthToken } = useAuthStore();
+  const { startSignUp, errorMessage, status, checkAuthToken } = useAuthStore();
 
   useEffect(() => {
     checkAuthToken();
@@ -70,7 +70,7 @@ function SignUpPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formValues);
+    startSignUp(formValues);
   };
 
   return (
@@ -85,6 +85,7 @@ function SignUpPage() {
             <InputForm
               type="text"
               field="email"
+              value={formValues.email}
               placeholder="Email"
               disable={isLoading}
               onChange={onInputChange}
@@ -93,6 +94,7 @@ function SignUpPage() {
             <InputForm
               type="text"
               field="fullName"
+              value={formValues.fullName}
               placeholder="Full Name"
               disable={isLoading}
               onChange={onInputChange}
@@ -100,6 +102,7 @@ function SignUpPage() {
             />
             <InputForm
               type="text"
+              value={formValues.username}
               field="username"
               placeholder="Username"
               disable={isLoading}
@@ -109,6 +112,7 @@ function SignUpPage() {
             <InputForm
               type={showPassword ? 'text' : 'password'}
               field="password"
+              value={formValues.password}
               placeholder="Password"
               autoComplete="new-password"
               disable={isLoading}

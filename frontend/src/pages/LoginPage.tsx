@@ -80,13 +80,17 @@ function LoginPage() {
 
   return (
     <LoginPageStyled>
-      <LoginImage src="./login-image.webp" />
+      <LoginImage
+        src="./login-image.webp"
+        alt="smartphone image where the instagram app is open"
+      />
       <FormContainer>
         <AuthBox>
           <Logo variation="medium" />
           <StyledForm onSubmit={handleSubmit}>
             <InputForm
               type="text"
+              value={formValues.identifier}
               field="identifier"
               placeholder="Phone number, username, or email"
               disable={isLoading}
@@ -96,6 +100,7 @@ function LoginPage() {
             />
             <InputForm
               type={showPassword ? 'text' : 'password'}
+              value={formValues.password}
               field="password"
               placeholder="Password"
               autoComplete="current-password"
