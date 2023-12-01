@@ -4,8 +4,9 @@ const globalStyle = createGlobalStyle`${css`
   :root {
     --text-color-gray: #737373;
     --text-color-error: #ed4956;
-    --border-gray-700: #dbdbdb;
-    --border-gray-900: #a8a8a8;
+    --color-gray-300: #f2f2f2;
+    --color-gray-700: #dbdbdb;
+    --color-gray-900: #a8a8a8;
     --bg-color: #fff;
     --input-bg: #fafafa;
     --bg-btn-color: #0095f6;

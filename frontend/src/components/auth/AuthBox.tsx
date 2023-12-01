@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const AuthBox = styled.div`
-  border: solid 1px var(--border-gray-700);
+  border: solid 1px var(--color-gray-700);
   display: flex;
   flex-direction: column;
   align-items: center;

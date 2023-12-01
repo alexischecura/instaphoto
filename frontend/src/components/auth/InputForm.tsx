@@ -8,7 +8,7 @@ const FieldHolderStyled = styled.div`
 
   & input {
     font-size: 1.2rem;
-    border: 1px solid var(--border-gray-700);
+    border: 1px solid var(--color-gray-700);
     background-color: var(--input-bg);
     width: 26.8rem;
     padding: 1.2rem 0.8rem;
@@ -17,7 +17,7 @@ const FieldHolderStyled = styled.div`
     cursor: text;
   }
   & input:focus {
-    border: 1px solid var(--border-gray-900);
+    border: 1px solid var(--color-gray-900);
   }
 
   & input:valid,

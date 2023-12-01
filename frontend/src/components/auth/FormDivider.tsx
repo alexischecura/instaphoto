@@ -14,7 +14,7 @@ const Divider = styled.div`
     flex-grow: 1;
     flex-shrink: 1;
     height: 1px;
-    background-color: var(--border-gray-700);
+    background-color: var(--color-gray-700);
   }
 
   & span {
