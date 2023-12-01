@@ -13,8 +13,9 @@ export const createUserSchema = z.object({
       required_error: 'Username is required',
       invalid_type_error: 'Username must be a string',
     })
-    .max(255)
-    .regex(/^[a-zA-Z ]*$/),
+    .max(20)
+    .regex(/^\S+$/)
+    .transform((val) => val.toLowerCase()),
   email: z
     .string({
       required_error: 'E-mail is required',
