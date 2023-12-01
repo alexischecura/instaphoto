@@ -1,7 +1,8 @@
 import { Suspense, lazy } from 'react';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import LoadingPage from '../components/common/LoadingPage';
 import ProtectedRoute from '../components/auth/ProtectedRoute';
+import AppLayout from '../components/layout/AppLayout';
 
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const SignUpPage = lazy(() => import('../pages/SignUpPage'));
@@ -16,7 +17,7 @@ function AppRouter() {
         <Route
           element={
             <ProtectedRoute>
-              <Outlet />
+              <AppLayout />
             </ProtectedRoute>
           }
         >
