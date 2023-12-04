@@ -87,3 +87,10 @@ export const resetPasswordSchema = z
     message: "Passwords don't match",
     path: ['passwordConfirm'],
   });
+
+export const createManyUsersSchema = z.array(createUserSchema);
+
+export type CreateMayUsersType = Omit<
+  z.infer<typeof createManyUsersSchema>,
+  'passwordConfirm'
+>;

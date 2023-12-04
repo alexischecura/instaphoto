@@ -31,3 +31,12 @@ export const updateUser = async (
 ) => {
   return await prisma.user.update({ where, data: input });
 };
+
+export const createManyUsers = async (input: Prisma.UserCreateManyInput[]) => {
+  const usersToInsert = input.map((user) => ({ ...user, verified: true }));
+
+  return await prisma.user.createMany({
+    data: usersToInsert,
+    skipDuplicates: true,
+  });
+};

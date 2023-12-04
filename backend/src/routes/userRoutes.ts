@@ -6,10 +6,14 @@ import {
   resetPasswordHandler,
   verifyUserHandler,
 } from '../controllers/authController';
-import { getCurrentUserHandler } from '../controllers/userController';
+import {
+  createManyUsersHandler,
+  getCurrentUserHandler,
+} from '../controllers/userController';
 
 import { validate } from '../middlewares/validateRequest';
 import {
+  createManyUsersSchema,
   createUserSchema,
   forgotPasswordSchema,
   loginUserSchema,
@@ -46,6 +50,12 @@ router
 router.use(authenticateUser);
 
 router.get('/me', getCurrentUserHandler);
+
+router.post(
+  '/createManyUsers',
+  validate(createManyUsersSchema, 'body'),
+  createManyUsersHandler
+);
 
 router.get('/private', (req, res) => {
   res.status(200).json({ message: 'You access to a private route' });
