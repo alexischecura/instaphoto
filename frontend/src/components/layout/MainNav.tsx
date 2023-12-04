@@ -1,13 +1,19 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import {
-  FaHouse,
-  FaMagnifyingGlass,
-  FaRegCompass,
-  FaRegPaperPlane,
-  FaRegHeart,
-  FaRegSquarePlus,
-} from 'react-icons/fa6';
+  IoHomeOutline,
+  IoHomeSharp,
+  IoSearchOutline,
+  IoSearchSharp,
+  IoCompassOutline,
+  IoCompassSharp,
+  IoPaperPlaneOutline,
+  IoPaperPlaneSharp,
+  IoHeartOutline,
+  IoHeartSharp,
+  IoAddCircleOutline,
+  IoAddCircleSharp,
+} from 'react-icons/io5';
 
 import { useAppSelector } from '../../hooks/useAuthStore';
 import UserIcon from '../common/UserIcon';
@@ -15,7 +21,7 @@ import UserIcon from '../common/UserIcon';
 const MainNavStyled = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.6rem;
   list-style: none;
   text-decoration: none;
 `;
@@ -30,7 +36,7 @@ const NavLinkStyled = styled(NavLink)`
     padding: 1.2rem;
 
     color: inherit;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 400;
     transition: all 0.3s;
     border-radius: 0.8rem;
@@ -45,21 +51,35 @@ const NavLinkStyled = styled(NavLink)`
     font-weight: 600;
   }
 
+  &:active img,
+  &.active:link img,
+  &.active:visited img {
+    border: 2px solid #000;
+  }
+
   & svg {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2.6rem;
+    height: 2.6rem;
     transition: all 0.3s;
   }
 
   &:hover svg,
-  &:active svg,
-  &.active:link svg,
-  &.active:visited svg,
-  &:hover img,
-  &:active img,
-  &.active:link img,
-  &.active:visited img {
+  &:hover img {
     transform: scale(1.05);
+  }
+
+  &.active .sharp {
+    display: inline;
+  }
+  &.active .outline {
+    display: none;
+  }
+
+  & .sharp {
+    display: none;
+  }
+  & .outline {
+    display: inline;
   }
 `;
 
@@ -69,38 +89,44 @@ function MainNav() {
   return (
     <MainNavStyled>
       <li>
-        <NavLinkStyled to="/home">
-          <FaHouse />
+        <NavLinkStyled to="/">
+          <IoHomeSharp className="sharp" />
+          <IoHomeOutline className="outline" />
           <span>Home</span>
         </NavLinkStyled>
       </li>
       <li>
         <NavLinkStyled to="/search">
-          <FaMagnifyingGlass />
+          <IoSearchOutline className="outline" />
+          <IoSearchSharp className="sharp" />
           <span>Search</span>
         </NavLinkStyled>
       </li>
       <li>
         <NavLinkStyled to="/explore">
-          <FaRegCompass />
+          <IoCompassOutline className="outline" />
+          <IoCompassSharp className="sharp" />
           <span>Explore</span>
         </NavLinkStyled>
       </li>
       <li>
         <NavLinkStyled to="/inbox">
-          <FaRegPaperPlane />
+          <IoPaperPlaneOutline className="outline" />
+          <IoPaperPlaneSharp className="sharp" />
           <span>Messages</span>
         </NavLinkStyled>
       </li>
       <li>
         <NavLinkStyled to="/notifications">
-          <FaRegHeart />
+          <IoHeartOutline className="outline" />
+          <IoHeartSharp className="sharp" />
           <span>Notifications</span>
         </NavLinkStyled>
       </li>
       <li>
         <NavLinkStyled to="/create">
-          <FaRegSquarePlus />
+          <IoAddCircleOutline className="outline" />
+          <IoAddCircleSharp className="sharp" />
           <span>Create</span>
         </NavLinkStyled>
       </li>

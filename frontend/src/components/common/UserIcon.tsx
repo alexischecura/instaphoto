@@ -5,10 +5,10 @@ type UserIconProps = {
   username: string;
 };
 
-// 🔴 TODO: add styles to img
 const ProfileImg = styled.img`
   border-radius: 99rem;
-  height: 2.4rem;
+  height: 2.6rem;
+  width: 2.6rem;
 `;
 
 function UserIcon({ profilePhoto, username }: UserIconProps) {

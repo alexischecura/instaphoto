@@ -10,7 +10,9 @@ const AppLayoutStyled = styled.div`
 `;
 
 const Main = styled.main`
-  overflow: scroll;
+  overflow-y: scroll;
+  grid-column: 2 / -1;
+  grid-row: 1/ -1;
 `;
 
 function AppLayout() {

@@ -8,6 +8,7 @@ const SidebarStyled = styled.aside`
   border-right: 1px solid var(--color-gray-700);
 
   grid-row: 1/ -1;
+  grid-column: 1 / 2;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
