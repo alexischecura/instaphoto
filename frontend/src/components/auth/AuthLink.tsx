@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const LinkStyled = styled(Link)`
   margin-top: 1rem;
-  color: var(--bg-btn-color);
+  color: var(--btn-color);
   font-size: 1.3rem;
   font-weight: 600;
   text-decoration: none;

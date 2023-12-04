@@ -15,17 +15,17 @@ const AuthButtonStyled = styled.button`
   margin: 0.8rem 0;
   border-radius: 0.8rem;
   border: none;
-  background-color: var(--bg-btn-color);
+  background-color: var(--btn-color);
   cursor: pointer;
   color: #fff;
 
   &:hover {
-    background-color: var(--bg-btn-color-hover);
+    background-color: var(--btn-color-hover);
   }
 
   &:disabled {
     cursor: default;
-    background-color: var(--bg-btn-color-disabled);
+    background-color: var(--btn-color-disabled);
   }
 `;
 
