@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import FollowingSection from '../components/layout/FollowingSection';
+import FollowingSection from '../components/home/FollowingSection';
 
 const HomePageStyled = styled.section`
   grid-column: 2 / 3;

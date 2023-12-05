@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import UserCard from '../common/UserCard';
-import { useAppSelector } from '../../hooks/useAuthStore';
+import { useAuthStore } from '../../hooks/useAuthStore';
 
 const FollowingSectionStyled = styled.aside`
   grid-column: 3 / 4;
@@ -19,9 +19,9 @@ const SuggestedFollowers = styled.div`
 `;
 
 function FollowingSection() {
-  const { fullName, username, profilePhoto } = useAppSelector(
-    (state) => state.auth.user
-  );
+  const {
+    user: { fullName, username, profilePhoto },
+  } = useAuthStore();
 
   return (
     <FollowingSectionStyled>
