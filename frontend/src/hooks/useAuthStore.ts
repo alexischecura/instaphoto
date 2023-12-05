@@ -1,5 +1,3 @@
-import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
-
 import {
   BasicResponse,
   EmailVerificationType,
@@ -14,7 +12,6 @@ import {
   signUpUser,
   verifyUser,
 } from '../api/instagramApi';
-import type { RootState, AppDispatch } from '../store/store';
 import {
   onLoading,
   onLogin,
@@ -24,9 +21,7 @@ import {
 } from '../store/auth/authSlice';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+import { useAppDispatch, useAppSelector } from './reduxHooks';
 
 export const useAuthStore = () => {
   const { status, errorMessage, user } = useAppSelector((store) => store.auth);

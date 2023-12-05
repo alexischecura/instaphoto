@@ -15,7 +15,7 @@ import {
   IoAddCircleSharp,
 } from 'react-icons/io5';
 
-import { useAppSelector } from '../../hooks/useAuthStore';
+import { useAppSelector } from '../../hooks/reduxHooks';
 import UserIcon from '../common/UserIcon';
 
 const MainNavStyled = styled.ul`
