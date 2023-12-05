@@ -3,13 +3,13 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import LoadingPage from '../components/common/LoadingPage';
 import ProtectedRoute from '../components/auth/ProtectedRoute';
 import AppLayout from '../components/layout/AppLayout';
-import HomePage from '../pages/HomePage';
 
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const SignUpPage = lazy(() => import('../pages/SignUpPage'));
 const EmailVerificationPage = lazy(
   () => import('../pages/EmailVerificationPage')
 );
+const HomePage = lazy(() => import('../pages/HomePage'));
 
 function AppRouter() {
   return (
