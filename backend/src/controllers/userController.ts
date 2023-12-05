@@ -10,13 +10,14 @@ export const getCurrentUserHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  const { fullName, username, email, profilePhoto } = res.locals.user;
+  const { fullName, username, email, profilePhoto, id } = res.locals.user;
 
   const user = {
     fullName,
     username,
     email,
     profilePhoto,
+    id,
   };
 
   res.status(200).json({ user });

@@ -155,6 +155,7 @@ export const loginUserHandler = async (
         username: user.username,
         email: user.email,
         profilePhoto: user.profilePhoto,
+        id: user.id
       },
       token,
     });
