@@ -15,8 +15,8 @@ import {
   IoAddCircleSharp,
 } from 'react-icons/io5';
 
-import { useAppSelector } from '../../hooks/reduxHooks';
 import UserIcon from '../common/UserIcon';
+import { useAuthStore } from '../../hooks/useAuthStore';
 
 const MainNavStyled = styled.ul`
   display: flex;
@@ -84,7 +84,9 @@ const NavLinkStyled = styled(NavLink)`
 `;
 
 function MainNav() {
-  const { username, profilePhoto } = useAppSelector((state) => state.auth.user);
+  const {
+    user: { username, profilePhoto },
+  } = useAuthStore();
 
   return (
     <MainNavStyled>

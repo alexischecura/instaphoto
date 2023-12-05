@@ -2,7 +2,7 @@ import { PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/reduxHooks';
-import { AuthStatus, onLogout } from '../../store/auth/authSlice';
+import { AuthStatus, userLoggedOut } from '../../store/auth/authSlice';
 import { useAuthStore } from '../../hooks/useAuthStore';
 import LoadingPage from '../common/LoadingPage';
 
@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (status === AuthStatus.notAuthenticated) {
-      dispatch(onLogout());
+      dispatch(userLoggedOut());
       navigate('/login');
     }
   }, [status]);

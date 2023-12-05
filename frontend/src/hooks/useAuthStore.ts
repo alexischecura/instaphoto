@@ -7,21 +7,21 @@ import {
 } from '../types/user';
 
 import {
-  getCurrentUser,
-  loginUser,
-  signUpUser,
-  verifyUser,
-} from '../api/instagramApi';
-import {
-  onLoading,
-  onLogin,
-  onLogout,
-  onSignUp,
-  onVerfiticationEmail,
+  startAuthLoading,
+  userLoggedIn,
+  userLoggedOut,
+  emailVerificationPending,
+  emailVerified,
 } from '../store/auth/authSlice';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
+import {
+  getCurrentUser,
+  loginUser,
+  signUpUser,
+  verifyUser,
+} from '../api/authApi';
 
 export const useAuthStore = () => {
   const { status, errorMessage, user } = useAppSelector((store) => store.auth);
@@ -29,45 +29,45 @@ export const useAuthStore = () => {
   const dispatch = useAppDispatch();
 
   const startLogin = async (user: LoginUserType) => {
-    dispatch(onLoading());
+    dispatch(startAuthLoading());
 
     try {
       const data: LoginUserResponse = await loginUser(user);
-      dispatch(onLogin(data.user));
+      dispatch(userLoggedIn(data.user));
       navigate('/');
     } catch (error) {
       console.error({ error });
       if (error instanceof AxiosError) {
         dispatch(
-          onLogout(
+          userLoggedOut(
             error.response?.data?.message ||
               'Something went wrong trying to login in'
           )
         );
       } else {
-        dispatch(onLogout('An unknown error occurred.'));
+        dispatch(userLoggedOut('An unknown error occurred.'));
       }
     }
   };
 
   const startSignUp = async (user: SignUpUserType) => {
-    dispatch(onLoading());
+    dispatch(startAuthLoading());
 
     try {
       const data: BasicResponse = await signUpUser(user);
-      dispatch(onSignUp(data.message));
+      dispatch(emailVerificationPending(data.message));
       navigate('/verification');
     } catch (error) {
       console.error({ error });
       if (error instanceof AxiosError) {
         dispatch(
-          onLogout(
+          userLoggedOut(
             error.response?.data?.message ||
               'Something went wrong trying to sing up'
           )
         );
       } else {
-        dispatch(onLogout('An unknown error occurred.'));
+        dispatch(userLoggedOut('An unknown error occurred.'));
       }
     }
   };
@@ -75,22 +75,22 @@ export const useAuthStore = () => {
   const startVerificationEmail = async ({
     verificationCode,
   }: EmailVerificationType) => {
-    dispatch(onLoading());
+    dispatch(startAuthLoading());
     try {
       const data: BasicResponse = await verifyUser({ verificationCode });
-      dispatch(onVerfiticationEmail(data.message));
+      dispatch(emailVerified(data.message));
       navigate('/login');
     } catch (error) {
       console.error({ error });
       if (error instanceof AxiosError) {
         dispatch(
-          onLogout(
+          userLoggedOut(
             error.response?.data?.message ||
               'Something went wrong trying to verify the email'
           )
         );
       } else {
-        dispatch(onLogout('An unknown error occurred.'));
+        dispatch(userLoggedOut('An unknown error occurred.'));
       }
     }
     console.log(verificationCode);
@@ -100,13 +100,13 @@ export const useAuthStore = () => {
     try {
       const user = await getCurrentUser();
       if (user) {
-        dispatch(onLogin(user));
+        dispatch(userLoggedIn(user));
         navigate('/');
       } else {
-        dispatch(onLogout());
+        dispatch(userLoggedOut());
       }
     } catch (error) {
-      dispatch(onLogout());
+      dispatch(userLoggedOut());
     }
   };
 

@@ -27,31 +27,31 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    onLoading: (state) => {
+    startAuthLoading: (state) => {
       state.status = AuthStatus.loading;
       state.user = {};
       state.errorMessage = undefined;
       state.successMessage = undefined;
     },
-    onLogin: (state, action: PayloadAction<User>) => {
+    userLoggedIn: (state, action: PayloadAction<User>) => {
       state.status = AuthStatus.authenticated;
       state.user = action.payload;
       state.errorMessage = undefined;
       state.successMessage = 'User successfully logged';
     },
-    onSignUp: (state, action: PayloadAction<string>) => {
+    emailVerificationPending: (state, action: PayloadAction<string>) => {
       state.status = AuthStatus.emailVerificationPending;
       state.user = {};
       state.errorMessage = undefined;
       state.successMessage = action.payload;
     },
-    onVerfiticationEmail: (state, action: PayloadAction<string>) => {
+    emailVerified: (state, action: PayloadAction<string>) => {
       state.status = AuthStatus.notAuthenticated;
       state.user = {};
       state.errorMessage = undefined;
       state.successMessage = action.payload;
     },
-    onLogout: (state, action: PayloadAction<string | undefined>) => {
+    userLoggedOut: (state, action: PayloadAction<string | undefined>) => {
       state.status = AuthStatus.notAuthenticated;
       state.user = {};
       state.errorMessage = action.payload;
@@ -67,11 +67,11 @@ const authSlice = createSlice({
 });
 
 export const {
-  onLoading,
-  onLogin,
-  onLogout,
-  onSignUp,
-  onVerfiticationEmail,
+  startAuthLoading,
+  userLoggedIn,
+  userLoggedOut,
+  emailVerificationPending,
+  emailVerified,
   clearSuccessMessage,
   clearErrorMessage,
 } = authSlice.actions;
