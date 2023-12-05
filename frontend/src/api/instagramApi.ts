@@ -1,13 +1,5 @@
 import axios from 'axios';
 import { getEnvVariables } from '../helpers/getEnvVariables';
-import {
-  LoginUserType,
-  LoginUserResponse,
-  GetUserResponse,
-  SignUpUserType,
-  BasicResponse,
-  EmailVerificationType,
-} from '../types/user';
 
 const { VITE_API_URL } = getEnvVariables();
 
@@ -17,36 +9,5 @@ const instagramApi = axios.create({
 });
 
 instagramApi.defaults.headers.common['Content-Type'] = 'application/json';
-
-export const loginUser = async ({ identifier, password }: LoginUserType) => {
-  const { data } = await instagramApi.post<LoginUserResponse>('/users/login', {
-    identifier,
-    password,
-  });
-  return data;
-};
-
-export const signUpUser = async (user: SignUpUserType) => {
-  const { data } = await instagramApi.post<BasicResponse>(
-    '/users/signup',
-    user
-  );
-  return data;
-};
-
-export const verifyUser = async ({
-  verificationCode,
-}: EmailVerificationType) => {
-  const { data } = await instagramApi.get<BasicResponse>(
-    `/users/verification/${verificationCode}`
-  );
-  return data;
-};
-
-export const getCurrentUser = async () => {
-  const { data } = await instagramApi.get<GetUserResponse>('/users/me');
-
-  return data.user;
-};
 
 export default instagramApi;
