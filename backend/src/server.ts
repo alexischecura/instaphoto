@@ -1,9 +1,7 @@
 require('dotenv').config();
-import { PrismaClient } from '@prisma/client';
 import app from './app';
 import { envVars } from './configs/envConfig';
-
-const prisma = new PrismaClient();
+import prisma from './database/databaseApi';
 
 const init = async () => {
   app.listen(envVars.PORT, () => {
