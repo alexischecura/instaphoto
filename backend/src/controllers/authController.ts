@@ -12,7 +12,6 @@ import {
   NotFoundError,
 } from '../utils/AppError';
 import Email from '../utils/Email';
-import { CreateUserType } from '../schemas/userSchema';
 import {
   createUser,
   findUniqueUser,
@@ -86,7 +85,7 @@ export const verifyUserHandler = async (
       .update(req.params.code)
       .digest('hex');
 
-    const user = await findUniqueUser({ verificationCode });
+    const user = await findUniqueUser({ where: { verificationCode } });
 
     if (!user) {
       return next(new AuthenticationError('Invalid verification code'));
@@ -155,7 +154,7 @@ export const loginUserHandler = async (
         username: user.username,
         email: user.email,
         profilePhoto: user.profilePhoto,
-        id: user.id
+        id: user.id,
       },
       token,
     });
@@ -186,7 +185,9 @@ export const forgotPasswordHandler = async (
   next: NextFunction
 ) => {
   try {
-    const user = await findUniqueUser({ email: req.body.email.toLowerCase() });
+    const user = await findUniqueUser({
+      where: { email: req.body.email.toLowerCase() },
+    });
 
     if (!user) {
       return next(
@@ -270,9 +271,11 @@ export const resetPasswordHandler = async (
       .digest('hex');
 
     const user = await findUser({
-      passwordResetToken,
-      passwordResetExpires: {
-        gt: new Date(),
+      where: {
+        passwordResetToken,
+        passwordResetExpires: {
+          gt: new Date(),
+        },
       },
     });
     if (!user)

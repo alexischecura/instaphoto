@@ -27,7 +27,7 @@ export const authenticateUser = async (
     return next(
       new AuthenticationError("Invalid token or user doesn't exist.")
     );
-  const user = await findUniqueUser({ id: decoded.id });
+  const user = await findUniqueUser({ where: { id: decoded.id } });
 
   if (!user)
     return next(new AuthenticationError('Invalid token or session expired.'));
