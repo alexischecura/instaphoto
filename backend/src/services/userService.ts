@@ -1,19 +1,51 @@
-import { PrismaClient, User, Prisma } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { User, Prisma } from '@prisma/client';
+import prisma from '../database/databaseApi';
 
 export const createUser = async (input: Prisma.UserCreateInput) => {
   return (await prisma.user.create({
     data: input,
   })) as User;
 };
-export const findUniqueUser = async (where: Prisma.UserWhereUniqueInput) => {
-  where.active = true;
-  return await prisma.user.findUnique({ where });
+type FindUniqueUser = {
+  where: Prisma.UserWhereUniqueInput;
+  select?: Prisma.UserSelect;
+  include?: Prisma.UserInclude;
 };
-export const findUser = async (where: Prisma.UserWhereInput) => {
-  where.active = true;
-  return await prisma.user.findFirst({ where });
+export const findUniqueUser = async ({ where, select }: FindUniqueUser) => {
+  return await prisma.user.findUnique({
+    where: { ...where, active: true },
+    select,
+  });
+};
+
+type FindUser = {
+  where?: Prisma.UserWhereInput;
+  select?: Prisma.UserSelect;
+  include?: Prisma.UserInclude;
+};
+
+type FindUserFollowers = {
+  where?: Prisma.UserWhereInput;
+};
+
+export const findUserWithFollowers = async ({
+  where,
+}: FindUserFollowers = {}) => {
+  return await prisma.user.findFirst({
+    where: { ...where, active: true },
+    include: {
+      followees: {
+        select: { followerId: true },
+      },
+    },
+  });
+};
+
+export const findUser = async ({ where, select, include }: FindUser = {}) => {
+  return await prisma.user.findFirst({
+    where: { ...where, active: true },
+    select,
+  });
 };
 
 export const findUserByEmailOrUsername = async (identifier: string) => {
@@ -21,6 +53,28 @@ export const findUserByEmailOrUsername = async (identifier: string) => {
     where: {
       OR: [{ email: identifier }, { username: identifier }],
       AND: [{ active: true }],
+    },
+  });
+};
+
+type FindManyUsers = {
+  excludedIds?: string[];
+  limit?: number;
+  select?: Prisma.UserSelect;
+};
+
+export const findManyUsers = async ({
+  excludedIds = [],
+  select,
+  limit = 5,
+}: FindManyUsers) => {
+  return await prisma.user.findMany({
+    take: limit,
+    select,
+    where: {
+      id: {
+        notIn: excludedIds,
+      },
     },
   });
 };
