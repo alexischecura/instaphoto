@@ -21,8 +21,8 @@ model User {
   photos       Photo[]
   comments     Comment[]
   likes        Like[]
-  Follower     Follow[]  @relation("Follower")
-  Followee     Follow[]  @relation("Followee")
+  followers    Follow[]  @relation("Follower")
+  followees    Follow[]  @relation("Followee")
 
   verified             Boolean?  @default(false)
   verificationCode     String?   @unique @db.Text
