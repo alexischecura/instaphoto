@@ -14,6 +14,14 @@ export type User = {
   username: string;
   email: string;
   profilePhoto: string;
+  id: string;
+};
+
+export type Profile = {
+  fullName: string;
+  username: string;
+  id: string;
+  profilePhoto: string;
 };
 
 export type BasicResponse = {

@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+import Skeleton from 'react-loading-skeleton';
+
 import UserCard from '../common/UserCard';
 import { useAuthStore } from '../../hooks/useAuthStore';
+import { useFollowStore } from '../../hooks/useFollowStore';
 
 const FollowingSectionStyled = styled.aside`
   grid-column: 3 / 4;
@@ -19,50 +22,37 @@ const SuggestedFollowers = styled.div`
 `;
 
 function FollowingSection() {
-  const {
-    user: { fullName, username, profilePhoto },
-  } = useAuthStore();
+  const { user } = useAuthStore();
+  const { isLoading, profiles } = useFollowStore();
 
   return (
     <FollowingSectionStyled>
       <UserCard
         buttonLabel="Switch"
-        caption={fullName}
-        username={username}
-        profilePicture={profilePhoto}
+        caption={user.fullName}
+        username={user.username}
+        profilePicture={user.profilePhoto}
       />
       <SuggestedFollowers>
         <Heading>Suggested for you</Heading>
-        <UserCard
-          buttonLabel="Follow"
-          caption="Roberto Carlos"
-          username="robertocarlos"
-          profilePicture="./robertocarlos.webp"
-        />
-        <UserCard
-          buttonLabel="Follow"
-          caption="Cristiano Ronaldo"
-          username="ronaldo"
-          profilePicture="./ronaldo.jpg"
-        />
-        <UserCard
-          buttonLabel="Follow"
-          caption="Leonel Messi"
-          username="messi"
-          profilePicture="./messi.jpeg"
-        />
-        <UserCard
-          buttonLabel="Follow"
-          caption="Zinedine Zidane"
-          username="zidane"
-          profilePicture="./zidane.jpg"
-        />
-        <UserCard
-          buttonLabel="Follow"
-          caption="Ronaldinho Gaúcho"
-          username="ronaldinho"
-          profilePicture="./ronaldinho.avif"
-        />
+        {isLoading ? (
+          <Skeleton
+            height="50px"
+            width="320px"
+            count={5}
+            style={{ textAlign: 'center', marginBottom: '10px' }}
+          />
+        ) : (
+          profiles.map((profile) => (
+            <UserCard
+              key={profile.username}
+              buttonLabel="Follow"
+              username={profile.username}
+              caption={profile.fullName}
+              profilePicture={profile.profilePhoto}
+            />
+          ))
+        )}
       </SuggestedFollowers>
     </FollowingSectionStyled>
   );
