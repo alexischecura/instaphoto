@@ -3,7 +3,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { envVars } from './configs/envConfig';
 import userRoutes from './routes/userRoutes';
+import followRoutes from './routes/followRoutes';
 import globalErrorHandler from './controllers/errorController';
+import { authenticateUser } from './middlewares/authenticateUser';
 
 const app = express();
 
@@ -17,6 +19,9 @@ app.use(
 );
 
 app.use('/api/v1/users', userRoutes);
+
+app.use(authenticateUser);
+app.use('/api/v1/follow', followRoutes);
 
 app.get('/test', (req, res) => {
   res
