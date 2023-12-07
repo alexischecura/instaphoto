@@ -15,7 +15,9 @@ function UserIcon({ profilePhoto, username }: UserIconProps) {
   return (
     <>
       <ProfileImg
-        src={profilePhoto ? profilePhoto : './default_user.jpg'}
+        src={`profile-pictures/${
+          profilePhoto ? profilePhoto : 'default_user.jpg'
+        }`}
         alt={`${username} profile picture`}
       />
     </>

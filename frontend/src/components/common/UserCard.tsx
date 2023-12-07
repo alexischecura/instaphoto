@@ -66,7 +66,9 @@ function UserCard({
   return (
     <UserCardStyled>
       <UserPicture
-        src={profilePicture ? profilePicture : './default_user.jpg'}
+        src={`profile-pictures/${
+          profilePicture ? profilePicture : 'default_user.jpg'
+        }`}
       />
       <UserInfo>
         <Username to={username}>{username}</Username>
