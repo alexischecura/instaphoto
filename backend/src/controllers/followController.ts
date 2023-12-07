@@ -5,7 +5,11 @@ import {
   findUniqueUser,
 } from '../services/userService';
 import { createAFollow } from '../services/followService';
-import { InternalServerError, ValidationError } from '../utils/AppError';
+import {
+  AuthenticationError,
+  InternalServerError,
+  ValidationError,
+} from '../utils/AppError';
 
 export const getSuggestedProfiles = async (
   req: Request,
@@ -43,17 +47,15 @@ export const followAnUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { followeeId, followerId } = req.body;
+  const { followerId } = req.body;
 
   try {
     const user = await findUserWithFollowers({
-      where: { id: followeeId },
+      where: { id: res.locals.user?.id },
     });
 
     if (!user) {
-      return next(
-        new ValidationError(`Followee with the id "${followeeId}" not found`)
-      );
+      return next(new AuthenticationError(`You are not logged in`));
     }
     const follower = await findUniqueUser({ where: { id: followerId } });
 
@@ -66,22 +68,33 @@ export const followAnUser = async (
     if (user.followees.some((follow) => follow.followerId === follower.id)) {
       return next(
         new ValidationError(
-          `The user ${user.username} is already following the user ${follower.username}`
+          `You are already following the user ${follower.username}`
         )
       );
     }
 
-    const follow = createAFollow({
-      followeeId,
+    const follow = await createAFollow({
+      followeeId: user.id,
       followerId,
     });
 
     if (!follow) {
-      return next(new ValidationError('User not found'));
+      return next(
+        new ValidationError('Something went wrong trying to follow an user')
+      );
     }
 
-    res.status(200).json({ follow });
+    res.status(201).json({
+      status: 'success',
+      message: `You start to following the user ${follower.username}`,
+    });
   } catch (error) {
-    return next({ error });
+    if (error instanceof Error)
+      return next(
+        new InternalServerError(
+          error?.message || 'Something went wrong trying to follow an user'
+        )
+      );
+    return next(error);
   }
 };
