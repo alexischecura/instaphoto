@@ -31,6 +31,7 @@ export const getSuggestedProfiles = async (
       fullName: true,
       username: true,
       profilePhoto: true,
+      id: true,
     },
     limit: 5,
   });
