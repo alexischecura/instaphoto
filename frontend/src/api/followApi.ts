@@ -1,4 +1,4 @@
-import { Profile } from '../types/user';
+import { BasicResponse, Profile } from '../types/user';
 import instagramApi from './instagramApi';
 
 export const getSuggestedProfiles = async () => {
@@ -7,7 +7,7 @@ export const getSuggestedProfiles = async () => {
 };
 
 export const followAnUser = async (followerId: string) => {
-  const { data } = await instagramApi.post(`/follow`, {
+  const { data } = await instagramApi.post<BasicResponse>(`/follow`, {
     followerId,
   });
   return data;
