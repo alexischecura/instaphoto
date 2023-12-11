@@ -30,7 +30,7 @@ type BarProps = {
 const Bar = styled.div<BarProps>`
   width: 6%;
   height: 16%;
-  background: #fff;
+  background: ${({ color }) => color};
   position: absolute;
   left: 49%;
   top: 43%;
@@ -44,9 +44,14 @@ const Bar = styled.div<BarProps>`
 type ButtonSpinnerProps = {
   numBars?: number;
   animationTime?: number;
+  color?: `#${string}`;
 };
 
-function Spinner({ numBars = 8, animationTime = 0.5 }: ButtonSpinnerProps) {
+function Spinner({
+  numBars = 8,
+  animationTime = 0.5,
+  color = '#fff',
+}: ButtonSpinnerProps) {
   const degree = calculateDegree(numBars);
 
   return (
@@ -61,6 +66,7 @@ function Spinner({ numBars = 8, animationTime = 0.5 }: ButtonSpinnerProps) {
           animationDelay={
             calculateAnimationDelay(animationTime, numBars) * index
           }
+          color={color}
         />
       ))}
     </SpinnerContainer>
