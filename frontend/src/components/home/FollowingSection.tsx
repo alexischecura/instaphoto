@@ -23,7 +23,8 @@ const SuggestedFollowers = styled.div`
 
 function FollowingSection() {
   const { user } = useAuthStore();
-  const { isLoading, profiles } = useFollowStore();
+  const { isLoadingSuggestions, suggestedProfiles, followUser } =
+    useFollowStore();
 
   return (
     <FollowingSectionStyled>
@@ -35,7 +36,7 @@ function FollowingSection() {
       />
       <SuggestedFollowers>
         <Heading>Suggested for you</Heading>
-        {isLoading ? (
+        {isLoadingSuggestions ? (
           <Skeleton
             height="50px"
             width="320px"
@@ -43,13 +44,15 @@ function FollowingSection() {
             style={{ textAlign: 'center', marginBottom: '10px' }}
           />
         ) : (
-          profiles.map((profile) => (
+          suggestedProfiles.map((profile) => (
             <UserCard
               key={profile.username}
-              buttonLabel="Follow"
+              buttonLabel={profile.isFollowing ? 'Unfollow' : 'Follow'}
               username={profile.username}
               caption={profile.fullName}
               profilePicture={profile.profilePhoto}
+              onClick={() => followUser(profile.id)}
+              isLoading={profile.isLoading}
             />
           ))
         )}

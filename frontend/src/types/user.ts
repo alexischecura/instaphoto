@@ -22,6 +22,8 @@ export type Profile = {
   username: string;
   id: string;
   profilePhoto: string;
+  isFollowing?: boolean;
+  isLoading?: boolean;
 };
 
 export type BasicResponse = {

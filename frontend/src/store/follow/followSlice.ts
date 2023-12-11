@@ -1,0 +1,78 @@
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Profile } from '../../types/user';
+
+type InitialState = {
+  isLoadingSuggestions: boolean;
+  suggestedProfiles: Profile[] | [];
+  errorMessage: string | undefined;
+};
+
+const initialState: InitialState = {
+  isLoadingSuggestions: false,
+  suggestedProfiles: [],
+  errorMessage: undefined,
+};
+
+const followSlice = createSlice({
+  name: 'follow',
+  initialState,
+  reducers: {
+    startFollowingUser: (state, action: PayloadAction<string>) => {
+      state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
+        if (profile.id === action.payload) {
+          return { ...profile, isLoading: true };
+        }
+        return profile;
+      });
+    },
+    successFollowingUser: (state, action: PayloadAction<string>) => {
+      state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
+        if (profile.id === action.payload) {
+          return { ...profile, isFollowing: true, isLoading: false };
+        }
+        return profile;
+      });
+    },
+    startSuggestionsLoading: (state) => {
+      state.isLoadingSuggestions = true;
+      state.suggestedProfiles = [];
+      state.errorMessage = undefined;
+    },
+    setLoadedProfiles: (state, action: PayloadAction<Profile[]>) => {
+      state.isLoadingSuggestions = false;
+      state.suggestedProfiles = action.payload.map((profile) => ({
+        ...profile,
+        isFollowing: false,
+      }));
+      state.errorMessage = undefined;
+    },
+    reportSuggestionError: (state, action: PayloadAction<string>) => {
+      state.isLoadingSuggestions = false;
+      state.suggestedProfiles = [];
+      state.errorMessage = action.payload;
+    },
+    reportFollowError: (
+      state,
+      action: PayloadAction<{ id: string; errorMessage: string }>
+    ) => {
+      state.errorMessage = action.payload.errorMessage;
+      state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
+        if (profile.id === action.payload.id) {
+          return { ...profile, isLoading: false };
+        }
+        return profile;
+      });
+    },
+  },
+});
+
+export const {
+  startSuggestionsLoading,
+  setLoadedProfiles,
+  reportSuggestionError,
+  reportFollowError,
+  startFollowingUser,
+  successFollowingUser,
+} = followSlice.actions;
+
+export default followSlice;

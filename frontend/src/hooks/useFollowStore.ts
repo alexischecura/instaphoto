@@ -1,17 +1,22 @@
 import { AxiosError } from 'axios';
-import { getSuggestedProfiles } from '../api/followApi';
+import { followAnUser, getSuggestedProfiles } from '../api/followApi';
 import {
   startSuggestionsLoading,
   setLoadedProfiles,
-  reportError,
-} from '../store/suggestions/suggestionsSlice';
+  reportSuggestionError,
+  startFollowingUser,
+  successFollowingUser,
+  reportFollowError,
+} from '../store/follow/followSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import { useEffect } from 'react';
 
 export const useFollowStore = () => {
   const dispatch = useAppDispatch();
 
-  const { isLoading, profiles } = useAppSelector((state) => state.suggestions);
+  const { isLoadingSuggestions, suggestedProfiles } = useAppSelector(
+    (state) => state.follow
+  );
 
   useEffect(() => {
     startGettingSuggestingUsers();
@@ -26,7 +31,7 @@ export const useFollowStore = () => {
       console.error(error);
       if (error instanceof AxiosError) {
         dispatch(
-          reportError(
+          reportSuggestionError(
             error.response?.data?.message ||
               'Something went wrong trying to get suggested profiles'
           )
@@ -36,8 +41,28 @@ export const useFollowStore = () => {
   };
 
   const followUser = async (id: string) => {
-    console.log(id);
+    dispatch(startFollowingUser(id));
+    try {
+      await followAnUser(id);
+      dispatch(successFollowingUser(id));
+    } catch (error) {
+      console.error(error);
+      if (error instanceof AxiosError) {
+        dispatch(
+          reportFollowError({
+            errorMessage:
+              error.response?.data?.message ||
+              'Something went wrong trying to follow an user',
+            id,
+          })
+        );
+      }
+    }
   };
 
-  return { profiles, isLoading, followUser };
+  return {
+    suggestedProfiles,
+    isLoadingSuggestions,
+    followUser,
+  };
 };
