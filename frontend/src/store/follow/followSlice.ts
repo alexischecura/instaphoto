@@ -17,7 +17,7 @@ const followSlice = createSlice({
   name: 'follow',
   initialState,
   reducers: {
-    startFollowingUser: (state, action: PayloadAction<string>) => {
+    startFollowRequest: (state, action: PayloadAction<string>) => {
       state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
         if (profile.id === action.payload) {
           return { ...profile, isLoading: true };
@@ -29,6 +29,14 @@ const followSlice = createSlice({
       state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
         if (profile.id === action.payload) {
           return { ...profile, isFollowing: true, isLoading: false };
+        }
+        return profile;
+      });
+    },
+    successUnfollowingUser: (state, action: PayloadAction<string>) => {
+      state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
+        if (profile.id === action.payload) {
+          return { ...profile, isFollowing: false, isLoading: false };
         }
         return profile;
       });
@@ -71,8 +79,9 @@ export const {
   setLoadedProfiles,
   reportSuggestionError,
   reportFollowError,
-  startFollowingUser,
+  startFollowRequest,
   successFollowingUser,
+  successUnfollowingUser,
 } = followSlice.actions;
 
 export default followSlice;

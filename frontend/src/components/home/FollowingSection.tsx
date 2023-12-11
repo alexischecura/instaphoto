@@ -23,7 +23,7 @@ const SuggestedFollowers = styled.div`
 
 function FollowingSection() {
   const { user } = useAuthStore();
-  const { isLoadingSuggestions, suggestedProfiles, followUser } =
+  const { isLoadingSuggestions, suggestedProfiles, toggleFollow } =
     useFollowStore();
 
   return (
@@ -51,7 +51,9 @@ function FollowingSection() {
               username={profile.username}
               caption={profile.fullName}
               profilePicture={profile.profilePhoto}
-              onClick={() => followUser(profile.id)}
+              onClick={() =>
+                toggleFollow(profile.id, profile.isFollowing)
+              }
               isLoading={profile.isLoading}
             />
           ))

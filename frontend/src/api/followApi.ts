@@ -12,3 +12,12 @@ export const followAnUser = async (followerId: string) => {
   });
   return data;
 };
+
+export const unfollowAnUser = async (followerId: string) => {
+  const { data } = await instagramApi.delete<BasicResponse>(`/follow`, {
+    data: {
+      followerId,
+    },
+  });
+  return data;
+};
