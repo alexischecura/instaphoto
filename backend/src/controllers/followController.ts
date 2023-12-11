@@ -4,7 +4,7 @@ import {
   findUserWithFollowers,
   findUniqueUser,
 } from '../services/userService';
-import { createAFollow } from '../services/followService';
+import { createAFollow, removeAFollow } from '../services/followService';
 import {
   AuthenticationError,
   InternalServerError,
@@ -93,6 +93,63 @@ export const followAnUser = async (
       return next(
         new InternalServerError(
           error?.message || 'Something went wrong trying to follow an user'
+        )
+      );
+    return next(error);
+  }
+};
+
+export const unfollowAnUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { followerId } = req.body;
+
+  try {
+    const user = await findUserWithFollowers({
+      where: { id: res.locals.user?.id },
+    });
+
+    if (!user) {
+      return next(new AuthenticationError(`You are not logged in`));
+    }
+    const follower = await findUniqueUser({ where: { id: followerId } });
+
+    if (!follower) {
+      return next(
+        new ValidationError(`Follower with the id "${followerId}" not found`)
+      );
+    }
+
+    if (!user.followees.some((follow) => follow.followerId === follower.id)) {
+      return next(
+        new ValidationError(
+          `You are already not following the user ${follower.username}`
+        )
+      );
+    }
+
+    const follow = await removeAFollow({
+      followeeId: user.id,
+      followerId,
+    });
+
+    if (!follow) {
+      return next(
+        new ValidationError('Something went wrong trying to follow an user')
+      );
+    }
+
+    res.status(201).json({
+      status: 'success',
+      message: `You unfollow the user ${follower.username}`,
+    });
+  } catch (error) {
+    if (error instanceof Error)
+      return next(
+        new InternalServerError(
+          error?.message || 'Something went wrong trying to unfollow an user'
         )
       );
     return next(error);
