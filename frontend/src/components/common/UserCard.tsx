@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Spinner from './Spinner';
 
 const UserCardStyled = styled.div`
   width: 32rem;
@@ -55,6 +56,8 @@ type UserCardProps = {
   caption: string;
   buttonLabel: string;
   profilePicture?: string;
+  onClick?: () => void;
+  isLoading?: boolean;
 };
 
 function UserCard({
@@ -62,6 +65,8 @@ function UserCard({
   profilePicture,
   caption,
   buttonLabel,
+  onClick,
+  isLoading,
 }: UserCardProps) {
   return (
     <UserCardStyled>
@@ -78,7 +83,9 @@ function UserCard({
           {caption}
         </UserCaption>
       </UserInfo>
-      <Button>{buttonLabel}</Button>
+      <Button onClick={onClick}>
+        {isLoading ? <Spinner color="#777" /> : buttonLabel}
+      </Button>
     </UserCardStyled>
   );
 }
