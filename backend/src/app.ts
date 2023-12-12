@@ -4,6 +4,8 @@ import cors from 'cors';
 import { envVars } from './configs/envConfig';
 import userRoutes from './routes/userRoutes';
 import followRoutes from './routes/followRoutes';
+import postRoutes from './routes/postRoutes';
+
 import globalErrorHandler from './controllers/errorController';
 import { authenticateUser } from './middlewares/authenticateUser';
 
@@ -22,6 +24,7 @@ app.use('/api/v1/users', userRoutes);
 
 app.use(authenticateUser);
 app.use('/api/v1/follow', followRoutes);
+app.use('/api/v1/post', postRoutes);
 
 app.get('/test', (req, res) => {
   res

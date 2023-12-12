@@ -20,6 +20,7 @@ import {
   updateUser,
 } from '../services/userService';
 import { signJwt } from '../utils/jwtUtils';
+import { CreateUserType } from '../schemas/userSchema';
 
 export const createUserHandler = async (
   req: Request,
@@ -27,7 +28,7 @@ export const createUserHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { fullName, username, email, password } = req.body;
+    const { fullName, username, email, password }: CreateUserType = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
