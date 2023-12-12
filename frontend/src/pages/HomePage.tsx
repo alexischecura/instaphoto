@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import FollowingSection from '../components/home/FollowingSection';
+import PostCard from '../components/home/PostCard';
 
 const HomePageStyled = styled.section`
   grid-column: 2 / 3;
@@ -12,13 +13,19 @@ const HomePageStyled = styled.section`
 
 const HomePageContent = styled.div`
   width: 63rem;
-  text-align: center;
+  margin-top: 6.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 function HomePage() {
   return (
     <HomePageStyled>
-      <HomePageContent>HomePage</HomePageContent>
+      <HomePageContent>
+        <PostCard />
+        <PostCard />
+      </HomePageContent>
       <FollowingSection />
     </HomePageStyled>
   );
