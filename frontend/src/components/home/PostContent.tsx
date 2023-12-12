@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { hashtagRegex } from '../../helpers/regexs';
 
 const PostContentStyled = styled.p`
   font-size: 1.2rem;
@@ -22,18 +21,18 @@ type PostContentProps = {
 };
 
 function PostContent({ text }: PostContentProps) {
-  const parts = text.split(hashtagRegex);
-  const hashtags = text.match(hashtagRegex);
-  const content = parts.map((part, index) => (
-    <span key={index}>
-      {part}
-      {hashtags && hashtags[index] && (
-        <Hashtag to={`/hashtag/${hashtags[index].substring(1)}`}>
-          {hashtags[index]}
-        </Hashtag>
-      )}
-    </span>
-  ));
+  const parts = text.split(' ');
+
+  const content = parts.map((part) => {
+    if (part.charAt(0) === '#') {
+      return (
+        <Hashtag
+          to={`/hashtag/${part.toLowerCase().substring(1)}`}
+        >{` ${part}`}</Hashtag>
+      );
+    }
+    return <span>{` ${part}`}</span>;
+  });
 
   return <PostContentStyled>{content}</PostContentStyled>;
 }
