@@ -1,12 +1,12 @@
 import { Prisma } from '@prisma/client';
 import prisma from '../database/databaseApi';
 
-export const createPost = (
+export const createPost = async (
   postInput: Prisma.PostCreateWithoutUserInput,
   userId: string,
   tags: string[] = []
 ) => {
-  return prisma.post.create({
+  return await prisma.post.create({
     data: {
       ...postInput,
       tags: {
@@ -24,6 +24,23 @@ export const createPost = (
       user: {
         connect: { id: userId },
       },
+    },
+  });
+};
+
+export const getUsersPost = async (
+  usersIds: string[] = [],
+  limit: number = 10,
+  skip: number = 0
+) => {
+  return await prisma.post.findMany({
+    where: {
+      userId: { in: usersIds },
+    },
+    take: limit,
+    skip,
+    orderBy: {
+      createdAt: 'desc',
     },
   });
 };
