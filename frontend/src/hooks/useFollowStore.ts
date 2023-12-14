@@ -15,6 +15,7 @@ import {
 } from '../store/follow/followSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import { useEffect } from 'react';
+import { usePostStore } from './usePostStore';
 
 export const useFollowStore = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ export const useFollowStore = () => {
   const { isLoadingSuggestions, suggestedProfiles } = useAppSelector(
     (state) => state.follow
   );
+  const { startGettingFolloweesPost } = usePostStore();
 
   useEffect(() => {
     startGettingSuggestingUsers();
@@ -55,6 +57,7 @@ export const useFollowStore = () => {
         await unfollowAnUser(id);
         dispatch(successUnfollowingUser(id));
       }
+      startGettingFolloweesPost();
     } catch (error) {
       console.error(error);
       if (error instanceof AxiosError) {
