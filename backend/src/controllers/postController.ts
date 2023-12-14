@@ -37,7 +37,11 @@ export const getFolloweesPostHandler = async (
 
     const followeesIds = user?.followees.map((follow) => follow.followerId);
 
-    const posts = await getUsersPost(followeesIds);
+    const page = req.query.page ? +req.query.page : 1;
+    const limit = req.query.limit ? +req.query.limit : 5;
+    const skip = (page - 1) * limit;
+
+    const posts = await getUsersPost(followeesIds, limit, skip);
 
     res.status(200).json(posts);
   } catch (error) {

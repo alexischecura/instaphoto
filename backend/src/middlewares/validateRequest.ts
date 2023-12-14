@@ -1,20 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, query } from 'express';
 import { z } from 'zod';
 import { InternalServerError, ValidationError } from '../utils/AppError';
 
 /**
  * Express middleware for schema-based validation using the Zod library.
- * Can be applied to either the request body ('body') or URL parameters ('params').
+ * Can be applied to the request body ('body'), URL parameters ('params') or the query params ('query').
  *
  * @param schema - Zod schema for validation.
- * @param field - Specifies whether to validate 'body' or 'params'.
+ * @param field - Specifies whether to validate 'body', 'params' or 'query'.
  */
 
 export const validate =
-  (schema: z.Schema, field: 'body' | 'params') =>
+  (schema: z.Schema, field: 'body' | 'params' | 'query') =>
   (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req[field]);
+      console.log(req[field]);
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {

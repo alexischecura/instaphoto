@@ -30,7 +30,7 @@ export const createPost = async (
 
 export const getUsersPost = async (
   usersIds: string[] = [],
-  limit: number = 10,
+  limit: number = 5,
   skip: number = 0
 ) => {
   return await prisma.post.findMany({
