@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import PostHeader from './PostHeader';
 import PostMedia from './PostMedia';
 import PostButtons from './PostButtons';
-import Likes from './Likes';
+import PostLikes from './PostLikes';
 import PostContent from './PostContent';
 import PostComment from './PostComment';
 
@@ -22,20 +22,33 @@ const PostCardStyled = styled.article`
   }
 `;
 
-function PostCard() {
+type PostCardProps = {
+  username: string;
+  profilePhoto: string;
+  postDate: string;
+  mediaUrl: string;
+  likes: number;
+  content: string;
+};
+
+function PostCard({
+  username,
+  profilePhoto,
+  postDate,
+  mediaUrl,
+  likes,
+  content,
+}: PostCardProps) {
   return (
     <PostCardStyled>
       <PostHeader
-        user={{ username: 'alexisrulo', profilePicture: 'alexisrulo.jpg' }}
-        postDate={new Date(2023, 11, 11, 15)}
+        user={{ username, profilePhoto }}
+        postDate={new Date(postDate)}
       />
-      <PostMedia
-        alt="image"
-        url="https://images.unsplash.com/photo-1702121269747-fe91af4fa4a8?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      />
+      <PostMedia alt="image" url={mediaUrl} />
       <PostButtons isBookmarked={false} isFavorited={true} />
-      <Likes postLikes={15} />
-      <PostContent text="Yesterday I take this photo 📷 #photo with my friends" />
+      <PostLikes postLikes={likes} />
+      <PostContent text={content} />
       <PostComment />
     </PostCardStyled>
   );

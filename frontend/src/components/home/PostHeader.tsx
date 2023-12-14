@@ -1,5 +1,6 @@
 import { formatDistanceToNowStrict } from 'date-fns';
 import { IoEllipsisHorizontal } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const PostHeaderStyled = styled.header`
@@ -16,9 +17,18 @@ const ProfilePicture = styled.img`
   margin-right: 1.2rem;
 `;
 
-const Username = styled.span`
-  font-weight: 600;
-  font-size: 1.3rem;
+const Username = styled(Link)`
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+    font-size: 1.3rem;
+
+    display: flex;
+    align-items: center;
+  }
 `;
 const PostDate = styled.span`
   font-size: 1.3rem;
@@ -44,7 +54,7 @@ const Button = styled.button`
 type PostHeaderProps = {
   user: {
     username: string;
-    profilePicture?: string;
+    profilePhoto?: string;
   };
   postDate: Date;
 };
@@ -52,17 +62,17 @@ type PostHeaderProps = {
 function PostHeader({ user, postDate }: PostHeaderProps) {
   return (
     <PostHeaderStyled>
-      <ProfilePicture
-        src={`profile-pictures/${
-          user.profilePicture ? user.profilePicture : 'default_user.jpg'
-        }`}
-        alt={`${user.username} profile picture`}
-      />
-      <div>
-        <Username>{user.username}</Username>
-        <Dot>•</Dot>
-        <PostDate>{formatDistanceToNowStrict(postDate)}</PostDate>
-      </div>
+      <Username to={user.username}>
+        <ProfilePicture
+          src={`profile-pictures/${
+            user.profilePhoto ? user.profilePhoto : 'default_user.jpg'
+          }`}
+          alt={`${user.username} profile picture`}
+        />
+        <span>{user.username}</span>
+      </Username>
+      <Dot>•</Dot>
+      <PostDate>{formatDistanceToNowStrict(postDate)}</PostDate>
       <Button>
         <IoEllipsisHorizontal />
       </Button>

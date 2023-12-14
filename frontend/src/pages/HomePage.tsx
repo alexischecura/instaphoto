@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import FollowingSection from '../components/home/FollowingSection';
-import PostCard from '../components/home/PostCard';
+import FolloweesPost from '../components/home/FolloweesPost';
 
 const HomePageStyled = styled.section`
   grid-column: 2 / 3;
@@ -23,8 +23,7 @@ function HomePage() {
   return (
     <HomePageStyled>
       <HomePageContent>
-        <PostCard />
-        <PostCard />
+        <FolloweesPost />
       </HomePageContent>
       <FollowingSection />
     </HomePageStyled>
