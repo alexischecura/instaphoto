@@ -20,6 +20,12 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  setTimeout(() => {
+    next();
+  }, 500);
+});
+
 app.use('/api/v1/users', userRoutes);
 
 app.use(authenticateUser);
