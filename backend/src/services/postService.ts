@@ -42,5 +42,9 @@ export const getUsersPost = async (
     orderBy: {
       createdAt: 'desc',
     },
+    include: {
+      user: true,
+      likes: true,
+    },
   });
 };
