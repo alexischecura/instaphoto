@@ -17,6 +17,7 @@ model User {
   birthDate   DateTime?
 
   profilePhoto String?   @db.VarChar(255)
+  description  String?   @db.VarChar(255)
   active       Boolean   @default(true)
   posts        Post[]
   comments     Comment[]
