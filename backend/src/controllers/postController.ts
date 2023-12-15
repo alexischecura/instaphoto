@@ -43,6 +43,8 @@ export const getFolloweesPostHandler = async (
 
     const posts = await getUsersPost(followeesIds, limit, skip);
 
+    if (posts.length == 0) return res.status(204).send();
+
     res.status(200).json(posts);
   } catch (error) {
     return next(
