@@ -94,3 +94,7 @@ export type CreateMayUsersType = Omit<
   z.infer<typeof createManyUsersSchema>,
   'passwordConfirm'
 >;
+
+export const usernameSchema = z.object({
+  username: z.string(),
+});

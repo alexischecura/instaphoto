@@ -41,10 +41,24 @@ export const findUserWithFollowers = async ({
   });
 };
 
-export const findUser = async ({ where, select, include }: FindUser = {}) => {
+export const findUser = async ({ where, select }: FindUser = {}) => {
   return await prisma.user.findFirst({
     where: { ...where, active: true },
     select,
+  });
+};
+export const findProfile = async (username: string) => {
+  return await prisma.user.findFirst({
+    where: { username, active: true },
+    select: {
+      username: true,
+      fullName: true,
+      profilePhoto: true,
+      description: true,
+      posts: { take: 12 },
+      followees: true,
+      followers: true,
+    },
   });
 };
 

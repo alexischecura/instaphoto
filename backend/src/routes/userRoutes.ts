@@ -9,6 +9,7 @@ import {
 import {
   createManyUsersHandler,
   getCurrentUserHandler,
+  getProfile,
 } from '../controllers/userController';
 
 import { validate } from '../middlewares/validateRequest';
@@ -18,11 +19,14 @@ import {
   forgotPasswordSchema,
   loginUserSchema,
   resetPasswordSchema,
+  usernameSchema,
   verificationCodeSchema,
 } from '../schemas/userSchema';
 import { authenticateUser } from '../middlewares/authenticateUser';
 
 const router = Router();
+
+router.get('/:username', validate(usernameSchema, 'params'), getProfile);
 
 router
   .post('/signup', validate(createUserSchema, 'body'), createUserHandler)

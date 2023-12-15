@@ -1,8 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { Prisma } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import { createManyUsers } from '../services/userService';
-import { InternalServerError } from '../utils/AppError';
+import {
+  createManyUsers,
+  findProfile,
+  findUser,
+} from '../services/userService';
+import { InternalServerError, NotFoundError } from '../utils/AppError';
 import { profile } from 'console';
 
 export const getCurrentUserHandler = (
@@ -21,6 +25,32 @@ export const getCurrentUserHandler = (
   };
 
   res.status(200).json({ user });
+};
+
+export const getProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await findProfile(req.params.username);
+    if (!user) {
+      return next(
+        new NotFoundError(
+          `User with the username ${req.params.username} not found`
+        )
+      );
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return next(
+      new InternalServerError(
+        'Something went wrong when trying the get the user'
+      )
+    );
+  }
 };
 
 export const createManyUsersHandler = (
