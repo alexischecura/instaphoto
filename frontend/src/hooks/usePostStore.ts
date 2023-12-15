@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from './reduxHooks';
 export const usePostStore = () => {
   const dispatch = useAppDispatch();
 
-  const { followeesPosts, isLoadingPost } = useAppSelector(
+  const { followeesPosts, isLoadingPost, page } = useAppSelector(
     (state) => state.post
   );
 
@@ -33,9 +33,12 @@ export const usePostStore = () => {
     }
   };
 
-  const startLoadingMorePost = async (page: number) => {
+  const startLoadingMorePost = async () => {
     try {
       const posts = await getFolloweesPost(page, 3);
+      if (!posts) {
+        return;
+      }
       dispatch(loadMorePost(posts));
     } catch (error) {
       console.error(error);
@@ -53,6 +56,7 @@ export const usePostStore = () => {
   return {
     isLoadingPost,
     followeesPosts,
+    page,
     startGettingFolloweesPost,
     startLoadingMorePost,
   };

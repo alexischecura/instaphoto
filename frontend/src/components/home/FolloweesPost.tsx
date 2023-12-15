@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
 import PostCard from './PostCard';
 
@@ -10,16 +10,13 @@ function FolloweesPost() {
     startGettingFolloweesPost,
   } = usePostStore();
 
-  const [nextPage, setNextPage] = useState(2);
-
   const observedElement = useRef(null);
 
   useEffect(() => {
     const initObserver = () => {
       const observer = new IntersectionObserver((entries) => {
         if (entries[0]?.isIntersecting) {
-          startLoadingMorePost(nextPage);
-          setNextPage((page) => page + 1);
+          startLoadingMorePost();
         }
       });
       if (observedElement.current) observer.observe(observedElement.current);
@@ -52,7 +49,13 @@ function FolloweesPost() {
           />
         );
       })}
-      <div ref={observedElement} style={{ height: '1px', width: '100%' }} />
+      <div
+        ref={observedElement}
+        style={{
+          height: '1px',
+          width: '100%',
+        }}
+      />
       {isLoadingPost && <h1>Loading ...</h1>}
     </div>
   );

@@ -5,12 +5,14 @@ type InitialState = {
   isLoadingPost: boolean;
   followeesPosts: Post[] | [];
   errorMessage: string | undefined;
+  page: number;
 };
 
 const initialState: InitialState = {
   isLoadingPost: false,
   followeesPosts: [],
   errorMessage: undefined,
+  page: 2,
 };
 
 const postSlice = createSlice({
@@ -22,10 +24,12 @@ const postSlice = createSlice({
     },
     setLoadedPosts: (state, action: PayloadAction<Post[]>) => {
       state.isLoadingPost = false;
+      state.page = 2;
       state.followeesPosts = action.payload;
     },
     loadMorePost: (state, action: PayloadAction<Post[]>) => {
       state.isLoadingPost = false;
+      ++state.page;
       state.followeesPosts = [...state.followeesPosts, ...action.payload];
     },
     reportPostError: (state, action: PayloadAction<string>) => {
