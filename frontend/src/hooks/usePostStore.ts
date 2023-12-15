@@ -4,9 +4,9 @@ import {
   reportPostError,
   startPostRequest,
   setLoadedPosts,
+  loadMorePost,
 } from '../store/post/postSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
-import { useEffect } from 'react';
 
 export const usePostStore = () => {
   const dispatch = useAppDispatch();
@@ -15,14 +15,10 @@ export const usePostStore = () => {
     (state) => state.post
   );
 
-  useEffect(() => {
-    startGettingFolloweesPost();
-  }, []);
-
   const startGettingFolloweesPost = async () => {
     dispatch(startPostRequest());
     try {
-      const posts = await getFolloweesPost();
+      const posts = await getFolloweesPost(1, 3);
       dispatch(setLoadedPosts(posts));
     } catch (error) {
       console.error(error);
@@ -30,12 +26,34 @@ export const usePostStore = () => {
         dispatch(
           reportPostError(
             error.response?.data?.message ||
-              'Something went wrong trying to get suggested profiles'
+              'Something went wrong trying to get followees post'
           )
         );
       }
     }
   };
 
-  return { isLoadingPost, followeesPosts, startGettingFolloweesPost };
+  const startLoadingMorePost = async (page: number) => {
+    try {
+      const posts = await getFolloweesPost(page, 3);
+      dispatch(loadMorePost(posts));
+    } catch (error) {
+      console.error(error);
+      if (error instanceof AxiosError) {
+        dispatch(
+          reportPostError(
+            error.response?.data?.message ||
+              'Something went wrong trying to get followees post'
+          )
+        );
+      }
+    }
+  };
+
+  return {
+    isLoadingPost,
+    followeesPosts,
+    startGettingFolloweesPost,
+    startLoadingMorePost,
+  };
 };

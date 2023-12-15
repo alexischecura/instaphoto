@@ -27,11 +27,12 @@ function PostContent({ text }: PostContentProps) {
     if (part.charAt(0) === '#') {
       return (
         <Hashtag
+          key={part}
           to={`/hashtag/${part.toLowerCase().substring(1)}`}
         >{` ${part}`}</Hashtag>
       );
     }
-    return <span>{` ${part}`}</span>;
+    return ` ${part}`;
   });
 
   return <PostContentStyled>{content}</PostContentStyled>;

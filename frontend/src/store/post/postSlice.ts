@@ -24,6 +24,10 @@ const postSlice = createSlice({
       state.isLoadingPost = false;
       state.followeesPosts = action.payload;
     },
+    loadMorePost: (state, action: PayloadAction<Post[]>) => {
+      state.isLoadingPost = false;
+      state.followeesPosts = [...state.followeesPosts, ...action.payload];
+    },
     reportPostError: (state, action: PayloadAction<string>) => {
       state.isLoadingPost = false;
       state.errorMessage = action.payload;
@@ -31,7 +35,11 @@ const postSlice = createSlice({
   },
 });
 
-export const { reportPostError, startPostRequest, setLoadedPosts } =
-  postSlice.actions;
+export const {
+  reportPostError,
+  startPostRequest,
+  setLoadedPosts,
+  loadMorePost,
+} = postSlice.actions;
 
 export default postSlice;
