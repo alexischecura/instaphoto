@@ -12,6 +12,6 @@ export type Post = {
   content: string;
   createdAt: string;
   userId: string;
-  user: User;
   likes: Like[] | [];
+  user?: User;
 };
