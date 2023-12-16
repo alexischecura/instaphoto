@@ -93,7 +93,6 @@ export const useAuthStore = () => {
         dispatch(userLoggedOut('An unknown error occurred.'));
       }
     }
-    console.log(verificationCode);
   };
 
   const checkAuthToken = async () => {
