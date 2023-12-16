@@ -1,8 +1,8 @@
-import { BasicResponse, Profile } from '../types/user';
+import { BasicResponse, SimpleProfile } from '../types/user';
 import instagramApi from './instagramApi';
 
 export const getSuggestedProfiles = async () => {
-  const { data } = await instagramApi.get<Profile[]>(`/follow/suggested`);
+  const { data } = await instagramApi.get<SimpleProfile[]>(`/follow/suggested`);
   return data;
 };
 

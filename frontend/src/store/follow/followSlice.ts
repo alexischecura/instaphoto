@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Profile } from '../../types/user';
+import { SimpleProfile } from '../../types/user';
 
 type InitialState = {
   isLoadingSuggestions: boolean;
-  suggestedProfiles: Profile[] | [];
+  suggestedProfiles: SimpleProfile[] | [];
   errorMessage: string | undefined;
 };
 
@@ -46,7 +46,7 @@ const followSlice = createSlice({
       state.suggestedProfiles = [];
       state.errorMessage = undefined;
     },
-    setLoadedProfiles: (state, action: PayloadAction<Profile[]>) => {
+    setLoadedProfiles: (state, action: PayloadAction<SimpleProfile[]>) => {
       state.isLoadingSuggestions = false;
       state.suggestedProfiles = action.payload.map((profile) => ({
         ...profile,
