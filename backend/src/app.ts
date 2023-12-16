@@ -23,7 +23,7 @@ app.use(
 app.use((req, res, next) => {
   setTimeout(() => {
     next();
-  }, 500);
+  }, 200);
 });
 
 app.use('/api/v1/users', userRoutes);

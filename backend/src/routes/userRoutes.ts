@@ -26,8 +26,6 @@ import { authenticateUser } from '../middlewares/authenticateUser';
 
 const router = Router();
 
-router.get('/:username', validate(usernameSchema, 'params'), getProfile);
-
 router
   .post('/signup', validate(createUserSchema, 'body'), createUserHandler)
   .get(
@@ -50,6 +48,7 @@ router
     validate(resetPasswordSchema, 'body'),
     resetPasswordHandler
   );
+router.get('/profile/:username', validate(usernameSchema, 'params'), getProfile);
 
 router.use(authenticateUser);
 
