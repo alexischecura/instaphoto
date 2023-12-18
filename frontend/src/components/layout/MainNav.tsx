@@ -112,7 +112,7 @@ function MainNav() {
         </NavLinkStyled>
       </li>
       <li>
-        <NavLinkStyled to="/inbox">
+        <NavLinkStyled to="/messages">
           <IoPaperPlaneOutline className="outline" />
           <IoPaperPlaneSharp className="sharp" />
           <span>Messages</span>
