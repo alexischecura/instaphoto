@@ -41,6 +41,13 @@ export type Profile = {
   posts: Post[];
   followers: Follow[];
   followees: Follow[];
+  _count: Quantities;
+};
+
+type Quantities = {
+  followers: number;
+  followees: number;
+  posts: number;
 };
 
 export type BasicResponse = {

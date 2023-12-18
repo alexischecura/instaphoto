@@ -6,6 +6,8 @@ type Like = {
   postId: string;
 };
 
+
+
 export type Post = {
   id: string;
   photoUrl: string;

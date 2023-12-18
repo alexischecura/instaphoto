@@ -56,9 +56,7 @@ function HeaderProfile({ profile }: { profile: Profile }) {
     username,
     fullName,
     description,
-    posts,
-    followers,
-    followees,
+    _count: quantities,
   } = profile;
 
   return (
@@ -74,15 +72,15 @@ function HeaderProfile({ profile }: { profile: Profile }) {
         <HeadingSecondary>{username}</HeadingSecondary>
         <List>
           <li>
-            <span>{posts.length}</span>
+            <span>{quantities.posts}</span>
             <span> Post</span>
           </li>
           <li>
-            <span>{followers.length}</span>
+            <span>{quantities.followers}</span>
             <span> Followers</span>
           </li>
           <li>
-            <span>{followees.length}</span>
+            <span>{quantities.followees}</span>
             <span> Following</span>
           </li>
         </List>
