@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Post } from '../../types/post';
+import NoPost from './NoPost';
 
 const PostImage = styled.img`
   height: 31rem;
@@ -16,9 +17,13 @@ const PostContainer = styled.section`
 function ProfilePosts({ posts }: { posts: Post[] }) {
   return (
     <PostContainer>
-      {posts.map((post) => {
-        return <PostImage src={post.photoUrl} key={post.id} />;
-      })}
+      {posts.length > 0 ? (
+        posts.map((post) => {
+          return <PostImage src={post.photoUrl} key={post.id} />;
+        })
+      ) : (
+        <NoPost />
+      )}
     </PostContainer>
   );
 }

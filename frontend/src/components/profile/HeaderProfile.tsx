@@ -44,6 +44,7 @@ const List = styled.ul`
 
 const HeadingTertiary = styled.h3`
   font-size: 1.4rem;
+  font-weight: 600;
 `;
 
 const Description = styled.p`
