@@ -56,22 +56,22 @@ model Comment {
   comment   String
   createdAt DateTime @default(now())
 
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
-  post    Post   @relation(fields: [photoId], references: [id])
-  photoId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
 }
 
 model Like {
   id        String   @id
   createdAt DateTime @default(now())
 
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String @unique
-  post    Post   @relation(fields: [photoId], references: [id])
-  photoId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
 
-  @@unique([userId, photoId])
+  @@unique([userId, postId])
 }
 
 model Tag {
