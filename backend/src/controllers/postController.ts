@@ -6,8 +6,8 @@ import {
   getUsersPost,
   likePost,
   removeLikePost,
+  commentPost,
 } from '../services/postService';
-import { CreatePostType } from '../schemas/postSchema';
 import { AuthenticationError, InternalServerError } from '../utils/AppError';
 import { findUserWithFollowers } from '../services/userService';
 
@@ -16,13 +16,16 @@ export const createPostHandler = async (
   res: Response,
   next: NextFunction
 ) => {
+  const userId = res.locals.user?.id;
+  if (!userId) {
+    return next(new AuthenticationError('User is not logged'));
+  }
+  const { photoUrl, content } = req.body;
+
+  const tags = content.match(hashtagRegex);
+
   try {
-    const { photoUrl, content } = req.body;
-    const { id } = res.locals?.user;
-
-    const tags = content.match(hashtagRegex);
-
-    const post = await createPost({ photoUrl, content }, id, tags);
+    const post = await createPost({ photoUrl, content }, userId, tags);
     res.status(201).json({ status: 'success', post });
   } catch (error) {
     return next(
@@ -36,9 +39,14 @@ export const getFolloweesPostHandler = async (
   res: Response,
   next: NextFunction
 ) => {
+  const userId = res.locals.user?.id;
+  if (!userId) {
+    return next(new AuthenticationError('User is not logged'));
+  }
+
   try {
     const user = await findUserWithFollowers({
-      where: { id: res.locals.user?.id },
+      where: { id: userId },
     });
 
     const followeesIds = user?.followees.map((follow) => follow.followerId);
@@ -71,9 +79,9 @@ export const toggleLikeHandler = async (
     return next(new AuthenticationError('User is not logged'));
   }
   const { postId } = req.params;
+
   try {
     const like = await getLikePost(userId, postId);
-    console.log(like);
     if (like) {
       await removeLikePost(userId, postId);
       return res.status(200).json({
@@ -82,9 +90,12 @@ export const toggleLikeHandler = async (
       });
     }
 
-    const newLike = await likePost(userId, postId);
+    await likePost(userId, postId);
 
-    res.status(201).json({ like: newLike });
+    res.status(201).json({
+      status: 'success',
+      message: 'Like created successfully',
+    });
   } catch (error) {
     return next(
       new InternalServerError('Something went wrong trying to like a post')
