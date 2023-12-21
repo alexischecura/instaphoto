@@ -63,7 +63,7 @@ model Comment {
 }
 
 model Like {
-  id        String   @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
