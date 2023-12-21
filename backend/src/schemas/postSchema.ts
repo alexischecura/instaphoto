@@ -28,8 +28,12 @@ export const postPaginationSchema = z.object({
     })
     .optional(),
 });
+
 export const postIdSchema = z.object({
   postId: z.string().cuid(),
+});
+export const commentSchema = z.object({
+  comment: z.string(),
 });
 
 export type PostPaginationType = z.infer<typeof postPaginationSchema>;

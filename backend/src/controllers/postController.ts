@@ -102,3 +102,26 @@ export const toggleLikeHandler = async (
     );
   }
 };
+
+export const commentPostHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = res.locals.user.id as string;
+  if (!userId) {
+    return next(new AuthenticationError('User is not logged'));
+  }
+  const { postId } = req.params;
+  try {
+    const comment = await commentPost(req.body.comment, userId, postId);
+
+    res.status(201).json({
+      comment,
+    });
+  } catch (error) {
+    return next(
+      new InternalServerError('Something went wrong trying to like a post')
+    );
+  }
+};

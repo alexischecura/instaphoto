@@ -3,9 +3,11 @@ import {
   createPostHandler,
   getFolloweesPostHandler,
   toggleLikeHandler,
+  commentPostHandler,
 } from '../controllers/postController';
 import { validate } from '../middlewares/validateRequest';
 import {
+  commentSchema,
   createPostSchema,
   postIdSchema,
   postPaginationSchema,
@@ -18,7 +20,13 @@ router
   .get('/', validate(postPaginationSchema, 'query'), getFolloweesPostHandler);
 
 router
-  .get('/:postId', () => {})
-  .post('/like/:postId', validate(postIdSchema, 'params'), toggleLikeHandler);
+  .get('/:postId', validate(postIdSchema, 'params'), () => {})
+  .post('/:postId/like', validate(postIdSchema, 'params'), toggleLikeHandler)
+  .post(
+    '/:postId/comment',
+    validate(postIdSchema, 'params'),
+    validate(commentSchema, 'body'),
+    commentPostHandler
+  );
 
 export default router;

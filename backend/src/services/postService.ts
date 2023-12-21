@@ -74,11 +74,42 @@ export const removeLikePost = async (userId: string, postId: string) => {
     },
   });
 };
+
 export const getLikePost = async (userId: string, postId: string) => {
   return await prisma.like.findUnique({
     where: {
       postId,
       userId,
+    },
+  });
+};
+
+export const commentPost = async (
+  comment: string,
+  userId: string,
+  postId: string
+) => {
+  return await prisma.comment.create({
+    data: {
+      comment,
+      post: {
+        connect: {
+          id: postId,
+        },
+      },
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+    include: {
+      user: {
+        select: {
+          fullName: true,
+          username: true,
+        },
+      },
     },
   });
 };
