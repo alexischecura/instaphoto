@@ -1,8 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { hashtagRegex } from '../utils/regexs';
-import { createPost, getUsersPost } from '../services/postService';
+import {
+  createPost,
+  getLikePost,
+  getUsersPost,
+  likePost,
+  removeLikePost,
+} from '../services/postService';
 import { CreatePostType } from '../schemas/postSchema';
-import { InternalServerError } from '../utils/AppError';
+import { AuthenticationError, InternalServerError } from '../utils/AppError';
 import { findUserWithFollowers } from '../services/userService';
 
 export const createPostHandler = async (
@@ -51,6 +57,37 @@ export const getFolloweesPostHandler = async (
       new InternalServerError(
         'Something went wrong trying to get the followees posts'
       )
+    );
+  }
+};
+
+export const toggleLikeHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = res.locals.user.id as string;
+  if (!userId) {
+    return next(new AuthenticationError('User is not logged'));
+  }
+  const { postId } = req.params;
+  try {
+    const like = await getLikePost(userId, postId);
+    console.log(like);
+    if (like) {
+      await removeLikePost(userId, postId);
+      return res.status(200).json({
+        status: 'success',
+        message: 'Like deleted successfully',
+      });
+    }
+
+    const newLike = await likePost(userId, postId);
+
+    res.status(201).json({ like: newLike });
+  } catch (error) {
+    return next(
+      new InternalServerError('Something went wrong trying to like a post')
     );
   }
 };
