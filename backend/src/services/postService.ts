@@ -75,7 +75,7 @@ export const likePost = async (userId: string, postId: string) => {
 };
 
 export const removeLikePost = async (userId: string, postId: string) => {
-  return await prisma.like.delete({
+  return await prisma.like.deleteMany({
     where: {
       postId,
       userId,
@@ -84,7 +84,7 @@ export const removeLikePost = async (userId: string, postId: string) => {
 };
 
 export const getLikePost = async (userId: string, postId: string) => {
-  return await prisma.like.findUnique({
+  return await prisma.like.findFirst({
     where: {
       postId,
       userId,
