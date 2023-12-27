@@ -1,4 +1,4 @@
-import { Post } from '../types/post';
+import { Comment, Post } from '../types/post';
 import instagramApi from './instagramApi';
 
 export const getFolloweesPost = async (page?: number, limit?: number) => {
@@ -7,6 +7,13 @@ export const getFolloweesPost = async (page?: number, limit?: number) => {
       page,
       limit,
     },
+  });
+  return data;
+};
+
+export const commentPost = async (comment: string, postId: string) => {
+  const { data } = await instagramApi.post<Comment>(`/post/${postId}/comment`, {
+    comment,
   });
   return data;
 };

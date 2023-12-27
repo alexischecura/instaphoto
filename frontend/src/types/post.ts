@@ -1,12 +1,22 @@
 import { User } from './user';
 
-type Like = {
+export type Like = {
   id: string;
   userId: string;
   postId: string;
 };
 
-
+export type Comment = {
+  id: string;
+  userId: string;
+  postId: string;
+  comment: string;
+  createdAt: string;
+  user: {
+    fullName: string;
+    username: string;
+  };
+};
 
 export type Post = {
   id: string;
@@ -15,5 +25,5 @@ export type Post = {
   createdAt: string;
   userId: string;
   likes: Like[] | [];
-  user?: User;
+  user: User;
 };

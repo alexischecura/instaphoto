@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { usePostStore } from '../../hooks/usePostStore';
 
 const PostCommentStyled = styled.form`
   display: flex;
@@ -37,13 +38,16 @@ const Button = styled.button`
   }
 `;
 
-function PostComment() {
+function PostComment({ postId }: { postId: string }) {
   const [comment, setComment] = useState('');
   const commentInputRef = useRef<HTMLSpanElement>(null);
+  const { startCommentingPost } = usePostStore();
 
-  const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
-    console.log(comment);
+    const commentResponse = await startCommentingPost(comment, postId);
+    console.log(commentResponse);
+
     if (commentInputRef.current) {
       commentInputRef.current.innerText = '';
     }

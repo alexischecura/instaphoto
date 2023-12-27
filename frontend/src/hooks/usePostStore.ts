@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { getFolloweesPost } from '../api/postApi';
+import { commentPost, getFolloweesPost } from '../api/postApi';
 import {
   reportPostError,
   startPostRequest,
@@ -53,11 +53,29 @@ export const usePostStore = () => {
     }
   };
 
+  const startCommentingPost = async (comment: string, postId: string) => {
+    try {
+      const commentResponse = await commentPost(comment, postId);
+      return commentResponse;
+    } catch (error) {
+      console.error(error);
+      if (error instanceof AxiosError) {
+        dispatch(
+          reportPostError(
+            error.response?.data?.message ||
+              'Something went wrong trying to comment the post'
+          )
+        );
+      }
+    }
+  };
+
   return {
     isLoadingPost,
     followeesPosts,
     page,
     startGettingFolloweesPost,
     startLoadingMorePost,
+    startCommentingPost,
   };
 };

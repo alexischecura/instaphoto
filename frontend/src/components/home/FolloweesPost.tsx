@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
 import PostCard from './PostCard';
 
+
 function FolloweesPost() {
   const {
     followeesPosts,
@@ -36,15 +37,15 @@ function FolloweesPost() {
   return (
     <div>
       {followeesPosts.map((post) => {
-        const { username, profilePhoto } = post.user;
         return (
           <PostCard
-            username={username}
-            profilePhoto={profilePhoto}
+            username={post.user.username}
+            profilePhoto={post.user.profilePhoto}
             mediaUrl={post.photoUrl}
             content={post.content}
-            likes={post.likes.length}
+            likes={post.likes}
             postDate={post.createdAt}
+            id={post.id}
             key={post.id}
           />
         );

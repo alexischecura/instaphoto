@@ -5,6 +5,9 @@ import PostButtons from './PostButtons';
 import PostLikes from './PostLikes';
 import PostContent from './PostContent';
 import PostComment from './PostComment';
+import { Like } from '../../types/post';
+import { useAuthStore } from '../../hooks/useAuthStore';
+import { useMemo } from 'react';
 
 const PostCardStyled = styled.article`
   width: 47rem;
@@ -27,8 +30,9 @@ type PostCardProps = {
   profilePhoto: string;
   postDate: string;
   mediaUrl: string;
-  likes: number;
+  likes: Like[];
   content: string;
+  id: string;
 };
 
 function PostCard({
@@ -38,7 +42,15 @@ function PostCard({
   mediaUrl,
   likes,
   content,
+  id,
 }: PostCardProps) {
+  const { user } = useAuthStore();
+
+  const isFavorited = useMemo(
+    () => likes.some((like) => like.userId === user.id),
+    [likes, user]
+  );
+
   return (
     <PostCardStyled>
       <PostHeader
@@ -46,10 +58,10 @@ function PostCard({
         postDate={new Date(postDate)}
       />
       <PostMedia alt="image" url={mediaUrl} />
-      <PostButtons isBookmarked={false} isFavorited={true} />
-      <PostLikes postLikes={likes} />
+      <PostButtons isBookmarked={false} isFavorited={isFavorited} />
+      <PostLikes postLikes={likes.length} />
       <PostContent text={content} />
-      <PostComment />
+      <PostComment postId={id} />
     </PostCardStyled>
   );
 }
