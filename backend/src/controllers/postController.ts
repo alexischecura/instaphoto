@@ -116,9 +116,7 @@ export const commentPostHandler = async (
   try {
     const comment = await commentPost(req.body.comment, userId, postId);
 
-    res.status(201).json({
-      comment,
-    });
+    res.status(201).json(comment);
   } catch (error) {
     return next(
       new InternalServerError('Something went wrong trying to like a post')
