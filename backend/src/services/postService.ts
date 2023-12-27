@@ -45,6 +45,14 @@ export const getUsersPost = async (
     include: {
       user: true,
       likes: true,
+      comments: {
+        take: 2,
+        include: {
+          user: {
+            select: { profilePhoto: true, username: true },
+          },
+        },
+      },
     },
   });
 };

@@ -25,5 +25,6 @@ export type Post = {
   createdAt: string;
   userId: string;
   likes: Like[] | [];
+  comments: Comment[];
   user: User;
 };
