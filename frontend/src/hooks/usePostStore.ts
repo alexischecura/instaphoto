@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { commentPost, getFolloweesPost } from '../api/postApi';
+import { commentPost, getFolloweesPost, likePost } from '../api/postApi';
 import {
   reportPostError,
   startPostRequest,
@@ -69,6 +69,22 @@ export const usePostStore = () => {
       }
     }
   };
+  const startLikingPost = async (postId: string) => {
+    try {
+      const likeResponse = await likePost(postId);
+      return likeResponse;
+    } catch (error) {
+      console.error(error);
+      if (error instanceof AxiosError) {
+        dispatch(
+          reportPostError(
+            error.response?.data?.message ||
+              'Something went wrong trying to comment the post'
+          )
+        );
+      }
+    }
+  };
 
   return {
     isLoadingPost,
@@ -77,5 +93,6 @@ export const usePostStore = () => {
     startGettingFolloweesPost,
     startLoadingMorePost,
     startCommentingPost,
+    startLikingPost,
   };
 };

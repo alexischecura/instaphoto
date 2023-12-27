@@ -6,6 +6,7 @@ import {
   IoHeartOutline,
   IoHeartSharp,
 } from 'react-icons/io5';
+import { usePostStore } from '../../hooks/usePostStore';
 
 const PostButtonsStyled = styled.div`
   width: 100%;
@@ -39,12 +40,19 @@ const Button = styled.button`
 type PostButtons = {
   isFavorited: boolean;
   isBookmarked: boolean;
+  postId: string;
 };
 
-function PostButtons({ isFavorited, isBookmarked }: PostButtons) {
+function PostButtons({ isFavorited, isBookmarked, postId }: PostButtons) {
+  const { startLikingPost } = usePostStore();
+
+  const handleLike = () => {
+    startLikingPost(postId);
+  };
+
   return (
     <PostButtonsStyled>
-      <Button>
+      <Button onClick={handleLike}>
         {isFavorited ? <IoHeartSharp className="red" /> : <IoHeartOutline />}
       </Button>
       <Button>

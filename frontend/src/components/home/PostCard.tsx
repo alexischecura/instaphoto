@@ -58,7 +58,7 @@ function PostCard({
         postDate={new Date(postDate)}
       />
       <PostMedia alt="image" url={mediaUrl} />
-      <PostButtons isBookmarked={false} isFavorited={isFavorited} />
+      <PostButtons postId={id} isBookmarked={false} isFavorited={isFavorited} />
       <PostLikes postLikes={likes.length} />
       <PostContent text={content} />
       <PostComment postId={id} />
