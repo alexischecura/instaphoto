@@ -3,7 +3,15 @@ import { User } from './user';
 export type Like = {
   id: string;
   userId: string;
+  createdAt: string;
   postId: string;
+};
+
+export type LikeResponse = {
+  status: string;
+  action: 'like' | 'unlike';
+  message: string;
+  like: Like;
 };
 
 export type Comment = {

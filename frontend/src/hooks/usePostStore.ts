@@ -5,6 +5,8 @@ import {
   startPostRequest,
   setLoadedPosts,
   loadMorePost,
+  setLikedPost,
+  setUnlikedPost,
 } from '../store/post/postSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 
@@ -72,6 +74,12 @@ export const usePostStore = () => {
   const startLikingPost = async (postId: string) => {
     try {
       const likeResponse = await likePost(postId);
+      if (likeResponse.action === 'like') {
+        dispatch(setLikedPost(likeResponse.like));
+      }
+      if (likeResponse.action === 'unlike') {
+        dispatch(setUnlikedPost(likeResponse.like));
+      }
       return likeResponse;
     } catch (error) {
       console.error(error);
