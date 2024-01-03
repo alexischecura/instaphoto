@@ -86,15 +86,19 @@ export const toggleLikeHandler = async (
       await removeLikePost(userId, postId);
       return res.status(200).json({
         status: 'success',
+        action: 'unlike',
         message: 'Like deleted successfully',
+        like,
       });
     }
 
-    await likePost(userId, postId);
+    const newLike = await likePost(userId, postId);
 
     res.status(201).json({
       status: 'success',
+      action: 'like',
       message: 'Like created successfully',
+      like: newLike,
     });
   } catch (error) {
     return next(
