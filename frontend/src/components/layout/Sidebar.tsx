@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Logo from '../common/Logo';
 import MainNav from './MainNav';
+import { Link } from 'react-router-dom';
 
 const SidebarStyled = styled.aside`
   padding: 1.5rem 1.2rem;
@@ -14,14 +15,19 @@ const SidebarStyled = styled.aside`
   gap: 0.8rem;
 `;
 
-const LogoContainer = styled.div`
+const LogoContainer = styled(Link)`
   padding: 2.5rem 1.2rem;
+  &,
+  &:visited,
+  &:link {
+    color: inherit;
+  }
 `;
 
 function Sidebar() {
   return (
     <SidebarStyled>
-      <LogoContainer>
+      <LogoContainer to="/">
         <Logo variation="small" />
       </LogoContainer>
       <MainNav />
