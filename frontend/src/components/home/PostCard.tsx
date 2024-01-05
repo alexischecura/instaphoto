@@ -5,7 +5,7 @@ import PostButtons from './PostButtons';
 import PostLikes from './PostLikes';
 import PostContent from './PostContent';
 import PostComment from './PostComment';
-import { Like } from '../../types/post';
+import { Comment, Like } from '../../types/post';
 import { useAuthStore } from '../../hooks/useAuthStore';
 import { useMemo } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
@@ -34,6 +34,7 @@ type PostCardProps = {
   likes: Like[];
   content: string;
   id: string;
+  comments: Comment[];
 };
 
 function PostCard({
@@ -44,6 +45,7 @@ function PostCard({
   likes,
   content,
   id,
+  comments,
 }: PostCardProps) {
   const { user } = useAuthStore();
   const { startLikingPost } = usePostStore();
@@ -73,8 +75,8 @@ function PostCard({
         startLikingPost={startLikingPost}
       />
       <PostLikes postLikes={likes.length} />
-      <PostContent text={content} />
-      <PostComment postId={id} />
+      <PostContent text={content} username={username} />
+      <PostComment postId={id} comments={comments} />
     </PostCardStyled>
   );
 }

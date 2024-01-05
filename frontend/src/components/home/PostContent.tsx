@@ -16,11 +16,23 @@ const Hashtag = styled(Link)`
   }
 `;
 
+const Username = styled(Link)`
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+    font-size: inherit;
+  }
+`;
+
 type PostContentProps = {
   text: string;
+  username: string;
 };
 
-function PostContent({ text }: PostContentProps) {
+function PostContent({ text, username }: PostContentProps) {
   const parts = text.split(' ');
 
   const content = parts.map((part) => {
@@ -35,7 +47,12 @@ function PostContent({ text }: PostContentProps) {
     return ` ${part}`;
   });
 
-  return <PostContentStyled>{content}</PostContentStyled>;
+  return (
+    <PostContentStyled>
+      <Username to={`/${username}`}>{username}</Username>
+      <span>{content}</span>
+    </PostContentStyled>
+  );
 }
 
 export default PostContent;

@@ -7,6 +7,7 @@ import {
   loadMorePost,
   setLikedPost,
   setUnlikedPost,
+  setCommentInPost,
 } from '../store/post/postSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 
@@ -58,7 +59,7 @@ export const usePostStore = () => {
   const startCommentingPost = async (comment: string, postId: string) => {
     try {
       const commentResponse = await commentPost(comment, postId);
-      return commentResponse;
+      dispatch(setCommentInPost(commentResponse));
     } catch (error) {
       console.error(error);
       if (error instanceof AxiosError) {

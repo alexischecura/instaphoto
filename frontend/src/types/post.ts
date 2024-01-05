@@ -21,7 +21,6 @@ export type Comment = {
   comment: string;
   createdAt: string;
   user: {
-    fullName: string;
     username: string;
   };
 };

@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
 import PostCard from './PostCard';
 
-
 function FolloweesPost() {
   const {
     followeesPosts,
@@ -46,6 +45,7 @@ function FolloweesPost() {
             likes={post.likes}
             postDate={post.createdAt}
             id={post.id}
+            comments={post.comments}
             key={post.id}
           />
         );

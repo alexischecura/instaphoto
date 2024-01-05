@@ -47,9 +47,12 @@ export const getUsersPost = async (
       likes: true,
       comments: {
         take: 2,
+        orderBy: {
+          createdAt: 'desc',
+        },
         include: {
           user: {
-            select: { profilePhoto: true, username: true },
+            select: { username: true },
           },
         },
       },
@@ -114,7 +117,6 @@ export const commentPost = async (
     include: {
       user: {
         select: {
-          fullName: true,
           username: true,
         },
       },

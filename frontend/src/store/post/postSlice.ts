@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Like, Post } from '../../types/post';
+import { Comment, Like, Post } from '../../types/post';
 
 type InitialState = {
   isLoadingPost: boolean;
@@ -45,6 +45,14 @@ const postSlice = createSlice({
         return post;
       });
     },
+    setCommentInPost: (state, action: PayloadAction<Comment>) => {
+      state.followeesPosts = state.followeesPosts.map((post) => {
+        if (post.id === action.payload.postId) {
+          return { ...post, comments: [action.payload, post.comments[0]] };
+        }
+        return post;
+      });
+    },
     loadMorePost: (state, action: PayloadAction<Post[]>) => {
       state.isLoadingPost = false;
       ++state.page;
@@ -64,6 +72,7 @@ export const {
   loadMorePost,
   setLikedPost,
   setUnlikedPost,
+  setCommentInPost,
 } = postSlice.actions;
 
 export default postSlice;
