@@ -1,8 +1,45 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { IoHeartSharp } from 'react-icons/io5';
+import { LikeResponse } from '../../types/post';
 
-const PostContentStyled = styled.div``;
+const PostContentStyled = styled.div`
+  position: relative;
+
+  @keyframes like-heart {
+    15% {
+      transform: scale(1.2);
+    }
+    30% {
+      transform: scale(0.95);
+    }
+    80% {
+      transform: scale(1);
+    }
+  }
+`;
+
+const Heart = styled(IoHeartSharp)`
+  height: 20rem;
+  width: 20rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  fill: #fff;
+  transform: scale(0);
+
+  &.animate {
+    animation-name: like-heart;
+    animation-duration: 1000ms;
+    animation-timing-function: ease-in-out;
+  }
+`;
 
 const Image = styled.img`
+  user-select: none;
   width: 46.8rem;
   border-radius: 3px;
   min-height: 30rem;
@@ -11,11 +48,45 @@ const Image = styled.img`
 type PostContentProps = {
   url: string;
   alt: string;
+  isFavorited: boolean;
+  postId: string;
+  startLikingPost: (postId: string) => Promise<LikeResponse | undefined>;
 };
 
-function PostMedia({ url, alt }: PostContentProps) {
+function PostMedia({
+  url,
+  alt,
+  postId,
+  startLikingPost,
+  isFavorited,
+}: PostContentProps) {
+  const [animate, setAnimate] = useState(false);
+  const [isOldLike, setIsOldLike] = useState(isFavorited);
+
+  const runAnimation = () => {
+    setAnimate(true);
+
+    setTimeout(() => {
+      setAnimate(false);
+    }, 1000);
+  };
+
+  const handleLike = () => {
+    if (!isFavorited) startLikingPost(postId);
+    setIsOldLike(false);
+    runAnimation();
+  };
+
+  useEffect(() => {
+    if (!isOldLike && isFavorited) runAnimation();
+
+    setIsOldLike(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFavorited]);
+
   return (
-    <PostContentStyled>
+    <PostContentStyled onDoubleClick={handleLike}>
+      <Heart className={`${animate ? 'animate' : ''}`} />
       <Image src={url} alt={alt} />
     </PostContentStyled>
   );

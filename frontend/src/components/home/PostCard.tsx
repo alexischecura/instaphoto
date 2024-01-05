@@ -8,6 +8,7 @@ import PostComment from './PostComment';
 import { Like } from '../../types/post';
 import { useAuthStore } from '../../hooks/useAuthStore';
 import { useMemo } from 'react';
+import { usePostStore } from '../../hooks/usePostStore';
 
 const PostCardStyled = styled.article`
   width: 47rem;
@@ -45,6 +46,7 @@ function PostCard({
   id,
 }: PostCardProps) {
   const { user } = useAuthStore();
+  const { startLikingPost } = usePostStore();
 
   const isFavorited = useMemo(
     () => likes.some((like) => like.userId === user.id),
@@ -57,8 +59,19 @@ function PostCard({
         user={{ username, profilePhoto }}
         postDate={new Date(postDate)}
       />
-      <PostMedia alt="image" url={mediaUrl} />
-      <PostButtons postId={id} isBookmarked={false} isFavorited={isFavorited} />
+      <PostMedia
+        alt="image"
+        url={mediaUrl}
+        startLikingPost={startLikingPost}
+        postId={id}
+        isFavorited={isFavorited}
+      />
+      <PostButtons
+        postId={id}
+        isBookmarked={false}
+        isFavorited={isFavorited}
+        startLikingPost={startLikingPost}
+      />
       <PostLikes postLikes={likes.length} />
       <PostContent text={content} />
       <PostComment postId={id} />

@@ -6,7 +6,6 @@ import {
   IoHeartOutline,
   IoHeartSharp,
 } from 'react-icons/io5';
-import { usePostStore } from '../../hooks/usePostStore';
 
 const PostButtonsStyled = styled.div`
   width: 100%;
@@ -34,6 +33,21 @@ const Button = styled.button`
 
   & svg.red {
     color: var(--color-red-900);
+    animation-name: like-heart;
+    animation-duration: 1000ms;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes like-heart {
+    30% {
+      transform: scale(1.4);
+    }
+    50% {
+      transform: scale(0.95);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 `;
 
@@ -41,11 +55,15 @@ type PostButtons = {
   isFavorited: boolean;
   isBookmarked: boolean;
   postId: string;
+  startLikingPost: (postId: string) => void;
 };
 
-function PostButtons({ isFavorited, isBookmarked, postId }: PostButtons) {
-  const { startLikingPost } = usePostStore();
-
+function PostButtons({
+  isFavorited,
+  isBookmarked,
+  postId,
+  startLikingPost,
+}: PostButtons) {
   const handleLike = () => {
     startLikingPost(postId);
   };
