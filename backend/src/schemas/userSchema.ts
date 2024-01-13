@@ -88,7 +88,9 @@ export const resetPasswordSchema = z
     path: ['passwordConfirm'],
   });
 
-export const createManyUsersSchema = z.array(createUserSchema);
+export const createManyUsersSchema = z.object({
+  users: z.array(createUserSchema),
+});
 
 export type CreateMayUsersType = Omit<
   z.infer<typeof createManyUsersSchema>,
