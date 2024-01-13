@@ -1,6 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
 import PostCard from './PostCard';
+import styled from 'styled-components';
+
+const Message = styled.p`
+  font-size: 1.8rem;
+  font-weight: 500;
+`
 
 function FolloweesPost() {
   const {
@@ -35,21 +41,25 @@ function FolloweesPost() {
 
   return (
     <div>
-      {followeesPosts.map((post) => {
-        return (
-          <PostCard
-            username={post.user.username}
-            profilePhoto={post.user.profilePhoto}
-            mediaUrl={post.photoUrl}
-            content={post.content}
-            likes={post.likes}
-            postDate={post.createdAt}
-            id={post.id}
-            comments={post.comments}
-            key={post.id}
-          />
-        );
-      })}
+      {followeesPosts ? (
+        followeesPosts.map((post) => {
+          return (
+            <PostCard
+              username={post.user.username}
+              profilePhoto={post.user.profilePhoto}
+              mediaUrl={post.photoUrl}
+              content={post.content}
+              likes={post.likes}
+              postDate={post.createdAt}
+              id={post.id}
+              comments={post.comments}
+              key={post.id}
+            />
+          );
+        })
+      ) : (
+        <Message>Appear no one of the users than you are following has a post, try to follow another user</Message>
+      )}
       <div
         ref={observedElement}
         style={{
