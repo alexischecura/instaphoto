@@ -14,8 +14,7 @@ export const createUserSchema = z.object({
       invalid_type_error: 'Username must be a string',
     })
     .max(20)
-    .regex(/^\S+$/)
-    .transform((val) => val.toLowerCase()),
+    .regex(/^\S+$/),
   email: z
     .string({
       required_error: 'E-mail is required',
@@ -100,3 +99,52 @@ export type CreateMayUsersType = Omit<
 export const usernameSchema = z.object({
   username: z.string(),
 });
+
+export const updateUserSchema = z.object({
+  fullName: z
+    .string({
+      invalid_type_error: 'Full name must be a string',
+    })
+    .max(255)
+    .regex(/^[a-zA-Z ]*$/)
+    .optional(),
+  username: z
+    .string({
+      invalid_type_error: 'Username must be a string',
+    })
+    .max(20)
+    .regex(/^\S+$/)
+    .optional(),
+  phoneNumber: z
+    .string({
+      invalid_type_error: 'phoneNumber must be a string',
+    })
+    .max(255)
+    .regex(/^\d+$/, {
+      message: 'The phone number only have to contain numbers',
+    })
+    .optional(),
+  profilePhoto: z
+    .string({
+      invalid_type_error: 'profilePhoto must me a string',
+    })
+    .max(255)
+    .optional(),
+  active: z
+    .boolean({
+      invalid_type_error: 'active must be a boolean',
+    })
+    .optional(),
+  birdDate: z
+    .date({
+      invalid_type_error: 'birdDate must be a date',
+    })
+    .optional(),
+  description: z
+    .string({
+      invalid_type_error: 'description must be a string',
+    })
+    .optional(),
+});
+
+export type UpdateUserType = z.infer<typeof updateUserSchema>;
