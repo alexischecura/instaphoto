@@ -41,7 +41,7 @@ export const createUserHandler = async (
     // Create new user in DB
     const newUser = await createUser({
       fullName,
-      username,
+      username: username.toLowerCase(),
       email: email.toLowerCase(),
       password: hashedPassword,
       verificationCode,
