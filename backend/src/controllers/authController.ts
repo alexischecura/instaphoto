@@ -66,7 +66,13 @@ export const createUserHandler = async (
       // Code'P2002' is when there are a conflict in a unique field in prisma.
       error.code === 'P2002'
     ) {
-      return next(new ConflictError('Email already exists'));
+      const field = error.meta?.target as string[];
+      if (field) {
+        return next(new ConflictError(`${field[0]} already exists`));
+      }
+      return next(
+        new ConflictError(`There are some conflicts with some fields`)
+      );
     }
     console.error(error);
     return next(
