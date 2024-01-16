@@ -124,7 +124,7 @@ export const updateUserSchema = z.object({
       message: 'The phone number only have to contain numbers',
     })
     .optional(),
-  profilePhoto: z
+    profilePhoto: z
     .string({
       invalid_type_error: 'profilePhoto must me a string',
     })
@@ -145,6 +145,6 @@ export const updateUserSchema = z.object({
       invalid_type_error: 'description must be a string',
     })
     .optional(),
-});
+}).strict();
 
 export type UpdateUserType = z.infer<typeof updateUserSchema>;

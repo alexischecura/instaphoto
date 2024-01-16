@@ -10,6 +10,7 @@ import {
   createManyUsersHandler,
   getCurrentUserHandler,
   getProfile,
+  updateProfile,
 } from '../controllers/userController';
 
 import { validate } from '../middlewares/validateRequest';
@@ -19,10 +20,12 @@ import {
   forgotPasswordSchema,
   loginUserSchema,
   resetPasswordSchema,
+  updateUserSchema,
   usernameSchema,
   verificationCodeSchema,
 } from '../schemas/userSchema';
 import { authenticateUser } from '../middlewares/authenticateUser';
+
 
 const router = Router();
 
@@ -48,11 +51,16 @@ router
     validate(resetPasswordSchema, 'body'),
     resetPasswordHandler
   );
-router.get('/profile/:username', validate(usernameSchema, 'params'), getProfile);
+router.get(
+  '/profile/:username',
+  validate(usernameSchema, 'params'),
+  getProfile
+);
 
 router.use(authenticateUser);
 
 router.get('/me', getCurrentUserHandler);
+router.patch('/updateMe', validate(updateUserSchema, 'body'), updateProfile);
 
 router.post(
   '/createManyUsers',

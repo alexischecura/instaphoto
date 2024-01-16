@@ -5,9 +5,13 @@ import {
   createManyUsers,
   findProfile,
   findUser,
+  updateUser,
 } from '../services/userService';
-import { InternalServerError, NotFoundError } from '../utils/AppError';
-import { profile } from 'console';
+import {
+  ConflictError,
+  InternalServerError,
+  NotFoundError,
+} from '../utils/AppError';
 
 export const getCurrentUserHandler = (
   req: Request,
@@ -49,6 +53,33 @@ export const getProfile = async (
       new InternalServerError(
         'Something went wrong when trying the get the user'
       )
+    );
+  }
+};
+
+export const updateProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log({ body: req.body });
+    await updateUser({ id: res.locals.user.id }, req.body);
+    return res.status(201).json({
+      status: 'susccess',
+      updatedFields: req.body,
+    });
+  } catch (error) {
+    console.log(error);
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      // Code'P2002' is when there are a conflict in a unique field in prisma.
+      error.code === 'P2002'
+    ) {
+      return next(new ConflictError('Other user already have that username'));
+    }
+    return next(
+      new InternalServerError('Something went wrong when updating the user')
     );
   }
 };
