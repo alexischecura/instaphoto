@@ -16,7 +16,7 @@ model User {
   phoneNumber String?   @db.VarChar(255)
   birthDate   DateTime?
 
-  profilePhoto String?   @db.VarChar(255)
+  profilePhoto String?   @default("user-default.jpg") @db.VarChar(255)
   description  String?   @db.VarChar(255)
   active       Boolean   @default(true)
   posts        Post[]
@@ -67,7 +67,7 @@ model Like {
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
-  userId String 
+  userId String
   post   Post   @relation(fields: [postId], references: [id])
   postId String
 
