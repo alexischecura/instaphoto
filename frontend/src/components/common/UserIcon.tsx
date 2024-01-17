@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import { getEnvVariables } from '../../helpers/getEnvVariables';
+
+const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
 type UserIconProps = {
   profilePhoto: string;
@@ -15,9 +18,7 @@ function UserIcon({ profilePhoto, username }: UserIconProps) {
   return (
     <>
       <ProfileImg
-        src={`profile-pictures/${
-          profilePhoto ? profilePhoto : 'default_user.jpg'
-        }`}
+        src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`}
         alt={`${username} profile picture`}
       />
     </>

@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import { Profile } from '../../types/user';
+import { getEnvVariables } from '../../helpers/getEnvVariables';
+
+const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
 const Header = styled.header`
   margin-top: 3rem;
@@ -63,11 +66,7 @@ function HeaderProfile({ profile }: { profile: Profile }) {
   return (
     <Header>
       <ProfilePictureContainer>
-        <ProfilePicture
-          src={`/profile-pictures/${
-            profilePhoto ? profilePhoto : 'default_user.jpg'
-          }`}
-        />
+        <ProfilePicture src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`} />
       </ProfilePictureContainer>
       <HeaderInfo>
         <HeadingSecondary>{username}</HeadingSecondary>

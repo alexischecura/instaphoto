@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Spinner from './Spinner';
 
+import { getEnvVariables } from '../../helpers/getEnvVariables';
+
+const { VITE_USER_IMAGE_URL } = getEnvVariables();
+
 const UserCardStyled = styled.div`
   width: 32rem;
   padding: 0.8rem 1.6rem;
@@ -55,14 +59,14 @@ type UserCardProps = {
   username: string;
   caption: string;
   buttonLabel: string;
-  profilePicture?: string;
+  profilePhoto?: string;
   onClick?: () => void;
   isLoading?: boolean;
 };
 
 function UserCard({
   username,
-  profilePicture,
+  profilePhoto,
   caption,
   buttonLabel,
   onClick,
@@ -70,11 +74,7 @@ function UserCard({
 }: UserCardProps) {
   return (
     <UserCardStyled>
-      <UserPicture
-        src={`profile-pictures/${
-          profilePicture ? profilePicture : 'default_user.jpg'
-        }`}
-      />
+      <UserPicture src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`} />
       <UserInfo>
         <Username to={username}>{username}</Username>
         <UserCaption

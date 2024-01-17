@@ -2,6 +2,9 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { IoEllipsisHorizontal } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { getEnvVariables } from '../../helpers/getEnvVariables';
+
+const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
 const PostHeaderStyled = styled.header`
   width: 100%;
@@ -64,9 +67,7 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
     <PostHeaderStyled>
       <Username to={user.username}>
         <ProfilePicture
-          src={`profile-pictures/${
-            user.profilePhoto ? user.profilePhoto : 'default_user.jpg'
-          }`}
+          src={`${VITE_USER_IMAGE_URL}/${user.profilePhoto}`}
           alt={`${user.username} profile picture`}
         />
         <span>{user.username}</span>

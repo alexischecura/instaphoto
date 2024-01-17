@@ -32,7 +32,7 @@ function FollowingSection() {
         buttonLabel="Switch"
         caption={user.fullName}
         username={user.username}
-        profilePicture={user.profilePhoto}
+        profilePhoto={user.profilePhoto}
       />
       <SuggestedFollowers>
         <Heading>Suggested for you</Heading>
@@ -50,10 +50,8 @@ function FollowingSection() {
               buttonLabel={profile.isFollowing ? 'Unfollow' : 'Follow'}
               username={profile.username}
               caption={profile.fullName}
-              profilePicture={profile.profilePhoto}
-              onClick={() =>
-                toggleFollow(profile.id, profile.isFollowing)
-              }
+              profilePhoto={profile.profilePhoto}
+              onClick={() => toggleFollow(profile.id, profile.isFollowing)}
               isLoading={profile.isLoading}
             />
           ))
