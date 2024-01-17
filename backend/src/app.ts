@@ -11,6 +11,7 @@ import { authenticateUser } from './middlewares/authenticateUser';
 
 const app = express();
 
+app.use(express.static('public'));
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use(
