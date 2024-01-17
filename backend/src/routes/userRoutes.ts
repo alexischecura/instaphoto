@@ -25,7 +25,7 @@ import {
   verificationCodeSchema,
 } from '../schemas/userSchema';
 import { authenticateUser } from '../middlewares/authenticateUser';
-
+import { uploadProfilePhotoDisk } from '../middlewares/multerUpload';
 
 const router = Router();
 
@@ -60,7 +60,12 @@ router.get(
 router.use(authenticateUser);
 
 router.get('/me', getCurrentUserHandler);
-router.patch('/updateMe', validate(updateUserSchema, 'body'), updateProfile);
+router.patch(
+  '/updateMe',
+  validate(updateUserSchema, 'body'),
+  uploadProfilePhotoDisk,
+  updateProfile
+);
 
 router.post(
   '/createManyUsers',

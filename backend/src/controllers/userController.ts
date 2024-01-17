@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import {
   createManyUsers,
   findProfile,
-  findUser,
   updateUser,
 } from '../services/userService';
 import {
@@ -63,7 +62,6 @@ export const updateProfile = async (
   next: NextFunction
 ) => {
   try {
-    console.log({ body: req.body });
     await updateUser({ id: res.locals.user.id }, req.body);
     return res.status(201).json({
       status: 'susccess',
