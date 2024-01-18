@@ -48,7 +48,10 @@ const postSlice = createSlice({
     setCommentInPost: (state, action: PayloadAction<Comment>) => {
       state.followeesPosts = state.followeesPosts.map((post) => {
         if (post.id === action.payload.postId) {
-          return { ...post, comments: [action.payload, post.comments[0]] };
+          return {
+            ...post,
+            comments: [action.payload, ...post.comments.slice(0, 1)],
+          };
         }
         return post;
       });
