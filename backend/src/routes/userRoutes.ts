@@ -25,7 +25,8 @@ import {
   verificationCodeSchema,
 } from '../schemas/userSchema';
 import { authenticateUser } from '../middlewares/authenticateUser';
-import { uploadProfilePhotoDisk } from '../middlewares/multerUpload';
+import { savePhotoInMemory } from '../middlewares/multerUpload';
+import { resizeProfilePhotoAndSave } from '../middlewares/resizeProfilePhotoAndSave';
 
 const router = Router();
 
@@ -63,7 +64,8 @@ router.get('/me', getCurrentUserHandler);
 router.patch(
   '/updateMe',
   validate(updateUserSchema, 'body'),
-  uploadProfilePhotoDisk,
+  savePhotoInMemory,
+  resizeProfilePhotoAndSave,
   updateProfile
 );
 
