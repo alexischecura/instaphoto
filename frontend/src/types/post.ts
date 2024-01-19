@@ -27,7 +27,7 @@ export type Comment = {
 
 export type Post = {
   id: string;
-  photoUrl: string;
+  postPhoto: string;
   content: string;
   createdAt: string;
   userId: string;

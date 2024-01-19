@@ -30,7 +30,7 @@ type PostCardProps = {
   username: string;
   profilePhoto: string;
   postDate: string;
-  mediaUrl: string;
+  mediaName: string;
   likes: Like[];
   content: string;
   id: string;
@@ -41,7 +41,7 @@ function PostCard({
   username,
   profilePhoto,
   postDate,
-  mediaUrl,
+  mediaName,
   likes,
   content,
   id,
@@ -63,7 +63,7 @@ function PostCard({
       />
       <PostMedia
         alt="image"
-        url={mediaUrl}
+        photoName={mediaName}
         startLikingPost={startLikingPost}
         postId={id}
         isFavorited={isFavorited}

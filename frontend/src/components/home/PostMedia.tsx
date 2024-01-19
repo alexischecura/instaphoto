@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoHeartSharp } from 'react-icons/io5';
 import { LikeResponse } from '../../types/post';
+import { getEnvVariables } from '../../helpers/getEnvVariables';
 
 const PostContentStyled = styled.div`
   position: relative;
@@ -46,7 +47,7 @@ const Image = styled.img`
 `;
 
 type PostContentProps = {
-  url: string;
+  photoName: string;
   alt: string;
   isFavorited: boolean;
   postId: string;
@@ -54,7 +55,7 @@ type PostContentProps = {
 };
 
 function PostMedia({
-  url,
+  photoName,
   alt,
   postId,
   startLikingPost,
@@ -62,6 +63,7 @@ function PostMedia({
 }: PostContentProps) {
   const [animate, setAnimate] = useState(false);
   const [isOldLike, setIsOldLike] = useState(isFavorited);
+  const { VITE_POST_IMAGE_URL } = getEnvVariables();
 
   const runAnimation = () => {
     setAnimate(true);
@@ -87,7 +89,7 @@ function PostMedia({
   return (
     <PostContentStyled onDoubleClick={handleLike}>
       <Heart className={`${animate ? 'animate' : ''}`} />
-      <Image src={url} alt={alt} />
+      <Image src={`${VITE_POST_IMAGE_URL}/${photoName}`} alt={alt} />
     </PostContentStyled>
   );
 }
