@@ -2,7 +2,6 @@ import fs from 'fs';
 import { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'crypto';
 import sharp from 'sharp';
-import { envVars } from '../configs/envConfig';
 import { InternalServerError } from '../utils/AppError';
 
 export const resizeProfilePhotoAndSave = (

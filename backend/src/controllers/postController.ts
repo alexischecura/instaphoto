@@ -20,12 +20,12 @@ export const createPostHandler = async (
   if (!userId) {
     return next(new AuthenticationError('User is not logged'));
   }
-  const { photoUrl, content } = req.body;
+  const { postPhoto, content } = req.body;
 
   const tags = content.match(hashtagRegex);
 
   try {
-    const post = await createPost({ photoUrl, content }, userId, tags);
+    const post = await createPost({ postPhoto, content }, userId, tags);
     res.status(201).json({ status: 'success', post });
   } catch (error) {
     return next(

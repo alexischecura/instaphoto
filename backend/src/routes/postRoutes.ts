@@ -12,11 +12,19 @@ import {
   postIdSchema,
   postPaginationSchema,
 } from '../schemas/postSchema';
+import { resizePostPhotoAndSave } from '../middlewares/resizePostPhotoAndSave';
+import { loadFormData } from '../middlewares/multerUpload';
 
 const router = Router();
 
 router
-  .post('/', validate(createPostSchema, 'body'), createPostHandler)
+  .post(
+    '/',
+    loadFormData,
+    validate(createPostSchema, 'body'),
+    resizePostPhotoAndSave,
+    createPostHandler
+  )
   .get('/', validate(postPaginationSchema, 'query'), getFolloweesPostHandler);
 
 router

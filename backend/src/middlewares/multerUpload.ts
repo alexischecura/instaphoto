@@ -21,4 +21,4 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-export const savePhotoInMemory = upload.any();
+export const loadFormData = upload.single('image');
