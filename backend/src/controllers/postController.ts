@@ -22,7 +22,8 @@ export const createPostHandler = async (
   }
   const { postPhoto, content } = req.body;
 
-  const tags = content.match(hashtagRegex);
+  // Assign an empty array to tags when there is no match because the match function returns null.
+  const tags = content.match(hashtagRegex) || [];
 
   try {
     const post = await createPost({ postPhoto, content }, userId, tags);
