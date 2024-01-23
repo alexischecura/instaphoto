@@ -9,7 +9,7 @@ import { useAuthStore } from '../hooks/useAuthStore';
 import { useForm } from '../hooks/useForm';
 
 import InputForm from '../components/auth/InputForm';
-import AuthButton from '../components/auth/AuthButton';
+import MainButton from '../components/common/MainButton';
 import AuthBox from '../components/auth/AuthBox';
 import AuthLink from '../components/auth/AuthLink';
 
@@ -105,10 +105,11 @@ function EmailVerificationPage() {
               onChange={onInputChange}
               required
             />
-            <AuthButton
+            <MainButton
               text="Next"
               isLoading={isLoading}
               disabled={!isFormValid}
+              type='submit'
             />
           </FormStyled>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

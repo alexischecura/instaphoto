@@ -9,7 +9,7 @@ import { useForm } from '../hooks/useForm';
 
 import Logo from '../components/common/Logo';
 import InputForm from '../components/auth/InputForm';
-import AuthButton from '../components/auth/AuthButton';
+import MainButton from '../components/common/MainButton';
 import AuthBox from '../components/auth/AuthBox';
 import AuthLink from '../components/auth/AuthLink';
 
@@ -122,10 +122,11 @@ function SignUpPage() {
               btnLabel={showPassword ? 'Hide' : 'Show'}
               onClickBtn={() => setShowPassword((show) => !show)}
             />
-            <AuthButton
+            <MainButton
               text="Sign up"
               isLoading={isLoading}
               disabled={!isFormValid}
+              type="submit"
             />
           </FormStyled>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

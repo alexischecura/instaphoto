@@ -7,7 +7,7 @@ import { loginUserSchema } from '../schemas/authSchemas';
 
 import Logo from '../components/common/Logo';
 import InputForm from '../components/auth/InputForm';
-import AuthButton from '../components/auth/AuthButton';
+import MainButton from '../components/common/MainButton';
 import { useAuthStore } from '../hooks/useAuthStore';
 
 import { AuthStatus } from '../store/auth/authSlice';
@@ -111,10 +111,11 @@ function LoginPage() {
               btnLabel={showPassword ? 'Hide' : 'Show'}
               onClickBtn={() => setShowPassword((show) => !show)}
             />
-            <AuthButton
+            <MainButton
               text="Log in"
               isLoading={isLoading}
               disabled={!isFormValid}
+              type="submit"
             />
           </StyledForm>
           <FormDivider>or</FormDivider>

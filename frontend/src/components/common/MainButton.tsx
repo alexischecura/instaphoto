@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import Spinner from '../common/Spinner';
+import Spinner from './Spinner';
 
-type AuthButtonProps = {
+type MainButtonProps = {
   text: string;
   isLoading?: boolean;
   disabled?: boolean;
+  type: 'submit' | 'button';
 };
 
-const AuthButtonStyled = styled.button`
+const MainButtonStyled = styled.button`
   font-family: inherit;
   font-weight: 500;
   width: 100%;
@@ -18,6 +19,7 @@ const AuthButtonStyled = styled.button`
   background-color: var(--btn-color);
   cursor: pointer;
   color: #fff;
+  padding: 0 1.6rem;
 
   &:hover {
     background-color: var(--btn-color-hover);
@@ -29,12 +31,17 @@ const AuthButtonStyled = styled.button`
   }
 `;
 
-function AuthButton({ text, isLoading = true, disabled }: AuthButtonProps) {
+function MainButton({
+  text,
+  isLoading = false,
+  disabled = false,
+  type = 'button',
+}: MainButtonProps) {
   return (
-    <AuthButtonStyled type="submit" disabled={isLoading || disabled}>
+    <MainButtonStyled type={type} disabled={isLoading || disabled}>
       {isLoading ? <Spinner animationTime={0.5} /> : text}
-    </AuthButtonStyled>
+    </MainButtonStyled>
   );
 }
 
-export default AuthButton;
+export default MainButton;
