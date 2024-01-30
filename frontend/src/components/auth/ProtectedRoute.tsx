@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { AuthStatus, userLoggedOut } from '../../store/auth/authSlice';
 import { useAuthStore } from '../../hooks/useAuthStore';
-import LoadingPage from '../common/LoadingPage';
+import LoadingCircle from '../common/LoadingCircle';
 
 const ProtectedRoute = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
     }
   }, [status]);
 
-  if (status === AuthStatus.loading) return <LoadingPage />;
+  if (status === AuthStatus.loading) return <LoadingCircle />;
 
   if (status === AuthStatus.authenticated) return children;
 };

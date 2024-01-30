@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import LoadingPage from '../components/common/LoadingPage';
+import LoadingCircle from '../components/common/LoadingCircle';
 import ProtectedRoute from '../components/auth/ProtectedRoute';
 import AppLayout from '../components/layout/AppLayout';
 import ProfilePage from '../pages/ProfilePage';
@@ -14,7 +14,7 @@ const HomePage = lazy(() => import('../pages/HomePage'));
 
 function AppRouter() {
   return (
-    <Suspense fallback={<LoadingPage />}>
+    <Suspense fallback={<LoadingCircle />}>
       <Routes>
         <Route
           element={

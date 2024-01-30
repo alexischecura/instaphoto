@@ -1,23 +1,23 @@
 import styled from 'styled-components';
 
 const Loader = styled.div`
-  margin: 100px auto;
-  height: 120px;
-  width: 120px;
+  margin: 10rem auto;
+  height: 12rem;
+  width: 12rem;
   box-sizing: border-box;
   display: flex;
   position: relative;
   justify-content: center;
-  perspective-origin: 60px 60px;
-  transform-origin: 60px 60px;
+  perspective-origin: 6rem 6rem;
+  transform-origin: 6rem 6rem;
   border: 0px solid rgb(0, 0, 0);
   flex: 0 0 auto;
   flex-flow: column nowrap;
 
   &:after,
   &:before {
-    height: 120px;
-    width: 120px;
+    height: 12rem;
+    width: 12rem;
     border-radius: 50%;
     border-style: solid;
     border-width: 2px;
@@ -39,15 +39,15 @@ const Loader = styled.div`
   }
   p {
     display: block;
-    font-size: 14px;
-    margin: -60px 0;
-    padding: 60px 9px;
+    font-size: 1.4rem;
+    margin: -6rem 0;
+    padding: 6rem 0.9rem;
     position: relative;
     text-align: center;
     z-index: 1;
     color: rgb(199, 199, 199);
     text-decoration: none;
-    font: normal normal 600 normal 14px / 14px inherit;
+    font: normal normal 600 normal 1.4rem / 1.4rem inherit;
   }
 
   @-webkit-keyframes rotate {
@@ -73,7 +73,7 @@ const Loader = styled.div`
   }
 `;
 
-function LoadingPage() {
+function LoadingCircle() {
   return (
     <Loader>
       <p>Loading</p>
@@ -81,4 +81,4 @@ function LoadingPage() {
   );
 }
 
-export default LoadingPage;
+export default LoadingCircle;
