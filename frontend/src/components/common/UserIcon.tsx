@@ -8,20 +8,27 @@ type UserIconProps = {
   username: string;
 };
 
-const ProfileImg = styled.img`
-  border-radius: 99rem;
+const ProfilePicture = styled.div`
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: none;
   height: 2.6rem;
   width: 2.6rem;
+
+  & img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 function UserIcon({ profilePhoto, username }: UserIconProps) {
   return (
-    <>
-      <ProfileImg
+    <ProfilePicture className="profile">
+      <img
         src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`}
         alt={`${username} profile picture`}
       />
-    </>
+    </ProfilePicture>
   );
 }
 
