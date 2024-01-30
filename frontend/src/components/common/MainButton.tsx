@@ -6,6 +6,7 @@ type MainButtonProps = {
   isLoading?: boolean;
   disabled?: boolean;
   type: 'submit' | 'button';
+  onClick?: () => void;
 };
 
 const MainButtonStyled = styled.button`
@@ -36,9 +37,14 @@ function MainButton({
   isLoading = false,
   disabled = false,
   type = 'button',
+  onClick,
 }: MainButtonProps) {
   return (
-    <MainButtonStyled type={type} disabled={isLoading || disabled}>
+    <MainButtonStyled
+      type={type}
+      disabled={isLoading || disabled}
+      onClick={onClick}
+    >
       {isLoading ? <Spinner animationTime={0.5} /> : text}
     </MainButtonStyled>
   );
