@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   IoHomeOutline,
   IoHomeSharp,
@@ -17,6 +17,9 @@ import {
 
 import UserIcon from '../common/UserIcon';
 import { useAuthStore } from '../../hooks/useAuthStore';
+import { useState } from 'react';
+import Modal from '../common/Modal';
+import CreatePost from '../posts/CreatePost';
 
 const MainNavStyled = styled.ul`
   display: flex;
@@ -26,7 +29,8 @@ const MainNavStyled = styled.ul`
   text-decoration: none;
 `;
 
-const NavLinkStyled = styled(NavLink)`
+const navButtonCommonStyles = css`
+  &,
   &:link,
   &:visited {
     text-decoration: none;
@@ -40,105 +44,147 @@ const NavLinkStyled = styled(NavLink)`
     font-weight: 400;
     transition: all 0.3s;
     border-radius: 0.8rem;
+    background: none;
+    width: 100%;
   }
 
   &:hover {
     background-color: var(--color-gray-300);
   }
-  &:active,
+
   &.active:link,
   &.active:visited {
     font-weight: 600;
   }
-
-  &:active img,
-  &.active:link img,
-  &.active:visited img {
+  &:active .profile,
+  &.active:link .profile,
+  &.active:visited .profile {
     border: 2px solid #000;
   }
 
-  & svg {
+  & svg,
+  & .profile {
     width: 2.6rem;
     height: 2.6rem;
-    transition: all 0.3s;
+    transition: transform 0.3s;
   }
 
   &:hover svg,
-  &:hover img {
-    transform: scale(1.05);
+  &:hover .profile {
+    transform: scale(1.1);
   }
 
-  &.active .sharp {
-    display: inline;
+  &:active svg,
+  &:active .profile {
+    transform: scale(0.9);
   }
-  &.active .outline {
-    display: none;
-  }
-
-  & .sharp {
-    display: none;
-  }
+  &.active .sharp,
   & .outline {
     display: inline;
   }
+  &.active .outline,
+  & .sharp {
+    display: none;
+  }
 `;
+
+const NavLinkStyled = styled(NavLink)`
+  ${navButtonCommonStyles}
+`;
+
+const NavButtonStyled = styled.button`
+  ${navButtonCommonStyles}
+  border: none;
+  cursor: pointer;
+`;
+
+type ButtonActive = '' | 'CREATE' | 'SEARCH';
 
 function MainNav() {
   const {
     user: { username, profilePhoto },
   } = useAuthStore();
 
+  const [buttonActive, setButtonActive] = useState<ButtonActive>('');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleCreateButton = () => {
+    setButtonActive('CREATE');
+    setIsModalOpen(true);
+  };
+  const handleSearchButton = () => {
+    setButtonActive('SEARCH');
+  };
+
+  const clearButtonActive = () => {
+    setButtonActive('');
+    setIsModalOpen(false);
+  };
+
   return (
-    <MainNavStyled>
-      <li>
-        <NavLinkStyled to="/">
-          <IoHomeSharp className="sharp" />
-          <IoHomeOutline className="outline" />
-          <span>Home</span>
-        </NavLinkStyled>
-      </li>
-      <li>
-        <NavLinkStyled to="/search">
-          <IoSearchOutline className="outline" />
-          <IoSearchSharp className="sharp" />
-          <span>Search</span>
-        </NavLinkStyled>
-      </li>
-      <li>
-        <NavLinkStyled to="/explore">
-          <IoCompassOutline className="outline" />
-          <IoCompassSharp className="sharp" />
-          <span>Explore</span>
-        </NavLinkStyled>
-      </li>
-      <li>
-        <NavLinkStyled to="/messages">
-          <IoPaperPlaneOutline className="outline" />
-          <IoPaperPlaneSharp className="sharp" />
-          <span>Messages</span>
-        </NavLinkStyled>
-      </li>
-      <li>
-        <NavLinkStyled to="/notifications">
-          <IoHeartOutline className="outline" />
-          <IoHeartSharp className="sharp" />
-          <span>Notifications</span>
-        </NavLinkStyled>
-      </li>
-      <li>
-        <NavLinkStyled to="/create">
-          <IoAddCircleOutline className="outline" />
-          <IoAddCircleSharp className="sharp" />
-          <span>Create</span>
-        </NavLinkStyled>
-      </li>
-      <li>
-        <NavLinkStyled to={username}>
-          <UserIcon profilePhoto={profilePhoto} username={username} />
-          <span>Profile</span>
-        </NavLinkStyled>
-      </li>
-    </MainNavStyled>
+    <>
+      <MainNavStyled>
+        <li>
+          <NavLinkStyled to="/" onClick={clearButtonActive}>
+            <IoHomeSharp className="sharp" />
+            <IoHomeOutline className="outline" />
+            <span>Home</span>
+          </NavLinkStyled>
+        </li>
+        <li>
+          <NavButtonStyled
+            onClick={handleSearchButton}
+            className={buttonActive === 'SEARCH' ? 'active' : ''}
+          >
+            <IoSearchOutline className="outline" />
+            <IoSearchSharp className="sharp" />
+            <span>Search</span>
+          </NavButtonStyled>
+        </li>
+        <li>
+          <NavLinkStyled to="/explore" onClick={clearButtonActive}>
+            <IoCompassOutline className="outline" />
+            <IoCompassSharp className="sharp" />
+            <span>Explore</span>
+          </NavLinkStyled>
+        </li>
+        <li>
+          <NavLinkStyled to="/messages" onClick={clearButtonActive}>
+            <IoPaperPlaneOutline className="outline" />
+            <IoPaperPlaneSharp className="sharp" />
+            <span>Messages</span>
+          </NavLinkStyled>
+        </li>
+        <li>
+          <NavLinkStyled to="/notifications" onClick={clearButtonActive}>
+            <IoHeartOutline className="outline" />
+            <IoHeartSharp className="sharp" />
+            <span>Notifications</span>
+          </NavLinkStyled>
+        </li>
+        <li>
+          <NavButtonStyled
+            onClick={handleCreateButton}
+            className={buttonActive === 'CREATE' ? 'active' : ''}
+          >
+            <IoAddCircleOutline className="outline" />
+            <IoAddCircleSharp className="sharp" />
+            <span>Create</span>
+          </NavButtonStyled>
+        </li>
+        <li>
+          <NavLinkStyled to={username}>
+            <UserIcon profilePhoto={profilePhoto} username={username} />
+            <span>Profile</span>
+          </NavLinkStyled>
+        </li>
+      </MainNavStyled>
+      {isModalOpen && (
+        <Modal onCloseModal={clearButtonActive}>
+          <CreatePost onCloseModal={clearButtonActive} />
+        </Modal>
+      )}
+    </>
   );
 }
 
