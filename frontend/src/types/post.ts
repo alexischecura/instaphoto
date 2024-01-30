@@ -35,3 +35,17 @@ export type Post = {
   comments: Comment[];
   user: User;
 };
+
+export type CreatePostResponse = {
+  status: string;
+  post: {
+    status: 'success';
+    post: {
+      id: string;
+      postPhoto: string;
+      content: string;
+      createdAt: string;
+      userId: string;
+    };
+  };
+};

@@ -3,6 +3,8 @@ import { Comment, Like, Post } from '../../types/post';
 
 type InitialState = {
   isLoadingPost: boolean;
+  isCreatingPost: boolean;
+  createdSuccessfully: boolean;
   followeesPosts: Post[] | [];
   errorMessage: string | undefined;
   page: number;
@@ -10,6 +12,8 @@ type InitialState = {
 
 const initialState: InitialState = {
   isLoadingPost: false,
+  isCreatingPost: false,
+  createdSuccessfully: false,
   followeesPosts: [],
   errorMessage: undefined,
   page: 2,
@@ -21,6 +25,17 @@ const postSlice = createSlice({
   reducers: {
     startPostRequest: (state) => {
       state.isLoadingPost = true;
+    },
+    startCreatePostRequest: (state) => {
+      state.createdSuccessfully = false;
+      state.isCreatingPost = true;
+    },
+    postCreated: (state) => {
+      state.isCreatingPost = false;
+      state.createdSuccessfully = true;
+    },
+    resetCreatePost: (state) => {
+      state.createdSuccessfully = false;
     },
     setLoadedPosts: (state, action: PayloadAction<Post[]>) => {
       state.isLoadingPost = false;
@@ -76,6 +91,9 @@ export const {
   setLikedPost,
   setUnlikedPost,
   setCommentInPost,
+  startCreatePostRequest,
+  postCreated,
+  resetCreatePost,
 } = postSlice.actions;
 
 export default postSlice;

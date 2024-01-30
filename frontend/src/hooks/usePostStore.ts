@@ -1,5 +1,10 @@
 import { AxiosError } from 'axios';
-import { commentPost, getFolloweesPost, likePost } from '../api/postApi';
+import {
+  commentPost,
+  createPost,
+  getFolloweesPost,
+  likePost,
+} from '../api/postApi';
 import {
   reportPostError,
   startPostRequest,
@@ -8,15 +13,22 @@ import {
   setLikedPost,
   setUnlikedPost,
   setCommentInPost,
+  startCreatePostRequest,
+  postCreated,
+  resetCreatePost,
 } from '../store/post/postSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 
 export const usePostStore = () => {
   const dispatch = useAppDispatch();
 
-  const { followeesPosts, isLoadingPost, page } = useAppSelector(
-    (state) => state.post
-  );
+  const {
+    followeesPosts,
+    isLoadingPost,
+    isCreatingPost,
+    createdSuccessfully,
+    page,
+  } = useAppSelector((state) => state.post);
 
   const startGettingFolloweesPost = async () => {
     dispatch(startPostRequest());
@@ -95,13 +107,37 @@ export const usePostStore = () => {
     }
   };
 
+  const startCreatingPost = async (image: File, content: string) => {
+    try {
+      dispatch(startCreatePostRequest());
+      await createPost(image, content);
+      dispatch(postCreated());
+      setTimeout(() => {
+        dispatch(resetCreatePost());
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+      if (error instanceof AxiosError) {
+        dispatch(
+          reportPostError(
+            error.response?.data?.message ||
+              'Something went wrong trying to create the post'
+          )
+        );
+      }
+    }
+  };
+
   return {
     isLoadingPost,
+    isCreatingPost,
     followeesPosts,
+    createdSuccessfully,
     page,
     startGettingFolloweesPost,
     startLoadingMorePost,
     startCommentingPost,
     startLikingPost,
+    startCreatingPost,
   };
 };
