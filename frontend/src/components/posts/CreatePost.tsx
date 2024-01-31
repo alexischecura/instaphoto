@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import MainButton from '../common/MainButton';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
+import { IoCheckmarkCircleOutline, IoImageOutline } from 'react-icons/io5';
+import LoadingCircle from '../common/LoadingCircle';
 
 const CreatePostStyled = styled.div`
   width: 60rem;
+  min-height: 80rem;
   display: flex;
   flex-direction: column;
 `;
@@ -22,14 +25,21 @@ const Divider = styled.div`
 `;
 
 const Form = styled.form`
-  height: 100%;
+  min-height: 75rem;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
-const LabelFileUpload = styled.label`
+const FileUploadContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   & input {
     display: none;
+  }
+  & svg {
+    height: 20rem;
+    width: 20rem;
   }
 `;
 
@@ -68,11 +78,26 @@ const ContentInput = styled.textarea`
   }
 `;
 
-function CreatePost({ onCloseModal }: { onCloseModal: () => void }) {
-  const { isCreatingPost, startCreatingPost, createdSuccessfully } =
-    usePostStore();
+const PostMessage = styled.h3`
+  height: 75rem;
+  text-align: center;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  & svg {
+    height: 20rem;
+    width: 20rem;
+  }
+`;
+
+function CreatePost() {
+  const { isCreatingPost, startCreatingPost } = usePostStore();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [postCreated, setPostCreated] = useState<boolean>(false);
   const [formState, setFormState] = useState<{
     image: File | null;
     imageURL: string;
@@ -87,9 +112,12 @@ function CreatePost({ onCloseModal }: { onCloseModal: () => void }) {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formState.image) startCreatingPost(formState.image, formState.content);
+    if (formState.image) {
+      await startCreatingPost(formState.image, formState.content);
+      setPostCreated(true);
+    }
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -104,54 +132,56 @@ function CreatePost({ onCloseModal }: { onCloseModal: () => void }) {
       return state;
     });
 
-  useEffect(() => {
-    if (createdSuccessfully) {
-      setTimeout(() => {
-        onCloseModal();
-      }, 2000);
-    }
-  }, [createdSuccessfully, onCloseModal]);
-
   return (
     <CreatePostStyled>
       <Headline>Create new Post</Headline>
       <Divider />
-      <Form onSubmit={handleSubmit}>
-        {formState.imageURL ? (
-          <ImageContainer>
-            <ImagePreview src={formState.imageURL} />
-            <Divider />
-            <Content>
-              <ContentInput
-                id="content"
-                placeholder="Content"
-                onChange={(e) =>
-                  setFormState((state) => ({
-                    ...state,
-                    content: e.target.value,
-                  }))
-                }
-                value={formState.content}
+      {postCreated ? (
+        <PostMessage>
+          <span>Your post has been shared</span>
+          <IoCheckmarkCircleOutline />
+        </PostMessage>
+      ) : isCreatingPost ? (
+        <LoadingCircle />
+      ) : (
+        <Form onSubmit={handleSubmit}>
+          {formState.imageURL ? (
+            <ImageContainer>
+              <ImagePreview src={formState.imageURL} />
+              <Divider />
+              <Content>
+                <ContentInput
+                  id="content"
+                  placeholder="Content"
+                  onChange={(e) =>
+                    setFormState((state) => ({
+                      ...state,
+                      content: e.target.value,
+                    }))
+                  }
+                  value={formState.content}
+                />
+                <MainButton text="Create Post" type="submit" />
+              </Content>
+            </ImageContainer>
+          ) : (
+            <FileUploadContainer>
+              <IoImageOutline />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileInputChange}
               />
-              <MainButton text="Create Post" type="submit" />
-            </Content>
-          </ImageContainer>
-        ) : (
-          <LabelFileUpload>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileInputChange}
-            />
-            <MainButton
-              text="Select from computer"
-              type="button"
-              onClick={handleButtonClick}
-            />
-          </LabelFileUpload>
-        )}
-      </Form>
+              <MainButton
+                text="Select from computer"
+                type="button"
+                onClick={handleButtonClick}
+              />
+            </FileUploadContainer>
+          )}
+        </Form>
+      )}
     </CreatePostStyled>
   );
 }

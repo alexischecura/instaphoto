@@ -15,7 +15,6 @@ import {
   setCommentInPost,
   startCreatePostRequest,
   postCreated,
-  resetCreatePost,
 } from '../store/post/postSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 
@@ -26,7 +25,6 @@ export const usePostStore = () => {
     followeesPosts,
     isLoadingPost,
     isCreatingPost,
-    createdSuccessfully,
     page,
   } = useAppSelector((state) => state.post);
 
@@ -112,9 +110,6 @@ export const usePostStore = () => {
       dispatch(startCreatePostRequest());
       await createPost(image, content);
       dispatch(postCreated());
-      setTimeout(() => {
-        dispatch(resetCreatePost());
-      }, 2000);
     } catch (error) {
       console.error(error);
       if (error instanceof AxiosError) {
@@ -132,7 +127,6 @@ export const usePostStore = () => {
     isLoadingPost,
     isCreatingPost,
     followeesPosts,
-    createdSuccessfully,
     page,
     startGettingFolloweesPost,
     startLoadingMorePost,

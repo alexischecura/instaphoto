@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
-import PostCard from './PostCard';
+import PostCard from '../posts/PostCard';
 import styled from 'styled-components';
 
 const Message = styled.p`
