@@ -181,7 +181,7 @@ function MainNav() {
       </MainNavStyled>
       {isModalOpen && (
         <Modal onCloseModal={clearButtonActive}>
-          <CreatePost onCloseModal={clearButtonActive} />
+          <CreatePost />
         </Modal>
       )}
     </>

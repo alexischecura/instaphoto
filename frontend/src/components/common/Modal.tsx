@@ -13,6 +13,7 @@ const ModalStyled = styled.div`
   box-shadow: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
   transition: all 0.5s;
   overflow: hidden;
+  z-index: 100;
 `;
 
 const Overlay = styled.div`
@@ -35,6 +36,7 @@ const Button = styled.button`
   top: 1.2rem;
   right: 1.9rem;
   cursor: pointer;
+  z-index: 100;
 
   &:hover svg {
     transform: scale(1.1);
@@ -58,12 +60,11 @@ type ModalProps = {
 function Modal({ onCloseModal, children }: PropsWithChildren<ModalProps>) {
   return createPortal(
     <>
-      <Overlay>
-        <Button onClick={onCloseModal}>
-          <IoClose />
-        </Button>
-        <ModalStyled>{children}</ModalStyled>
-      </Overlay>
+      <Overlay onClick={onCloseModal} />
+      <Button onClick={onCloseModal}>
+        <IoClose />
+      </Button>
+      <ModalStyled>{children}</ModalStyled>
     </>,
     document.body
   );
