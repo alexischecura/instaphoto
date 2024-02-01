@@ -26,6 +26,7 @@ const LoginPageStyled = styled.div`
 
 const LoginImage = styled.img`
   height: 58rem;
+  border-radius: 2rem;
 `;
 
 const StyledForm = styled.form`
@@ -81,7 +82,7 @@ function LoginPage() {
   return (
     <LoginPageStyled>
       <LoginImage
-        src="./login-image.webp"
+        src="./login-image.jpeg"
         alt="smartphone image where the instagram app is open"
       />
       <FormContainer>
