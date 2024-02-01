@@ -12,6 +12,7 @@ import InputForm from '../components/auth/InputForm';
 import MainButton from '../components/common/MainButton';
 import AuthBox from '../components/auth/AuthBox';
 import AuthLink from '../components/auth/AuthLink';
+import { IoMailUnreadOutline } from 'react-icons/io5';
 
 const EmailVerificationPageStyled = styled.div`
   display: flex;
@@ -44,9 +45,11 @@ const HeadingInfo = styled.h3`
   margin: 2rem 0;
 `;
 
-const LetterLogo = styled.img`
-  height: 7.2rem;
-  width: auto;
+const ImageContainer = styled.div`
+  & svg {
+    height: 12rem;
+    width: auto;
+  }
 `;
 
 function EmailVerificationPage() {
@@ -90,7 +93,9 @@ function EmailVerificationPage() {
     <EmailVerificationPageStyled>
       <FormContainer>
         <AuthBox>
-          <LetterLogo src="../letter-logo.png" alt="a letter with a heart" />
+          <ImageContainer>
+            <IoMailUnreadOutline />
+          </ImageContainer>
           <HeadingInfo>Enter Verification Code</HeadingInfo>
           <AuthLink to="/resend" linkLabel="Resend Code">
             Enter the verification code we sent to your email.
@@ -109,7 +114,7 @@ function EmailVerificationPage() {
               text="Next"
               isLoading={isLoading}
               disabled={!isFormValid}
-              type='submit'
+              type="submit"
             />
           </FormStyled>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
