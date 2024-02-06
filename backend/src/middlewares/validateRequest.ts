@@ -15,7 +15,6 @@ export const validate =
   (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req[field]);
-      console.log(req[field]);
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {
