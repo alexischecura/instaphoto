@@ -13,13 +13,7 @@ import MainButton from '../components/common/MainButton';
 import AuthBox from '../components/auth/AuthBox';
 import AuthLink from '../components/auth/AuthLink';
 import { IoMailUnreadOutline } from 'react-icons/io5';
-
-const EmailVerificationPageStyled = styled.div`
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-`;
+import AuthFormContainer from '../components/auth/AuthFormContainer';
 
 const FormStyled = styled.form`
   margin-top: 4rem;
@@ -90,7 +84,7 @@ function EmailVerificationPage() {
   }, [verificationCode]);
 
   return (
-    <EmailVerificationPageStyled>
+    <AuthFormContainer>
       <FormContainer>
         <AuthBox>
           <ImageContainer>
@@ -121,11 +115,11 @@ function EmailVerificationPage() {
         </AuthBox>
         <AuthBox>
           <AuthLink to="/login" linkLabel="Log in">
-            Have an account?
+            Already confirmed?
           </AuthLink>
         </AuthBox>
       </FormContainer>
-    </EmailVerificationPageStyled>
+    </AuthFormContainer>
   );
 }
 

@@ -15,19 +15,7 @@ import { useForm } from '../hooks/useForm';
 import FormDivider from '../components/auth/FormDivider';
 import AuthBox from '../components/auth/AuthBox';
 import AuthLink from '../components/auth/AuthLink';
-
-const LoginPageStyled = styled.div`
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  gap: 3rem;
-`;
-
-const LoginImage = styled.img`
-  height: 58rem;
-  border-radius: 2rem;
-`;
+import AuthFormContainer from '../components/auth/AuthFormContainer';
 
 const StyledForm = styled.form`
   margin-top: 4rem;
@@ -36,7 +24,7 @@ const StyledForm = styled.form`
 const ForgotPasswordLink = styled(Link)`
   margin-top: 1rem;
   color: inherit;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   text-decoration: none;
 `;
 
@@ -51,6 +39,8 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  border: none;
+  border-radius: 4px;
 `;
 
 function LoginPage() {
@@ -80,11 +70,7 @@ function LoginPage() {
   };
 
   return (
-    <LoginPageStyled>
-      <LoginImage
-        src="./login-image.jpeg"
-        alt="smartphone image where the instagram app is open"
-      />
+    <AuthFormContainer>
       <FormContainer>
         <AuthBox>
           <Logo variation="medium" />
@@ -93,7 +79,7 @@ function LoginPage() {
               type="text"
               value={formValues.identifier}
               field="identifier"
-              placeholder="Phone number, username, or email"
+              placeholder="Username or email"
               disable={isLoading}
               autoComplete="on"
               onChange={onInputChange}
@@ -122,16 +108,16 @@ function LoginPage() {
           <FormDivider>or</FormDivider>
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
           <ForgotPasswordLink to="/password/reset">
-            Forgot password?
+            Reset password
           </ForgotPasswordLink>
         </AuthBox>
         <AuthBox>
           <AuthLink linkLabel="Sign up" to="/signup">
-            Don't have an account?
+            No account yet?
           </AuthLink>
         </AuthBox>
       </FormContainer>
-    </LoginPageStyled>
+    </AuthFormContainer>
   );
 }
 

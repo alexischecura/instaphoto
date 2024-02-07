@@ -7,18 +7,12 @@ import { AuthStatus } from '../store/auth/authSlice';
 import { useAuthStore } from '../hooks/useAuthStore';
 import { useForm } from '../hooks/useForm';
 
+import AuthFormContainer from '../components/auth/AuthFormContainer';
 import Logo from '../components/common/Logo';
 import InputForm from '../components/auth/InputForm';
 import MainButton from '../components/common/MainButton';
 import AuthBox from '../components/auth/AuthBox';
 import AuthLink from '../components/auth/AuthLink';
-
-const SingUpPageStyled = styled.div`
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-`;
 
 const FormStyled = styled.form`
   margin-top: 4rem;
@@ -74,7 +68,7 @@ function SignUpPage() {
   };
 
   return (
-    <SingUpPageStyled>
+    <AuthFormContainer>
       <FormContainer>
         <AuthBox>
           <Logo variation="medium" />
@@ -137,7 +131,7 @@ function SignUpPage() {
           </AuthLink>
         </AuthBox>
       </FormContainer>
-    </SingUpPageStyled>
+    </AuthFormContainer>
   );
 }
 
