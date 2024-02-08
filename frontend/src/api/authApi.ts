@@ -38,3 +38,7 @@ export const getCurrentUser = async () => {
 
   return data.user;
 };
+
+export const logoutUser = async () => {
+  await instagramApi.post('/users/logout');
+};

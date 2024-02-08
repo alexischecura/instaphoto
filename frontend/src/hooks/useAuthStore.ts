@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from './reduxHooks';
 import {
   getCurrentUser,
   loginUser,
+  logoutUser,
   signUpUser,
   verifyUser,
 } from '../api/authApi';
@@ -95,6 +96,15 @@ export const useAuthStore = () => {
     }
   };
 
+  const startLogOut = async () => {
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.log(error);
+    }
+    dispatch(userLoggedOut());
+  };
+
   const checkAuthToken = async () => {
     try {
       const user = await getCurrentUser();
@@ -115,6 +125,7 @@ export const useAuthStore = () => {
     user,
     startLogin,
     startSignUp,
+    startLogOut,
     startVerificationEmail,
     checkAuthToken,
   };

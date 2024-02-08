@@ -4,6 +4,9 @@ import Skeleton from 'react-loading-skeleton';
 import UserCard from '../common/UserCard';
 import { useAuthStore } from '../../hooks/useAuthStore';
 import { useFollowStore } from '../../hooks/useFollowStore';
+import { useState } from 'react';
+import Modal from '../common/Modal';
+import ConfirmCard from '../common/ConfirmCard';
 
 const FollowingSectionStyled = styled.aside`
   grid-column: 3 / 4;
@@ -23,13 +26,15 @@ const SuggestedFollowers = styled.div`
 
 function FollowingSection() {
   const { user } = useAuthStore();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { isLoadingSuggestions, suggestedProfiles, toggleFollow } =
     useFollowStore();
 
   return (
     <FollowingSectionStyled>
       <UserCard
-        buttonLabel="Switch"
+        buttonLabel="Logout"
+        onClick={() => setIsModalOpen(true)}
         caption={user.fullName}
         username={user.username}
         profilePhoto={user.profilePhoto}
@@ -57,6 +62,11 @@ function FollowingSection() {
           ))
         )}
       </SuggestedFollowers>
+      {isModalOpen && (
+        <Modal onCloseModal={() => setIsModalOpen(false)}>
+          <ConfirmCard onCloseModal={() => setIsModalOpen(false)} />
+        </Modal>
+      )}
     </FollowingSectionStyled>
   );
 }
