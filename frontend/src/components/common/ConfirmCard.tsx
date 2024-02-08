@@ -34,12 +34,16 @@ const ConfirmCardStyled = styled.div`
   }
 `;
 
-function ConfirmCard({ onCloseModal }: { onCloseModal: () => void }) {
-  const { startLogOut } = useAuthStore();
+type ConfirmCartProps = {
+  onConfirm: () => void;
+  onCloseModal: () => void;
+};
+
+function ConfirmCard({ onConfirm, onCloseModal }: ConfirmCartProps) {
   return (
     <ConfirmCardStyled>
       <h4>Are you sure to logout?</h4>
-      <button className="red" onClick={startLogOut}>
+      <button className="red" onClick={onConfirm}>
         Logout
       </button>
       <button onClick={onCloseModal}>Cancel</button>
