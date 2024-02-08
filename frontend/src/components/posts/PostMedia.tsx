@@ -41,7 +41,7 @@ const Heart = styled(IoHeartSharp)`
 
 const Image = styled.img`
   user-select: none;
-  width: 46.8rem;
+  width: 100%;
   border-radius: 3px;
   min-height: 30rem;
 `;

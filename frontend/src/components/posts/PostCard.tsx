@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
 
 const PostCardStyled = styled.article`
-  width: 47rem;
+  width: 52rem;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
