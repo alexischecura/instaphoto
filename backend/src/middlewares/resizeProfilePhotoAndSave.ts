@@ -9,6 +9,12 @@ export const resizeProfilePhotoAndSave = (
   res: Response,
   next: NextFunction
 ) => {
+  const dir = `${__dirname}/../../public/img/users`;
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
   if (!req.file) return next();
   const { id, profilePhoto } = res.locals.user;
   const filename = `user-${id}-${randomUUID()}.jpeg`;
@@ -18,22 +24,19 @@ export const resizeProfilePhotoAndSave = (
     .resize(450, 450)
     .toFormat('jpeg')
     .jpeg({ quality: 80 })
-    .toFile(`${__dirname}/../../public/img/users/${filename}`);
+    .toFile(`${dir}/${filename}`);
 
   if (profilePhoto !== 'user-default.jpg') {
-    fs.unlink(
-      `${__dirname}/../../public/img/users/${profilePhoto}`,
-      (error) => {
-        if (error) {
-          console.log(error);
-          next(
-            new InternalServerError(
-              'Something went wrong when deleting the previous profile photo'
-            )
-          );
-        }
+    fs.unlink(`${dir}/${profilePhoto}`, (error) => {
+      if (error) {
+        console.log(error);
+        next(
+          new InternalServerError(
+            'Something went wrong when deleting the previous profile photo'
+          )
+        );
       }
-    );
+    });
   }
 
   next();

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'crypto';
 import sharp from 'sharp';
@@ -8,6 +9,12 @@ export const resizePostPhotoAndSave = (
   res: Response,
   next: NextFunction
 ) => {
+  const dir = `${__dirname}/../../public/img/posts`;
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
   if (!req.file)
     return next(new ValidationError('The post must have an image'));
   const filename = `post-${randomUUID()}.jpeg`;
@@ -17,7 +24,7 @@ export const resizePostPhotoAndSave = (
     .resize(936, 1170)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`${__dirname}/../../public/img/posts/${filename}`);
+    .toFile(`${dir}/${filename}`);
 
   next();
 };
