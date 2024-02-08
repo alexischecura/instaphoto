@@ -3,6 +3,7 @@ import {
   createUserHandler,
   forgotPasswordHandler,
   loginUserHandler,
+  logoutUserHandler,
   resetPasswordHandler,
   verifyUserHandler,
 } from '../controllers/authController';
@@ -60,6 +61,8 @@ router.get(
 
 router.use(authenticateUser);
 
+
+router.post('/logout', logoutUserHandler);
 router.get('/me', getCurrentUserHandler);
 router.patch(
   '/updateMe',
