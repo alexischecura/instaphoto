@@ -14,7 +14,7 @@ import {
   emailVerified,
 } from '../store/auth/authSlice';
 import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import {
   getCurrentUser,
@@ -28,6 +28,7 @@ export const useAuthStore = () => {
   const { status, errorMessage, user } = useAppSelector((store) => store.auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const startLogin = async (user: LoginUserType) => {
     dispatch(startAuthLoading());
@@ -35,6 +36,7 @@ export const useAuthStore = () => {
     try {
       const data: LoginUserResponse = await loginUser(user);
       dispatch(userLoggedIn(data.user));
+
       navigate('/');
     } catch (error) {
       console.error({ error });
@@ -110,7 +112,7 @@ export const useAuthStore = () => {
       const user = await getCurrentUser();
       if (user) {
         dispatch(userLoggedIn(user));
-        navigate('/');
+        navigate(location.pathname || '/');
       } else {
         dispatch(userLoggedOut());
       }

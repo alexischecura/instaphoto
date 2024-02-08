@@ -30,7 +30,6 @@ export const useProfileStore = () => {
     dispatch(startLoadingProfile());
     try {
       const profile = await getProfile(username);
-      console.log(profile);
       dispatch(setLoadedProfile(profile));
     } catch (error) {
       dispatch(
