@@ -25,10 +25,12 @@ const SuggestedFollowers = styled.div`
 `;
 
 function FollowingSection() {
-  const { user } = useAuthStore();
+  const { user, startLogOut } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { isLoadingSuggestions, suggestedProfiles, toggleFollow } =
     useFollowStore();
+
+  const onCloseModal = () => setIsModalOpen(false);
 
   return (
     <FollowingSectionStyled>
@@ -64,7 +66,7 @@ function FollowingSection() {
       </SuggestedFollowers>
       {isModalOpen && (
         <Modal onCloseModal={() => setIsModalOpen(false)}>
-          <ConfirmCard onCloseModal={() => setIsModalOpen(false)} />
+          <ConfirmCard onConfirm={startLogOut} onCloseModal={onCloseModal} />
         </Modal>
       )}
     </FollowingSectionStyled>

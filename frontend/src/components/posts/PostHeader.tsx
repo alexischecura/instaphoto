@@ -3,6 +3,8 @@ import { IoEllipsisHorizontal } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getEnvVariables } from '../../helpers/getEnvVariables';
+import { useState } from 'react';
+import Modal from '../common/Modal';
 
 const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
@@ -48,6 +50,7 @@ const Button = styled.button`
   background-color: inherit;
   border: none;
   margin-left: auto;
+  cursor: pointer;
   & svg {
     width: 2rem;
     height: 2rem;
@@ -63,6 +66,15 @@ type PostHeaderProps = {
 };
 
 function PostHeader({ user, postDate }: PostHeaderProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <PostHeaderStyled>
       <Username to={user.username}>
@@ -74,9 +86,10 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
       </Username>
       <Dot>•</Dot>
       <PostDate>{formatDistanceToNowStrict(postDate)}</PostDate>
-      <Button>
+      <Button onClick={openModal}>
         <IoEllipsisHorizontal />
       </Button>
+      {isModalOpen && <Modal onCloseModal={closeModal}></Modal>}
     </PostHeaderStyled>
   );
 }
