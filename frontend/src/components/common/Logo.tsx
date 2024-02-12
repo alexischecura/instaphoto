@@ -4,7 +4,7 @@ type LogoProps = {
 
 function Logo({ variation = 'small' }: LogoProps) {
   const variations = {
-    small: { height: 45, width: 160 },
+    small: { height: 51, width: 175 },
     medium: { height: 65, width: 315 },
   };
   const { height, width } = variations[variation];

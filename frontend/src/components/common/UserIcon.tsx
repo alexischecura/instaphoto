@@ -6,29 +6,29 @@ const { VITE_USER_IMAGE_URL } = getEnvVariables();
 type UserIconProps = {
   profilePhoto: string;
   username: string;
+  size: 'sm' | 'md' | 'lg';
 };
 
-const ProfilePicture = styled.div`
+const ProfilePicture = styled.img`
   border-radius: 50%;
-  overflow: hidden;
-  object-fit: none;
-  height: 2.6rem;
-  width: 2.6rem;
-
-  & img {
-    width: 100%;
-    height: 100%;
-  }
+  width: 100%;
+  height: 100%;
 `;
 
-function UserIcon({ profilePhoto, username }: UserIconProps) {
+const UserIconSizes = {
+  sm: '36px',
+  md: '64px',
+  lg: '96px',
+};
+
+function UserIcon({ profilePhoto, username, size }: UserIconProps) {
   return (
-    <ProfilePicture className="profile">
-      <img
-        src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`}
-        alt={`${username} profile picture`}
-      />
-    </ProfilePicture>
+    <ProfilePicture
+      style={{ height: UserIconSizes[size], width: UserIconSizes[size] }}
+      className="profile"
+      src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`}
+      alt={`${username} profile picture`}
+    />
   );
 }
 

@@ -16,7 +16,9 @@ const SidebarStyled = styled.aside`
 `;
 
 const LogoContainer = styled(Link)`
-  padding: 2.5rem 1.2rem;
+  padding: 2.5rem 0;
+  margin: 0 auto;
+
   &,
   &:visited,
   &:link {

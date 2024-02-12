@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const AppLayoutStyled = styled.div`
   display: grid;
-  grid-template-columns: 33.6rem 1fr;
+  grid-template-columns: 28rem 1fr;
   grid-template-rows: auto 1fr;
   height: 100vh;
 `;
