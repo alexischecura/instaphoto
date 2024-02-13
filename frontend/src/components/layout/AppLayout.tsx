@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import styled from 'styled-components';
-import NavBar from './NavBar';
+import Navbar from './Navbar';
 
 const AppLayoutStyled = styled.div`
   display: grid;
@@ -19,7 +19,7 @@ const Main = styled.main`
 function AppLayout() {
   return (
     <AppLayoutStyled>
-      <NavBar />
+      <Navbar />
       <Sidebar />
       <Main>
         <Outlet />

@@ -122,7 +122,6 @@ function LoginPage() {
           <ForgotPasswordLink to="/password/reset">
             Reset password
           </ForgotPasswordLink>
-          <FormDivider>or</FormDivider>
         </AuthBox>
         <AuthBox>
           <AuthLink linkLabel="Sign up" to="/signup">

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useAuthStore } from '../../hooks/useAuthStore';
 
 const ConfirmCardStyled = styled.div`
   display: flex;
