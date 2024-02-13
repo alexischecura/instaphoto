@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import styled from 'styled-components';
+import NavBar from './NavBar';
 
 const AppLayoutStyled = styled.div`
   display: grid;
@@ -12,12 +13,13 @@ const AppLayoutStyled = styled.div`
 const Main = styled.main`
   overflow-y: scroll;
   grid-column: 2 / -1;
-  grid-row: 1/ -1;
+  grid-row: 2/ -1;
 `;
 
 function AppLayout() {
   return (
     <AppLayoutStyled>
+      <NavBar />
       <Sidebar />
       <Main>
         <Outlet />

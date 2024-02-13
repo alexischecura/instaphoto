@@ -4,15 +4,13 @@ import FolloweesPost from '../components/home/FolloweesPost';
 
 const HomePageStyled = styled.section`
   grid-column: 2 / 3;
-  grid-row: 1/ -1;
+  grid-row: 2/ -1;
 
-  display: flex;
-  gap: 6.4rem;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 0.4fr;
 `;
 
 const HomePageContent = styled.div`
-  width: 63rem;
   margin-top: 6.4rem;
   display: flex;
   flex-direction: column;
