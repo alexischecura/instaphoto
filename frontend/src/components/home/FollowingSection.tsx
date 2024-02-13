@@ -24,6 +24,11 @@ const SuggestedFollowers = styled.div`
   margin-top: 1.6rem;
 `;
 
+const UsersContainer = styled.div`
+  position: sticky;
+  top: 2.8rem;
+`;
+
 function FollowingSection() {
   const { user, startLogOut } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -34,36 +39,38 @@ function FollowingSection() {
 
   return (
     <FollowingSectionStyled>
-      <UserCard
-        buttonLabel="Logout"
-        onClick={() => setIsModalOpen(true)}
-        caption={user.fullName}
-        username={user.username}
-        profilePhoto={user.profilePhoto}
-      />
-      <SuggestedFollowers>
-        <Heading>Suggested for you</Heading>
-        {isLoadingSuggestions ? (
-          <Skeleton
-            height="50px"
-            width="320px"
-            count={5}
-            style={{ textAlign: 'center', marginBottom: '10px' }}
-          />
-        ) : (
-          suggestedProfiles.map((profile) => (
-            <UserCard
-              key={profile.username}
-              buttonLabel={profile.isFollowing ? 'Unfollow' : 'Follow'}
-              username={profile.username}
-              caption={profile.fullName}
-              profilePhoto={profile.profilePhoto}
-              onClick={() => toggleFollow(profile.id, profile.isFollowing)}
-              isLoading={profile.isLoading}
+      <UsersContainer>
+        <UserCard
+          buttonLabel="Logout"
+          onClick={() => setIsModalOpen(true)}
+          caption={user.fullName}
+          username={user.username}
+          profilePhoto={user.profilePhoto}
+        />
+        <SuggestedFollowers>
+          <Heading>Suggested for you</Heading>
+          {isLoadingSuggestions ? (
+            <Skeleton
+              height="50px"
+              width="320px"
+              count={5}
+              style={{ textAlign: 'center', marginBottom: '10px' }}
             />
-          ))
-        )}
-      </SuggestedFollowers>
+          ) : (
+            suggestedProfiles.map((profile) => (
+              <UserCard
+                key={profile.username}
+                buttonLabel={profile.isFollowing ? 'Unfollow' : 'Follow'}
+                username={profile.username}
+                caption={profile.fullName}
+                profilePhoto={profile.profilePhoto}
+                onClick={() => toggleFollow(profile.id, profile.isFollowing)}
+                isLoading={profile.isLoading}
+              />
+            ))
+          )}
+        </SuggestedFollowers>
+      </UsersContainer>
       {isModalOpen && (
         <Modal onCloseModal={() => setIsModalOpen(false)}>
           <ConfirmCard onConfirm={startLogOut} onCloseModal={onCloseModal} />
