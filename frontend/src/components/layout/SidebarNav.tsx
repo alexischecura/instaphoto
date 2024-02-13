@@ -9,13 +9,13 @@ import {
   IoAddCircleOutline,
 } from 'react-icons/io5';
 
-import UserSidebarCard from './UserSidebarCard';
+import UserSidebarCard from './SidebarUserCard';
 import { useState } from 'react';
 import Modal from '../common/Modal';
 import CreatePost from '../posts/CreatePost';
 import { SidebarNavLink } from './SidebarNavLink';
 
-const MainNavStyled = styled.ul`
+const SidebarNavStyled = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -52,7 +52,7 @@ const NavButtonStyled = styled.button`
   }
 `;
 
-function MainNav() {
+function SidebarNav() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const toggleModal = () => {
@@ -62,7 +62,7 @@ function MainNav() {
   return (
     <>
       <UserSidebarCard />
-      <MainNavStyled>
+      <SidebarNavStyled>
         <li>
           <SidebarNavLink to="/">
             <IoHomeSharp className="sharp" />
@@ -91,7 +91,7 @@ function MainNav() {
             <IoAddCircleOutline className="outline" />
           </NavButtonStyled>
         </li>
-      </MainNavStyled>
+      </SidebarNavStyled>
       {isModalOpen && (
         <Modal onCloseModal={toggleModal}>
           <CreatePost />
@@ -101,4 +101,4 @@ function MainNav() {
   );
 }
 
-export default MainNav;
+export default SidebarNav;

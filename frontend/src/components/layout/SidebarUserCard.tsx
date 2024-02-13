@@ -3,7 +3,7 @@ import UserIcon from '../common/UserIcon';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-const NavLinkStyled = styled(NavLink)`
+const SidebarUserCardStyled = styled(NavLink)`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -39,17 +39,17 @@ const NavLinkStyled = styled(NavLink)`
   }
 `;
 
-function UserSidebarCard() {
+function SidebarUserCard() {
   const {
     user: { username, fullName, profilePhoto },
   } = useAuthStore();
   return (
-    <NavLinkStyled to={username}>
+    <SidebarUserCardStyled to={username}>
       <UserIcon profilePhoto={profilePhoto} username={username} size="md" />
       <span className="username">{username}</span>
       <span className="fullname">{fullName}</span>
-    </NavLinkStyled>
+    </SidebarUserCardStyled>
   );
 }
 
-export default UserSidebarCard;
+export default SidebarUserCard;

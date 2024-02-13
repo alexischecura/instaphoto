@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Logo from '../common/Logo';
-import MainNav from './MainNav';
+import MainNav from './SidebarNav';
 import { Link } from 'react-router-dom';
 
 const SidebarStyled = styled.aside`
