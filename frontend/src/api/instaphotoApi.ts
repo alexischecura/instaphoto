@@ -3,11 +3,11 @@ import { getEnvVariables } from '../helpers/getEnvVariables';
 
 const { VITE_API_URL } = getEnvVariables();
 
-const instagramApi = axios.create({
+const instaphotoApi = axios.create({
   baseURL: VITE_API_URL,
   withCredentials: true,
 });
 
-instagramApi.defaults.headers.common['Content-Type'] = 'application/json';
+instaphotoApi.defaults.headers.common['Content-Type'] = 'application/json';
 
-export default instagramApi;
+export default instaphotoApi;

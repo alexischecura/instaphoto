@@ -2,14 +2,14 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from './store/store';
 import GlobalStyle from './styles/GlobalStyle';
-import InstagramRouter from './router/InstagramRouter';
+import InstaphotoRouter from './router/InstaphotoRouter';
 
 function App() {
   return (
     <Provider store={store}>
       <GlobalStyle />
       <BrowserRouter>
-        <InstagramRouter />
+        <InstaphotoRouter />
       </BrowserRouter>
     </Provider>
   );

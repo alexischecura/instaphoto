@@ -1,10 +1,11 @@
-# Instagram Clone Web App - Working on it
+# Instaphoto Web App - Working on it
 
-Welcome to the Instagram clone web app repository. The idea behind this app is that users can sign up, log in, see photos, upload photos, like photos, comment on photos, and follow users.
+Welcome to the Instaphoto web app repository a instagram like web application. The idea behind this app is that users can sign up, log in, see photos, upload photos, like photos, comment on photos, and follow users.
 
 ## How to run this app
 
 ### Previous Installations
+
 - Docker
 - Yarn (optional)
 
@@ -17,40 +18,44 @@ Welcome to the Instagram clone web app repository. The idea behind this app is t
 4 - Create docker container database
 
 ```bash
-cd ./backend   
+cd ./backend
 docker compose up -d
 ```
+
 5- Install dependencies
 
 - Backend
 
 ```bash
-cd ./backend   
+cd ./backend
 yarn
 ```
+
 - Frontend
 
 ```bash
-cd ./frontend   
+cd ./frontend
 yarn
 ```
 
 6- Create databases instances
 
 ```bash
-cd ./backend   
+cd ./backend
 yarn push
 ```
+
 7. Run backend server
 
 ```bash
-cd ./backend   
+cd ./backend
 yarn start
 ```
+
 8. Run frontend react app
 
 ```bash
-cd ./backend   
+cd ./backend
 yarn start
 ```
 

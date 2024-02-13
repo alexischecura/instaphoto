@@ -1,8 +1,8 @@
 import { Comment, Post, LikeResponse, CreatePostResponse } from '../types/post';
-import instagramApi from './instagramApi';
+import instaphotoApi from './instaphotoApi';
 
 export const getFolloweesPost = async (page?: number, limit?: number) => {
-  const { data } = await instagramApi.get<Post[]>(`/post`, {
+  const { data } = await instaphotoApi.get<Post[]>(`/post`, {
     params: {
       page,
       limit,
@@ -12,14 +12,14 @@ export const getFolloweesPost = async (page?: number, limit?: number) => {
 };
 
 export const commentPost = async (comment: string, postId: string) => {
-  const { data } = await instagramApi.post<Comment>(`/post/${postId}/comment`, {
+  const { data } = await instaphotoApi.post<Comment>(`/post/${postId}/comment`, {
     comment,
   });
   return data;
 };
 
 export const likePost = async (postId: string) => {
-  const { data } = await instagramApi.post<LikeResponse>(
+  const { data } = await instaphotoApi.post<LikeResponse>(
     `/post/${postId}/like`
   );
   return data;
@@ -30,7 +30,7 @@ export const createPost = async (image: File, content: string) => {
   formData.append('image', image);
   formData.append('content', content);
   
-  const { data } = await instagramApi.post<CreatePostResponse>(
+  const { data } = await instaphotoApi.post<CreatePostResponse>(
     `/post`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }

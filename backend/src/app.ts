@@ -33,7 +33,7 @@ app.use('/api/v1/post', postRoutes);
 app.get('/test', (req, res) => {
   res
     .status(200)
-    .json({ status: 'success', message: 'Welcome to the instagram-clone API' });
+    .json({ status: 'success', message: 'Welcome to the instaphoto API' });
 });
 
 // Global errors handler

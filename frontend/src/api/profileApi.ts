@@ -1,7 +1,7 @@
 import { Profile } from '../types/user';
-import instagramApi from './instagramApi';
+import instaphotoApi from './instaphotoApi';
 
 export const getProfile = async (username: string) => {
-  const { data } = await instagramApi.get<Profile>(`/users/profile/${username}`);
+  const { data } = await instaphotoApi.get<Profile>(`/users/profile/${username}`);
   return data;
 };
