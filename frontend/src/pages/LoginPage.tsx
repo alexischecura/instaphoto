@@ -44,8 +44,9 @@ const FormContainer = styled.div`
 `;
 
 function LoginPage() {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { startLogin, errorMessage, status, checkAuthToken } = useAuthStore();
+  const [isLoadingDemo, setIsLoadingDemo] = useState(false);
 
   useEffect(() => {
     checkAuthToken();
@@ -67,6 +68,11 @@ function LoginPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     startLogin(formValues);
+  };
+  const handleDemo = async () => {
+    setIsLoadingDemo(true);
+    await startLogin({ identifier: 'alexischecura', password: 'pass1234' });
+    setIsLoadingDemo(false);
   };
 
   return (
@@ -100,9 +106,15 @@ function LoginPage() {
             />
             <MainButton
               text="Log in"
-              isLoading={isLoading}
+              isLoading={isLoading && !isLoadingDemo}
               disabled={!isFormValid}
               type="submit"
+            />
+            <MainButton
+              text="Demo"
+              isLoading={isLoadingDemo}
+              type="button"
+              onClick={handleDemo}
             />
           </StyledForm>
           <FormDivider>or</FormDivider>
@@ -110,6 +122,7 @@ function LoginPage() {
           <ForgotPasswordLink to="/password/reset">
             Reset password
           </ForgotPasswordLink>
+          <FormDivider>or</FormDivider>
         </AuthBox>
         <AuthBox>
           <AuthLink linkLabel="Sign up" to="/signup">
