@@ -8,6 +8,7 @@ import postRoutes from './routes/postRoutes';
 
 import globalErrorHandler from './controllers/errorController';
 import { authenticateUser } from './middlewares/authenticateUser';
+import { rateLimit } from './middlewares/rateLimit';
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use('/api', rateLimit);
 
 app.use('/api/v1/users', userRoutes);
 
