@@ -20,13 +20,22 @@ const NavLinkStyled = styled(NavLink)`
     transition: font-weight 0.3s ease;
   }
 
-  &:hover,
-  &.active {
+  & span {
+    transition: font-weight 0.3s ease;
+    line-height: 80%;
+  }
+
+  &:hover .username,
+  &.active .username {
     font-weight: 600;
   }
 
   &.active img {
     outline: 2px solid #000;
+  }
+  & .fullname {
+    color: var(--text-color-gray);
+    font-weight: 500;
   }
 `;
 
@@ -37,7 +46,8 @@ function UserSidebarCard() {
   return (
     <NavLinkStyled to={username}>
       <UserIcon profilePhoto={profilePhoto} username={username} size="md" />
-      <span>{fullName}</span>
+      <span className="username">{username}</span>
+      <span className="fullname">{fullName}</span>
     </NavLinkStyled>
   );
 }
