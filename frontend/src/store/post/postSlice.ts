@@ -4,6 +4,7 @@ import { Comment, Like, Post } from '../../types/post';
 type InitialState = {
   isLoadingPost: boolean;
   isCreatingPost: boolean;
+  noMoreFriendsPost: boolean;
   followeesPosts: Post[] | [];
   errorMessage: string | undefined;
   page: number;
@@ -12,6 +13,7 @@ type InitialState = {
 const initialState: InitialState = {
   isLoadingPost: false,
   isCreatingPost: false,
+  noMoreFriendsPost: false,
   followeesPosts: [],
   errorMessage: undefined,
   page: 2,
@@ -73,6 +75,10 @@ const postSlice = createSlice({
       state.isLoadingPost = false;
       state.errorMessage = action.payload;
     },
+    noMorePostFromFriends: (state) => {
+      state.noMoreFriendsPost = true;
+      state.isLoadingPost = false;
+    },
   },
 });
 
@@ -86,6 +92,7 @@ export const {
   setCommentInPost,
   startCreatePostRequest,
   postCreated,
+  noMorePostFromFriends,
 } = postSlice.actions;
 
 export default postSlice;

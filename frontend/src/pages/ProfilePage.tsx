@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import HeaderProfile from '../components/profile/HeaderProfile';
 import ProfilePosts from '../components/profile/ProfilePosts';
 import { useProfileStore } from '../hooks/useProfileStore';
+import LoadingCircle from '../components/common/LoadingCircle';
 
 const Profile = styled.div`
   display: flex;
@@ -19,8 +20,7 @@ const Divider = styled.div`
 function ProfilePage() {
   const { profile, isLoadingProfile } = useProfileStore();
 
-  if (isLoadingProfile)
-    return <h1 style={{ fontSize: '40px' }}>Loading profile...</h1>;
+  if (isLoadingProfile) return <LoadingCircle />;
   if (profile)
     return (
       <Profile>

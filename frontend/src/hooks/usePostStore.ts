@@ -15,6 +15,7 @@ import {
   setCommentInPost,
   startCreatePostRequest,
   postCreated,
+  noMorePostFromFriends,
 } from '../store/post/postSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 
@@ -26,6 +27,7 @@ export const usePostStore = () => {
     isLoadingPost,
     isCreatingPost,
     page,
+    noMoreFriendsPost,
   } = useAppSelector((state) => state.post);
 
   const startGettingFolloweesPost = async () => {
@@ -47,9 +49,11 @@ export const usePostStore = () => {
   };
 
   const startLoadingMorePost = async () => {
+    dispatch(startPostRequest());
     try {
       const posts = await getFolloweesPost(page, 3);
       if (!posts) {
+        dispatch(noMorePostFromFriends());
         return;
       }
       dispatch(loadMorePost(posts));
@@ -128,6 +132,7 @@ export const usePostStore = () => {
     isCreatingPost,
     followeesPosts,
     page,
+    noMoreFriendsPost,
     startGettingFolloweesPost,
     startLoadingMorePost,
     startCommentingPost,

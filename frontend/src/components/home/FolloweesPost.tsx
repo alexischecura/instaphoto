@@ -2,16 +2,24 @@ import { useEffect, useRef } from 'react';
 import { usePostStore } from '../../hooks/usePostStore';
 import PostCard from '../posts/PostCard';
 import styled from 'styled-components';
+import Spinner from '../common/Spinner';
 
 const Message = styled.p`
-  font-size: 1.8rem;
-  font-weight: 500;
-`
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 2.4rem 0;
+`;
+
+const SpinnerContainer = styled.div`
+  text-align: center;
+`;
 
 function FolloweesPost() {
   const {
     followeesPosts,
     isLoadingPost,
+    noMoreFriendsPost,
     startLoadingMorePost,
     startGettingFolloweesPost,
   } = usePostStore();
@@ -19,6 +27,7 @@ function FolloweesPost() {
   const observedElement = useRef(null);
 
   useEffect(() => {
+    if (noMoreFriendsPost || isLoadingPost) return;
     const initObserver = () => {
       const observer = new IntersectionObserver((entries) => {
         if (entries[0]?.isIntersecting) {
@@ -27,13 +36,14 @@ function FolloweesPost() {
       });
       if (observedElement.current) observer.observe(observedElement.current);
 
-      return () => observer.disconnect();
+      return () => {
+        // observer.unobserve(observedElement.current);
+        observer.disconnect();
+      };
     };
 
-    if (followeesPosts.length > 0) {
-      return initObserver();
-    }
-  }, [followeesPosts]);
+    return initObserver();
+  }, [followeesPosts, noMoreFriendsPost, isLoadingPost, startLoadingMorePost]);
 
   useEffect(() => {
     startGettingFolloweesPost();
@@ -58,7 +68,10 @@ function FolloweesPost() {
           );
         })
       ) : (
-        <Message>Appear no one of the users than you are following has a post, try to follow another user</Message>
+        <Message>
+          Appear no one of the users than you are following has a post, try to
+          follow another user
+        </Message>
       )}
       <div
         ref={observedElement}
@@ -67,7 +80,16 @@ function FolloweesPost() {
           width: '100%',
         }}
       />
-      {isLoadingPost && <h1>Loading ...</h1>}
+      {isLoadingPost && (
+        <SpinnerContainer>
+          <Spinner color="#333" />
+        </SpinnerContainer>
+      )}
+      {noMoreFriendsPost && (
+        <Message>
+          Looks like you've seen everything! You can follow someone else.
+        </Message>
+      )}
     </div>
   );
 }
