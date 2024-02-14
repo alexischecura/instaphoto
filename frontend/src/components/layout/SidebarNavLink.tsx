@@ -20,6 +20,9 @@ export const SidebarNavLink = styled(NavLink)`
     @media (max-width: 1250px) {
       justify-content: center;
     }
+    @media (max-width: 800px) {
+      padding: 1.2rem 1rem;
+    }
   }
 
   &:hover {

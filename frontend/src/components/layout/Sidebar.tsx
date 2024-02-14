@@ -9,7 +9,6 @@ const SidebarStyled = styled.aside`
   padding: 1.5rem 1.2rem;
   height: 100vh;
   border-right: 1px solid var(--color-gray-700);
-
   grid-row: 1/ -1;
   grid-column: 1 / 2;
   display: flex;

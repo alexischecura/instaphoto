@@ -11,6 +11,7 @@ const UserNavCardStyled = styled.div`
   align-items: center;
   justify-content: center;
   width: 32rem;
+  padding: 0 2.4rem;
 
   & button {
     border: none;
@@ -24,6 +25,9 @@ const UserNavCardStyled = styled.div`
       height: 2.4rem;
       width: 2.4rem;
     }
+  }
+  @media (max-width: 1050px) {
+    width: auto;
   }
 `;
 

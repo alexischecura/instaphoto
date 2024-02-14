@@ -23,7 +23,6 @@ const SidebarNavStyled = styled.ul`
   text-decoration: none;
 
   @media (max-width: 1250px) {
-    width: 8rem;
     & span {
       display: none;
     }

@@ -8,6 +8,9 @@ const HomePageStyled = styled.section`
 
   display: grid;
   grid-template-columns: 1fr 0.4fr;
+  @media (max-width: 1050px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const HomePageContent = styled.div`

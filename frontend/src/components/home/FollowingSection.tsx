@@ -6,6 +6,10 @@ import { useFollowStore } from '../../hooks/useFollowStore';
 
 const FollowingSectionStyled = styled.aside`
   grid-column: 2 / 3;
+
+  @media (max-width: 1050px) {
+    display: none;
+  }
 `;
 const Heading = styled.h4`
   font-size: 1.4rem;

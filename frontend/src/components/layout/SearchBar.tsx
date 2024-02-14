@@ -2,7 +2,9 @@ import { IoSearch } from 'react-icons/io5';
 import styled from 'styled-components';
 
 const SearchFormStyled = styled.form`
-  margin: auto;
+  align-self: center;
+  justify-self: center;
+  padding: 0 2.4rem;
 `;
 
 const InputContainer = styled.div`
