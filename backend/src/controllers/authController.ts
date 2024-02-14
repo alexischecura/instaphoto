@@ -148,6 +148,7 @@ export const loginUserHandler = async (
     const cookieOptions: CookieOptions = {
       httpOnly: true,
       sameSite: 'none',
+      secure: true,
       expires: new Date(
         Date.now() + envVars.JWT_COOKIE_EXPIRES_IN * 60 * 60 * 1000
       ),
