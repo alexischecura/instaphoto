@@ -37,6 +37,12 @@ const SidebarUserCardStyled = styled(NavLink)`
     color: var(--text-color-gray);
     font-weight: 500;
   }
+
+  @media (max-width: 1250px) {
+    & span {
+      display: none;
+    }
+  }
 `;
 
 function SidebarUserCard() {

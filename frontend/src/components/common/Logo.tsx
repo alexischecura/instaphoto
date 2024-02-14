@@ -11,6 +11,7 @@ function Logo({ variation = 'small' }: LogoProps) {
 
   return (
     <svg
+      className="logo"
       width={width}
       height={height}
       viewBox="0 0 211 61"

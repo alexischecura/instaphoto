@@ -21,6 +21,16 @@ const SidebarNavStyled = styled.ul`
   gap: 0.6rem;
   list-style: none;
   text-decoration: none;
+
+  @media (max-width: 1250px) {
+    width: 8rem;
+    & span {
+      display: none;
+    }
+    & button {
+      padding: 0.8rem;
+    }
+  }
 `;
 
 const NavButtonStyled = styled.button`

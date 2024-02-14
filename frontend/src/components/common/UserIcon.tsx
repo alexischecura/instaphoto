@@ -9,25 +9,29 @@ type UserIconProps = {
   size: 'sm' | 'md' | 'lg';
 };
 
-const ProfilePicture = styled.img`
+const ProfilePicture = styled.img<UserIconProps>`
   border-radius: 50%;
-  width: 100%;
-  height: 100%;
+
+  width: ${({ size }) =>
+    size === 'sm' ? '36px' : size === 'md' ? '64px' : '96px'};
+  height: ${({ size }) =>
+    size === 'sm' ? '36px' : size === 'md' ? '64px' : '96px'};
+
+  @media (max-width: 1250px) {
+    width: ${({ size }) =>
+      size === 'sm' ? '26px' : size === 'md' ? '40px' : '74px'};
+    height: ${({ size }) =>
+      size === 'sm' ? '26px' : size === 'md' ? '40px' : '74px'};
+  }
 `;
 
-const UserIconSizes = {
-  sm: '36px',
-  md: '64px',
-  lg: '96px',
-};
-
-function UserIcon({ profilePhoto, username, size }: UserIconProps) {
+function UserIcon(props: UserIconProps) {
   return (
     <ProfilePicture
-      style={{ height: UserIconSizes[size], width: UserIconSizes[size] }}
+      {...props}
       className="profile"
-      src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`}
-      alt={`${username} profile picture`}
+      src={`${VITE_USER_IMAGE_URL}/${props.profilePhoto}`}
+      alt={`${props.username} profile picture`}
     />
   );
 }

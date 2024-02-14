@@ -9,7 +9,6 @@ export const SidebarNavLink = styled(NavLink)`
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    /* margin: 0 auto; */
     padding: 1.2rem 2.4rem;
     color: inherit;
     font-size: 1.6rem;
@@ -18,6 +17,9 @@ export const SidebarNavLink = styled(NavLink)`
     border-radius: 0.8rem;
     background: none;
     width: 100%;
+    @media (max-width: 1250px) {
+      justify-content: center;
+    }
   }
 
   &:hover {
