@@ -1,12 +1,12 @@
 {
   "name": "instaphoto-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/server.ts",
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only --exit-child src/server.ts",
     "migrate": "npx prisma migrate dev --name user-entity && npx prisma generate",
     "push": "npx prisma db push",
-    "build": "tsc . -p"
+    "build": "tsc -p tsconfig.json"
   },
   "license": "MIT",
   "dependencies": {
