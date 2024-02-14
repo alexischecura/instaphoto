@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 const PostContentStyled = styled.p`
   font-size: 1.2rem;
+  @media (max-width: 700px) {
+    padding: 0 0.4rem;
+  }
 `;
 
 const Hashtag = styled(Link)`

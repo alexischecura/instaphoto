@@ -9,10 +9,17 @@ const NavBarStyled = styled.nav`
   width: 100%;
   border-bottom: 1px solid var(--color-gray-700);
   height: 6.4rem;
+  
   @media (max-width: 1050px) {
     display: flex;
     justify-content: space-around;
     align-items: center;
+  }
+
+  @media (max-width: 700px) {
+    grid-row: 1/ 2;
+    grid-column: 1 / 2;
+    padding-left: 3rem;
   }
 `;
 

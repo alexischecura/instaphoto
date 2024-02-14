@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const SearchFormStyled = styled.form`
   align-self: center;
   justify-self: center;
-  padding: 0 2.4rem;
+  padding-left: 4rem;
 `;
 
 const InputContainer = styled.div`
@@ -16,6 +16,11 @@ const InputContainer = styled.div`
   display: flex;
   align-items: center;
   height: 3rem;
+
+  @media (max-width: 800px) {
+    max-width: 28rem;
+    width: auto;
+  }
 `;
 
 const Label = styled.label`

@@ -42,8 +42,12 @@ const Heart = styled(IoHeartSharp)`
 const Image = styled.img`
   user-select: none;
   width: 100%;
-  border-radius: 3px;
+  border-radius: 4px;
   min-height: 30rem;
+
+  @media (max-width: 700px) {
+    border-radius: 0;
+  }
 `;
 
 type PostContentProps = {

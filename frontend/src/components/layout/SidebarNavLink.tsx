@@ -17,11 +17,19 @@ export const SidebarNavLink = styled(NavLink)`
     border-radius: 0.8rem;
     background: none;
     width: 100%;
+
     @media (max-width: 1250px) {
       justify-content: center;
+      & svg {
+        width: 3.4rem;
+        height: 3.4rem;
+      }
     }
     @media (max-width: 800px) {
       padding: 1.2rem 1rem;
+    }
+    @media (max-width: 700px) {
+      padding: 0;
     }
   }
 

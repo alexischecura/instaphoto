@@ -24,6 +24,10 @@ const PostCardStyled = styled.article`
     background-color: var(--color-gray-700);
     width: 100%;
   }
+
+  @media (max-width: 700px) {
+    width: auto;
+  }
 `;
 
 type PostCardProps = {

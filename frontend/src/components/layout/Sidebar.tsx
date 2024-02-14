@@ -14,6 +14,14 @@ const SidebarStyled = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+
+  @media (max-width: 700px) {
+    grid-row: 3/ -1;
+    grid-column: 1 / -1;
+    height: auto;
+    border-right: none;
+    border-top: 1px solid var(--color-gray-700);
+  }
 `;
 
 const LogoContainer = styled(Link)`
@@ -42,6 +50,13 @@ const LogoContainer = styled(Link)`
     & .icon {
       display: inline-block;
     }
+  }
+
+  @media (max-width: 700px) {
+    position: absolute;
+    top: 1.4rem;
+    left: 0;
+    padding: 0 2rem;
   }
 `;
 

@@ -15,6 +15,9 @@ const PostButtonsStyled = styled.div`
   & button:last-child {
     margin-left: auto;
   }
+  @media (max-width: 700px) {
+    padding: 0 0.4rem;
+  }
 `;
 
 const Button = styled.button`

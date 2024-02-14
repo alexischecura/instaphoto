@@ -3,9 +3,6 @@ import FollowingSection from '../components/home/FollowingSection';
 import FolloweesPost from '../components/home/FolloweesPost';
 
 const HomePageStyled = styled.section`
-  grid-column: 2 / 3;
-  grid-row: 2/ -1;
-
   display: grid;
   grid-template-columns: 1fr 0.4fr;
   @media (max-width: 1050px) {
@@ -14,10 +11,14 @@ const HomePageStyled = styled.section`
 `;
 
 const HomePageContent = styled.div`
-  margin-top: 6.4rem;
+  margin-top: 4.6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 700px) {
+    margin-top: 2rem;
+  }
 `;
 
 function HomePage() {

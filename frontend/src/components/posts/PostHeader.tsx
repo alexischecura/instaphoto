@@ -12,6 +12,9 @@ const PostHeaderStyled = styled.header`
   width: 100%;
   display: flex;
   align-items: center;
+  @media (max-width: 700px) {
+    padding: 0 0.4rem;
+  }
 `;
 
 const ProfilePicture = styled.img`

@@ -18,7 +18,6 @@ import { SidebarNavLink } from './SidebarNavLink';
 const SidebarNavStyled = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
   list-style: none;
   text-decoration: none;
 
@@ -28,6 +27,29 @@ const SidebarNavStyled = styled.ul`
     }
     & button {
       padding: 0.8rem;
+    }
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff;
+
+    & :nth-child(1) {
+       order: 5;
+    } 
+    & :nth-child(2) {
+       order: 1;
+    } 
+    & :nth-child(3) {
+       order: 2;
+    } 
+    & :nth-child(4) {
+       order: 4;
+    } 
+    & :nth-child(5) {
+      order: 3;
     }
   }
 `;
@@ -59,6 +81,10 @@ const NavButtonStyled = styled.button`
     height: 2.6rem;
     width: 2.6rem;
   }
+
+  @media (max-width: 700px) {
+    margin: 0;
+  }
 `;
 
 function SidebarNav() {
@@ -70,8 +96,10 @@ function SidebarNav() {
 
   return (
     <>
-      <UserSidebarCard />
       <SidebarNavStyled>
+        <li>
+          <UserSidebarCard />
+        </li>
         <li>
           <SidebarNavLink to="/">
             <IoHomeSharp className="sharp" />
@@ -93,7 +121,6 @@ function SidebarNav() {
             <span>Messages</span>
           </SidebarNavLink>
         </li>
-
         <li>
           <NavButtonStyled onClick={toggleModal}>
             <span>Create</span>

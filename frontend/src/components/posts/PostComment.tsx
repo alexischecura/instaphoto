@@ -9,6 +9,9 @@ const PostCommentStyled = styled.form`
   width: 100%;
   justify-content: space-between;
   gap: 1rem;
+  @media (max-width: 700px) {
+    padding: 0 0.4rem;
+  }
 `;
 
 /**
@@ -52,6 +55,10 @@ const ViewComments = styled(Link)`
     color: var(--text-color-gray);
     text-decoration: none;
     font-size: 1.2rem;
+  }
+
+  @media (max-width: 700px) {
+    padding: 0 0.4rem;
   }
 `;
 const Comment = styled.p`

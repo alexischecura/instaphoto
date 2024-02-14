@@ -43,6 +43,12 @@ const SidebarUserCardStyled = styled(NavLink)`
       display: none;
     }
   }
+  @media (max-width: 700px) {
+    padding: 0;
+    & span {
+      display: none;
+    }
+  }
 `;
 
 function SidebarUserCard() {
