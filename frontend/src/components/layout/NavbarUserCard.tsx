@@ -5,6 +5,7 @@ import { useAuthStore } from '../../hooks/useAuthStore';
 import Modal from '../common/Modal';
 import ConfirmCard from '../common/ConfirmCard';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const UserNavCardStyled = styled.div`
   display: flex;
@@ -50,7 +51,9 @@ function UserNavCard() {
         <NotificationButton>
           <IoNotificationsOutline />
         </NotificationButton>
-        <UserIcon size="sm" username={username} profilePhoto={profilePhoto} />
+        <NavLink to={username}>
+          <UserIcon size="sm" username={username} profilePhoto={profilePhoto} />
+        </NavLink>
         <button onClick={() => setIsModalOpen(true)}>
           <IoChevronDown />
         </button>
