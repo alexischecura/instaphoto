@@ -12,6 +12,7 @@ const HomePageStyled = styled.section`
 
 const HomePageContent = styled.div`
   margin-top: 4.6rem;
+  min-height: 80rem;
   display: flex;
   flex-direction: column;
   align-items: center;

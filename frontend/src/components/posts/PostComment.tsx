@@ -64,6 +64,9 @@ const ViewComments = styled(Link)`
 const Comment = styled.p`
   font-size: 1.2rem;
   line-height: 0.6rem;
+  @media (max-width: 700px) {
+    padding: 0 0.4rem;
+  }
 `;
 
 const Username = styled(Link)`
