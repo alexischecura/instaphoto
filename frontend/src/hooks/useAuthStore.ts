@@ -1,6 +1,4 @@
 import {
-  BasicResponse,
-  EmailVerificationType,
   LoginUserResponse,
   LoginUserType,
   SignUpUserType,
@@ -10,8 +8,6 @@ import {
   startAuthLoading,
   userLoggedIn,
   userLoggedOut,
-  emailVerificationPending,
-  emailVerified,
 } from '../store/auth/authSlice';
 import { AxiosError } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,7 +17,6 @@ import {
   loginUser,
   logoutUser,
   signUpUser,
-  verifyUser,
 } from '../api/authApi';
 
 export const useAuthStore = () => {
@@ -57,9 +52,9 @@ export const useAuthStore = () => {
     dispatch(startAuthLoading());
 
     try {
-      const data: BasicResponse = await signUpUser(user);
-      dispatch(emailVerificationPending(data.message));
-      navigate('/verification');
+      const data: LoginUserResponse = await signUpUser(user);
+      dispatch(userLoggedIn(data.user));
+      navigate('/');
     } catch (error) {
       console.error({ error });
       if (error instanceof AxiosError) {
@@ -67,29 +62,6 @@ export const useAuthStore = () => {
           userLoggedOut(
             error.response?.data?.message ||
               'Something went wrong trying to sing up'
-          )
-        );
-      } else {
-        dispatch(userLoggedOut('An unknown error occurred.'));
-      }
-    }
-  };
-
-  const startVerificationEmail = async ({
-    verificationCode,
-  }: EmailVerificationType) => {
-    dispatch(startAuthLoading());
-    try {
-      const data: BasicResponse = await verifyUser({ verificationCode });
-      dispatch(emailVerified(data.message));
-      navigate('/login');
-    } catch (error) {
-      console.error({ error });
-      if (error instanceof AxiosError) {
-        dispatch(
-          userLoggedOut(
-            error.response?.data?.message ||
-              'Something went wrong trying to verify the email'
           )
         );
       } else {
@@ -128,7 +100,6 @@ export const useAuthStore = () => {
     startLogin,
     startSignUp,
     startLogOut,
-    startVerificationEmail,
     checkAuthToken,
   };
 };

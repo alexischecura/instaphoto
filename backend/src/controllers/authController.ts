@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, CookieOptions } from 'express';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
@@ -32,34 +32,14 @@ export const createUserHandler = async (
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const verifyCode = crypto.randomBytes(32).toString('hex');
-    const verificationCode = crypto
-      .createHash('sha256')
-      .update(verifyCode)
-      .digest('hex');
-
-    // Create new user in DB
     const newUser = await createUser({
       fullName,
       username: username.toLowerCase(),
       email: email.toLowerCase(),
       password: hashedPassword,
-      verificationCode,
     });
 
-    const verificationUrl = `${envVars.ORIGIN}/verification/${verifyCode}`;
-    try {
-      await new Email(newUser, verificationUrl).sendVerificationCode();
-    } catch (error) {
-      return new InternalServerError(
-        'There was an error sending the verification email. Please try again later.'
-      );
-    }
-
-    res.status(201).json({
-      status: 'success',
-      message: 'A verification link has been sent to your email account',
-    });
+    sendTokenResponse(newUser, res);
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -77,41 +57,6 @@ export const createUserHandler = async (
     console.error(error);
     return next(
       new InternalServerError('Something went wrong when signing in')
-    );
-  }
-};
-
-export const verifyUserHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const verificationCode = crypto
-      .createHash('sha256')
-      .update(req.params.code)
-      .digest('hex');
-
-    const user = await findUniqueUser({ where: { verificationCode } });
-
-    if (!user) {
-      return next(new AuthenticationError('Invalid verification code'));
-    }
-
-    await updateUser(
-      {
-        id: user.id,
-      },
-      { verified: true, verificationCode: null }
-    );
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Email verified successfully',
-    });
-  } catch (error) {
-    return next(
-      new InternalServerError('Something went wrong when verifying the email')
     );
   }
 };
@@ -134,43 +79,49 @@ export const loginUserHandler = async (
         )
       );
     }
-
-    if (!user.verified) {
-      return next(new AuthorizationError('Please verify your email'));
-    }
-
-    // 3 - Generate token
-    //   - Set token in cookies
-    const token = signJwt(
-      { id: user.id },
-      { expiresIn: `${envVars.JWT_EXPIRES_IN}h` }
-    );
-    const cookieOptions: CookieOptions = {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-      expires: new Date(
-        Date.now() + envVars.JWT_COOKIE_EXPIRES_IN * 60 * 60 * 1000
-      ),
-    };
-    res.cookie('token', token, cookieOptions);
-
-    // 4 - Response json with user's info and token
-    res.status(200).json({
-      user: {
-        fullName: user.fullName,
-        username: user.username,
-        email: user.email,
-        profilePhoto: user.profilePhoto,
-        id: user.id,
-      },
-      token,
-    });
+    sendTokenResponse(user, res);
   } catch (error: any) {
     return next(
       new InternalServerError('Something went wrong when logging in')
     );
   }
+};
+
+/**
+ * Generates a JWT token saving the user ID, sets it in a cookie, and sends the response
+ * with the user's information indicating that the user has successfully logged in.
+ *
+ * @param user The user object containing user information.
+ * @param res The response object to send the HTTP response.
+ */
+const sendTokenResponse = (user: User, res: Response) => {
+  // Generate token
+  // Set token in cookies
+  const token = signJwt(
+    { id: user.id },
+    { expiresIn: `${envVars.JWT_EXPIRES_IN}h` }
+  );
+  const cookieOptions: CookieOptions = {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+    expires: new Date(
+      Date.now() + envVars.JWT_COOKIE_EXPIRES_IN * 60 * 60 * 1000
+    ),
+  };
+  res.cookie('token', token, cookieOptions);
+
+  // Response json with user's info and token
+  res.status(200).json({
+    user: {
+      fullName: user.fullName,
+      username: user.username,
+      email: user.email,
+      profilePhoto: user.profilePhoto,
+      id: user.id,
+    },
+    token,
+  });
 };
 
 export const logoutUserHandler = async (
@@ -201,10 +152,6 @@ export const forgotPasswordHandler = async (
       return next(
         new NotFoundError('There is no user with that email address.')
       );
-    }
-
-    if (!user.verified) {
-      return next(new AuthorizationError('Please verify your email.'));
     }
 
     if (user.provider) {

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import {
-  emailVerificationSchema,
   loginUserSchema,
   signUpUserSchema,
 } from '../schemas/authSchemas';
@@ -8,7 +7,6 @@ import { Post } from './post';
 
 export type LoginUserType = z.infer<typeof loginUserSchema>;
 export type SignUpUserType = z.infer<typeof signUpUserSchema>;
-export type EmailVerificationType = z.infer<typeof emailVerificationSchema>;
 
 export type User = {
   fullName: string;

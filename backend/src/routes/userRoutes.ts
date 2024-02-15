@@ -5,7 +5,6 @@ import {
   loginUserHandler,
   logoutUserHandler,
   resetPasswordHandler,
-  verifyUserHandler,
 } from '../controllers/authController';
 import {
   createManyUsersHandler,
@@ -31,13 +30,7 @@ import { resizeProfilePhotoAndSave } from '../middlewares/resizeProfilePhotoAndS
 
 const router = Router();
 
-router
-  .post('/signup', validate(createUserSchema, 'body'), createUserHandler)
-  .get(
-    '/verification/:code',
-    validate(verificationCodeSchema, 'params'),
-    verifyUserHandler
-  );
+router.post('/signup', validate(createUserSchema, 'body'), createUserHandler);
 
 router.post('/login', validate(loginUserSchema, 'body'), loginUserHandler);
 
@@ -60,7 +53,6 @@ router.get(
 );
 
 router.use(authenticateUser);
-
 
 router.post('/logout', logoutUserHandler);
 router.get('/me', getCurrentUserHandler);

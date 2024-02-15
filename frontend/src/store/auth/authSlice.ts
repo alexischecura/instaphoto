@@ -39,18 +39,6 @@ const authSlice = createSlice({
       state.errorMessage = undefined;
       state.successMessage = 'User successfully logged';
     },
-    emailVerificationPending: (state, action: PayloadAction<string>) => {
-      state.status = AuthStatus.emailVerificationPending;
-      state.user = {};
-      state.errorMessage = undefined;
-      state.successMessage = action.payload;
-    },
-    emailVerified: (state, action: PayloadAction<string>) => {
-      state.status = AuthStatus.notAuthenticated;
-      state.user = {};
-      state.errorMessage = undefined;
-      state.successMessage = action.payload;
-    },
     userLoggedOut: (state, action: PayloadAction<string | undefined>) => {
       state.status = AuthStatus.notAuthenticated;
       state.user = {};
@@ -70,8 +58,6 @@ export const {
   startAuthLoading,
   userLoggedIn,
   userLoggedOut,
-  emailVerificationPending,
-  emailVerified,
   clearSuccessMessage,
   clearErrorMessage,
 } = authSlice.actions;
