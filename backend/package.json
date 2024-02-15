@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "./src/server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only --exit-child src/server.ts",
+    "start:dev": "ts-node-dev --respawn --transpile-only --exit-child src/server.ts",
+    "start:prod": "node ./dist/src/server.js",
     "migrate": "npx prisma migrate dev --name user-entity && npx prisma generate",
     "push": "npx prisma db push",
-    "build": "tsc -p tsconfig.json"
+    "build": "yarn install && tsc -p tsconfig.json && cp -r public dist"
   },
   "license": "MIT",
   "dependencies": {
