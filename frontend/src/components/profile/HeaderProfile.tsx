@@ -5,15 +5,24 @@ import { getEnvVariables } from '../../helpers/getEnvVariables';
 const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
 const Header = styled.header`
-  margin-top: 3rem;
+  margin: 3rem auto;
+  gap: 2.4rem;
   display: flex;
-  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 550px) {
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 0;
+  }
 `;
 
-const ProfilePictureContainer = styled.div`
-  width: 45rem;
+const UserProfile = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 `;
 
 const ProfilePicture = styled.img`
@@ -24,11 +33,16 @@ const ProfilePicture = styled.img`
 `;
 
 const HeaderInfo = styled.header`
+  min-height: 15rem;
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
   width: 100%;
   padding: 1rem 2rem;
+
+  @media (max-width: 550px) {
+    min-height: auto;
+  }
 `;
 
 const HeadingSecondary = styled.h2`
@@ -40,8 +54,14 @@ const List = styled.ul`
   font-size: 1.6rem;
   display: flex;
   gap: 4rem;
+
   & li span:first-child {
     font-weight: 600;
+  }
+
+  @media (max-width: 550px) {
+    justify-content: center;
+    font-size: 1.5rem;
   }
 `;
 
@@ -65,11 +85,12 @@ function HeaderProfile({ profile }: { profile: Profile }) {
 
   return (
     <Header>
-      <ProfilePictureContainer>
+      <UserProfile>
         <ProfilePicture src={`${VITE_USER_IMAGE_URL}/${profilePhoto}`} />
-      </ProfilePictureContainer>
-      <HeaderInfo>
         <HeadingSecondary>{username}</HeadingSecondary>
+        <HeadingTertiary>{fullName}</HeadingTertiary>
+      </UserProfile>
+      <HeaderInfo>
         <List>
           <li>
             <span>{quantities.posts}</span>
@@ -84,7 +105,6 @@ function HeaderProfile({ profile }: { profile: Profile }) {
             <span> Following</span>
           </li>
         </List>
-        <HeadingTertiary>{fullName}</HeadingTertiary>
         <Description>{description}</Description>
       </HeaderInfo>
     </Header>
