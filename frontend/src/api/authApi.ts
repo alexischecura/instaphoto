@@ -1,6 +1,4 @@
 import {
-  BasicResponse,
-  EmailVerificationType,
   GetUserResponse,
   LoginUserResponse,
   LoginUserType,
@@ -17,18 +15,9 @@ export const loginUser = async ({ identifier, password }: LoginUserType) => {
 };
 
 export const signUpUser = async (user: SignUpUserType) => {
-  const { data } = await instaphotoApi.post<BasicResponse>(
+  const { data } = await instaphotoApi.post<LoginUserResponse>(
     '/users/signup',
     user
-  );
-  return data;
-};
-
-export const verifyUser = async ({
-  verificationCode,
-}: EmailVerificationType) => {
-  const { data } = await instaphotoApi.get<BasicResponse>(
-    `/users/verification/${verificationCode}`
   );
   return data;
 };

@@ -16,12 +16,18 @@ const PostContainer = styled.section`
   }
 `;
 
-const PostImage = styled.img`
-  height: 100%;
+const ImageContainer = styled.div`
+  position: relative;
   width: 100%;
-  max-height: 31rem;
-  max-width: 31rem;
+  height: 0;
+  padding-top: 100%;
+`;
 
+const PostImage = styled.img`
+  transform: translateY(-100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 
@@ -32,10 +38,9 @@ function ProfilePosts({ posts }: { posts: Post[] }) {
       {posts.length > 0 ? (
         posts.map((post) => {
           return (
-            <PostImage
-              src={`${VITE_POST_IMAGE_URL}/${post.postPhoto}`}
-              key={post.id}
-            />
+            <ImageContainer key={post.id}>
+              <PostImage src={`${VITE_POST_IMAGE_URL}/${post.postPhoto}`} />
+            </ImageContainer>
           );
         })
       ) : (

@@ -55,7 +55,7 @@ export const findProfile = async (username: string) => {
       fullName: true,
       profilePhoto: true,
       description: true,
-      posts: { take: 12 },
+      posts: { take: 12, orderBy: { createdAt: 'desc' } },
       followers: { take: 5 },
       followees: { take: 5 },
       _count: {

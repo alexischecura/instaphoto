@@ -1,11 +1,13 @@
-import { IoChevronDown, IoNotificationsOutline } from 'react-icons/io5';
-import styled from 'styled-components';
-import UserIcon from '../common/UserIcon';
-import { useAuthStore } from '../../hooks/useAuthStore';
-import Modal from '../common/Modal';
-import ConfirmCard from '../common/ConfirmCard';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { IoChevronDown, IoNotificationsOutline } from 'react-icons/io5';
+import UserIcon from '../common/UserIcon';
+
+import Modal from '../common/Modal';
+import MenuCard from '../common/MenuCard';
+
+import { useAuthStore } from '../../hooks/useAuthStore';
 
 const UserNavCardStyled = styled.div`
   display: flex;
@@ -59,8 +61,13 @@ function UserNavCard() {
         </button>
       </UserNavCardStyled>
       {isModalOpen && (
-        <Modal onCloseModal={() => setIsModalOpen(false)}>
-          <ConfirmCard onConfirm={startLogOut} onCloseModal={onCloseModal} />
+        <Modal onCloseModal={onCloseModal}>
+          <MenuCard title={'Are you sure to log out?'}>
+            <MenuCard.Button onClick={startLogOut} danger>
+              Confirm
+            </MenuCard.Button>
+            <MenuCard.Button onClick={onCloseModal}>Cancel</MenuCard.Button>
+          </MenuCard>
         </Modal>
       )}
     </>

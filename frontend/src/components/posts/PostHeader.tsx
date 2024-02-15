@@ -1,10 +1,11 @@
 import { formatDistanceToNowStrict } from 'date-fns';
 import { IoEllipsisHorizontal } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getEnvVariables } from '../../helpers/getEnvVariables';
 import { useState } from 'react';
 import Modal from '../common/Modal';
+import MenuCard from '../common/MenuCard';
 
 const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
@@ -70,6 +71,7 @@ type PostHeaderProps = {
 
 function PostHeader({ user, postDate }: PostHeaderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -92,7 +94,25 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
       <Button onClick={openModal}>
         <IoEllipsisHorizontal />
       </Button>
-      {isModalOpen && <Modal onCloseModal={closeModal}></Modal>}
+      {isModalOpen && (
+        <Modal onCloseModal={closeModal}>
+          <MenuCard>
+            <MenuCard.Button onClick={() => console.log('unfollow')} danger>
+              Unfollow
+            </MenuCard.Button>
+            <MenuCard.Button onClick={() => console.log('See post')}>
+              Go to post
+            </MenuCard.Button>
+            <MenuCard.Button
+              onClick={() => {
+                navigate(user.username);
+              }}
+            >
+              Go to profile
+            </MenuCard.Button>
+          </MenuCard>
+        </Modal>
+      )}
     </PostHeaderStyled>
   );
 }
