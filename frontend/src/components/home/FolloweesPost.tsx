@@ -57,6 +57,7 @@ function FolloweesPost() {
             <PostCard
               username={post.user.username}
               profilePhoto={post.user.profilePhoto}
+              userId={post.user.id}
               mediaName={post.postPhoto}
               content={post.content}
               likes={post.likes}
