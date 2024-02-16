@@ -8,6 +8,7 @@ import Modal from '../common/Modal';
 import MenuCard from '../common/MenuCard';
 
 import { useAuthStore } from '../../hooks/useAuthStore';
+import Notifications from './Notifications';
 
 const UserNavCardStyled = styled.div`
   display: flex;
@@ -34,6 +35,14 @@ const UserNavCardStyled = styled.div`
   }
 `;
 
+const NotificationsContainer = styled.div`
+  position: relative;
+
+  @media (max-width: 500px) {
+    position: static;
+  }
+`;
+
 const NotificationButton = styled.button`
   margin-right: 2rem;
 `;
@@ -44,29 +53,43 @@ function UserNavCard() {
     startLogOut,
   } = useAuthStore();
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const onCloseModal = () => setIsModalOpen(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  const toggleModal = () => setIsModalOpen((isModalOpen) => !isModalOpen);
+
+  const toggleNotifications = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsNotificationOpen((isNotificationOpen) => !isNotificationOpen);
+  };
+
+  const closeNotifications = () => {
+    setIsNotificationOpen(false);
+  };
 
   return (
     <>
       <UserNavCardStyled>
-        <NotificationButton>
-          <IoNotificationsOutline />
-        </NotificationButton>
+        <NotificationsContainer>
+          <NotificationButton onClick={toggleNotifications}>
+            <IoNotificationsOutline />
+          </NotificationButton>
+          {isNotificationOpen && <Notifications onClose={closeNotifications} />}
+        </NotificationsContainer>
         <NavLink to={username}>
           <UserIcon size="sm" username={username} profilePhoto={profilePhoto} />
         </NavLink>
-        <button onClick={() => setIsModalOpen(true)}>
+        <button onClick={toggleModal}>
           <IoChevronDown />
         </button>
       </UserNavCardStyled>
       {isModalOpen && (
-        <Modal onCloseModal={onCloseModal}>
+        <Modal onCloseModal={toggleModal}>
           <MenuCard title={'Are you sure to log out?'}>
             <MenuCard.Button onClick={startLogOut} danger>
               Confirm
             </MenuCard.Button>
-            <MenuCard.Button onClick={onCloseModal}>Cancel</MenuCard.Button>
+            <MenuCard.Button onClick={toggleModal}>Cancel</MenuCard.Button>
           </MenuCard>
         </Modal>
       )}
