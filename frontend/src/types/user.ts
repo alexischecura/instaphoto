@@ -22,7 +22,6 @@ export type SimpleProfile = {
   id: string;
   profilePhoto: string;
   isFollowing?: boolean;
-  isLoading?: boolean;
 };
 
 export type Follow = {

@@ -33,6 +33,7 @@ const postSlice = createSlice({
       state.isCreatingPost = false;
     },
     setLoadedPosts: (state, action: PayloadAction<Post[]>) => {
+      state.noMoreFriendsPost = false;
       state.isLoadingPost = false;
       state.page = 2;
       state.followeesPosts = action.payload;
@@ -68,6 +69,7 @@ const postSlice = createSlice({
     },
     loadMorePost: (state, action: PayloadAction<Post[]>) => {
       state.isLoadingPost = false;
+      state.noMoreFriendsPost = false;
       ++state.page;
       state.followeesPosts = [...state.followeesPosts, ...action.payload];
     },

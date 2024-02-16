@@ -1,12 +1,14 @@
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { IoEllipsisHorizontal } from 'react-icons/io5';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { getEnvVariables } from '../../helpers/getEnvVariables';
-import { useState } from 'react';
 import Modal from '../common/Modal';
 import MenuCard from '../common/MenuCard';
-import { usePostStore } from '../../hooks/usePostStore';
+import Spinner from '../common/Spinner';
+
+import { useFollowStore } from '../../hooks/useFollowStore';
 
 const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
@@ -74,7 +76,7 @@ type PostHeaderProps = {
 function PostHeader({ user, postDate }: PostHeaderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { unfollowUser } = usePostStore();
+  const { toggleFollow, isLoadingUserId } = useFollowStore();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -82,6 +84,12 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
   const openModal = () => {
     setIsModalOpen(true);
   };
+
+  const isLoadingUnfollowingUser = isLoadingUserId === user.userId;
+
+  useEffect(() => {
+    if (!isLoadingUnfollowingUser) closeModal();
+  }, [isLoadingUnfollowingUser]);
 
   return (
     <PostHeaderStyled>
@@ -100,8 +108,11 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
       {isModalOpen && (
         <Modal onCloseModal={closeModal}>
           <MenuCard>
-            <MenuCard.Button onClick={() => unfollowUser(user.userId)} danger>
-              Unfollow
+            <MenuCard.Button
+              onClick={() => toggleFollow(user.userId, true)}
+              danger
+            >
+              {isLoadingUnfollowingUser ? <Spinner color="#888" /> : 'Unfollow'}
             </MenuCard.Button>
             <MenuCard.Button
               onClick={() => {

@@ -3,6 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 
 import UserCard from '../common/UserCard';
 import { useFollowStore } from '../../hooks/useFollowStore';
+import { useEffect } from 'react';
 
 const FollowingSectionStyled = styled.aside`
   grid-column: 2 / 3;
@@ -24,8 +25,17 @@ const SuggestedFollowers = styled.div`
 `;
 
 function FollowingSection() {
-  const { isLoadingSuggestions, suggestedProfiles, toggleFollow } =
-    useFollowStore();
+  const {
+    isLoadingSuggestions,
+    suggestedProfiles,
+    isLoadingUserId,
+    toggleFollow,
+    startGettingSuggestingUsers,
+  } = useFollowStore();
+
+  useEffect(() => {
+    startGettingSuggestingUsers();
+  }, []);
 
   return (
     <FollowingSectionStyled>
@@ -47,7 +57,7 @@ function FollowingSection() {
               caption={profile.fullName}
               profilePhoto={profile.profilePhoto}
               onClick={() => toggleFollow(profile.id, profile.isFollowing)}
-              isLoading={profile.isLoading}
+              isLoading={profile.id === isLoadingUserId}
             />
           ))
         )}

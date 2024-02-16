@@ -14,20 +14,14 @@ import {
   successUnfollowingUser,
 } from '../store/follow/followSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
-import { useEffect } from 'react';
 import { usePostStore } from './usePostStore';
 
 export const useFollowStore = () => {
   const dispatch = useAppDispatch();
 
-  const { isLoadingSuggestions, suggestedProfiles } = useAppSelector(
-    (state) => state.follow
-  );
+  const { isLoadingSuggestions, suggestedProfiles, isLoadingUserId } =
+    useAppSelector((state) => state.follow);
   const { startGettingFolloweesPost } = usePostStore();
-
-  useEffect(() => {
-    startGettingSuggestingUsers();
-  }, []);
 
   const startGettingSuggestingUsers = async () => {
     dispatch(startSuggestionsLoading());
@@ -76,6 +70,8 @@ export const useFollowStore = () => {
   return {
     suggestedProfiles,
     isLoadingSuggestions,
+    isLoadingUserId,
+    startGettingSuggestingUsers,
     toggleFollow,
   };
 };

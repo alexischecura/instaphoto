@@ -8,7 +8,6 @@ import {
   getFolloweesPost,
   likePost,
 } from '../api/postApi';
-import { unfollowAnUser } from '../api/followApi';
 
 import {
   reportPostError,
@@ -131,23 +130,6 @@ export const usePostStore = () => {
     }
   };
 
-  const unfollowUser = async (userId: string) => {
-    try {
-      await unfollowAnUser(userId);
-      startGettingFolloweesPost();
-    } catch (error) {
-      console.error(error);
-      if (error instanceof AxiosError) {
-        dispatch(
-          reportPostError(
-            error.response?.data?.message ||
-              'Something went wrong trying to unfollow the user'
-          )
-        );
-      }
-    }
-  };
-
   return {
     isLoadingPost,
     isCreatingPost,
@@ -159,6 +141,5 @@ export const usePostStore = () => {
     startCommentingPost,
     startLikingPost,
     startCreatingPost,
-    unfollowUser,
   };
 };
