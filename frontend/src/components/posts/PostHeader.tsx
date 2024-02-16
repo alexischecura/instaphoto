@@ -6,7 +6,7 @@ import { getEnvVariables } from '../../helpers/getEnvVariables';
 import { useState } from 'react';
 import Modal from '../common/Modal';
 import MenuCard from '../common/MenuCard';
-import { useFollowStore } from '../../hooks/useFollowStore';
+import { usePostStore } from '../../hooks/usePostStore';
 
 const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
@@ -73,18 +73,14 @@ type PostHeaderProps = {
 
 function PostHeader({ user, postDate }: PostHeaderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { toggleFollow } = useFollowStore();
   const navigate = useNavigate();
+  const { unfollowUser } = usePostStore();
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
   const openModal = () => {
     setIsModalOpen(true);
-  };
-
-  const unFollowUser = (id: string) => {
-    toggleFollow(id, true);
   };
 
   return (
@@ -104,7 +100,7 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
       {isModalOpen && (
         <Modal onCloseModal={closeModal}>
           <MenuCard>
-            <MenuCard.Button onClick={() => unFollowUser(user.userId)} danger>
+            <MenuCard.Button onClick={() => unfollowUser(user.userId)} danger>
               Unfollow
             </MenuCard.Button>
             <MenuCard.Button
