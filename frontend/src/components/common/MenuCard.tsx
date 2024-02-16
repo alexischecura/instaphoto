@@ -12,6 +12,13 @@ const MenuCardStyled = styled.div`
     font-weight: 500;
     margin: 2rem 0;
   }
+
+  @media (max-width: 500px) {
+    width: 30rem;
+  }
+  @media (max-width: 300px) {
+    width: 20rem;
+  }
 `;
 
 const ButtonStyled = styled.button<{ danger: boolean }>`
