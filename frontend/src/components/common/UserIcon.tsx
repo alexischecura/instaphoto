@@ -11,6 +11,7 @@ type UserIconProps = {
 
 const ProfilePicture = styled.img<UserIconProps>`
   border-radius: 50%;
+  object-fit: cover;
 
   width: ${({ size }) =>
     size === 'sm' ? '36px' : size === 'md' ? '64px' : '96px'};
