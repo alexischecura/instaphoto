@@ -20,9 +20,9 @@ const ProfilePicture = styled.img<UserIconProps>`
 
   @media (max-width: 1250px) {
     width: ${({ size }) =>
-      size === 'sm' ? '32px' : size === 'md' ? '40px' : '74px'};
+      size === 'sm' ? '32px' : size === 'md' ? '40px' : '96px'};
     height: ${({ size }) =>
-      size === 'sm' ? '32px' : size === 'md' ? '40px' : '74px'};
+      size === 'sm' ? '32px' : size === 'md' ? '40px' : '96px'};
   }
 `;
 
