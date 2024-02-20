@@ -18,13 +18,18 @@ const Divider = styled.div`
 `;
 
 function ProfilePage() {
-  const { profile, isLoadingProfile } = useProfileStore();
+  const { profile, isLoadingProfile, isToggleringFollow, toggleFollowProfile } =
+    useProfileStore();
 
   if (isLoadingProfile) return <LoadingCircle />;
   if (profile)
     return (
       <Profile>
-        <HeaderProfile profile={profile} />
+        <HeaderProfile
+          profile={profile}
+          isToggleringFollow={isToggleringFollow}
+          toggleFollowProfile={toggleFollowProfile}
+        />
         <Divider />
         <ProfilePosts posts={profile.posts} />
       </Profile>

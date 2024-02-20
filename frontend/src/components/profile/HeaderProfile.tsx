@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { Profile } from '../../types/user';
 import { getEnvVariables } from '../../helpers/getEnvVariables';
+import MainButton from '../common/MainButton';
+import { useAuthStore } from '../../hooks/useAuthStore';
+import { Profile } from '../../types/user';
 
 const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
@@ -74,14 +76,36 @@ const Description = styled.p`
   font-size: 1.4rem;
 `;
 
-function HeaderProfile({ profile }: { profile: Profile }) {
+const ButtonContainer = styled.div`
+  width: 13rem;
+`;
+
+type HeaderProfileProps = {
+  isToggleringFollow: boolean;
+  toggleFollowProfile: () => void;
+  profile: Profile;
+};
+
+function HeaderProfile({
+  isToggleringFollow,
+  toggleFollowProfile,
+  profile,
+}: HeaderProfileProps) {
+  const { user } = useAuthStore();
+
   const {
     profilePhoto,
     username,
     fullName,
     description,
     _count: quantities,
+    id,
+    isFollowing,
   } = profile;
+
+  const isLoggedUser = user.id === id;
+
+  const buttonColor = isFollowing ? 'gray' : undefined;
 
   return (
     <Header>
@@ -91,6 +115,17 @@ function HeaderProfile({ profile }: { profile: Profile }) {
         <HeadingTertiary>{fullName}</HeadingTertiary>
       </UserProfile>
       <HeaderInfo>
+        {!isLoggedUser && (
+          <ButtonContainer>
+            <MainButton
+              text={`${isFollowing ? 'Unfollow' : 'Follow'}`}
+              type="button"
+              color={buttonColor}
+              onClick={toggleFollowProfile}
+              isLoading={isToggleringFollow}
+            />
+          </ButtonContainer>
+        )}
         <List>
           <li>
             <span>{quantities.posts}</span>
