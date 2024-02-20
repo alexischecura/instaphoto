@@ -77,6 +77,7 @@ const Description = styled.p`
 `;
 
 const ButtonContainer = styled.div`
+  align-self: center;
   width: 13rem;
 `;
 
