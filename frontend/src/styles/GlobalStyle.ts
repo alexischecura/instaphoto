@@ -22,6 +22,8 @@ const globalStyle = createGlobalStyle`${css`
     --btn-color: #5c7cfa;
     --btn-color-hover: #4263eb;
     --btn-color-disabled: #748ffc;
+
+    --box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
   }
 
   *,

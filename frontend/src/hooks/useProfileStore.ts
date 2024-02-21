@@ -4,15 +4,21 @@ import {
   errorLoadingProfile,
   setLoadedProfile,
   startLoadingProfile,
+  toggleFollowState,
 } from '../store/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import { useEffect } from 'react';
+import { useFollowStore } from './useFollowStore';
 
 export const useProfileStore = () => {
   const dispatch = useAppDispatch();
   const { isLoadingProfile, profile } = useAppSelector(
     (state) => state.profile
   );
+  const { isLoadingUserId, toggleFollow } = useFollowStore();
+
+  const isToggleringFollow = isLoadingUserId === profile?.id;
+
   const { username } = useParams<{ username: string }>();
 
   if (!username) {
@@ -37,6 +43,16 @@ export const useProfileStore = () => {
       );
     }
   };
+  const toggleFollowProfile = () => {
+    dispatch(toggleFollowState());
+    if (profile) toggleFollow(profile.id, profile.isFollowing);
+  };
 
-  return { isLoadingProfile, profile, loadProfile };
+  return {
+    isLoadingProfile,
+    profile,
+    isToggleringFollow,
+    loadProfile,
+    toggleFollowProfile,
+  };
 };

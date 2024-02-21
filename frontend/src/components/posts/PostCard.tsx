@@ -33,6 +33,7 @@ const PostCardStyled = styled.article`
 type PostCardProps = {
   username: string;
   profilePhoto: string;
+  userId: string;
   postDate: string;
   mediaName: string;
   likes: Like[];
@@ -44,6 +45,7 @@ type PostCardProps = {
 function PostCard({
   username,
   profilePhoto,
+  userId,
   postDate,
   mediaName,
   likes,
@@ -62,7 +64,7 @@ function PostCard({
   return (
     <PostCardStyled>
       <PostHeader
-        user={{ username, profilePhoto }}
+        user={{ username, profilePhoto, userId }}
         postDate={new Date(postDate)}
       />
       <PostMedia

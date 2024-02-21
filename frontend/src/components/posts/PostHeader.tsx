@@ -1,11 +1,14 @@
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { IoEllipsisHorizontal } from 'react-icons/io5';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { getEnvVariables } from '../../helpers/getEnvVariables';
-import { useState } from 'react';
 import Modal from '../common/Modal';
 import MenuCard from '../common/MenuCard';
+import Spinner from '../common/Spinner';
+
+import { useFollowStore } from '../../hooks/useFollowStore';
 
 const { VITE_USER_IMAGE_URL } = getEnvVariables();
 
@@ -64,7 +67,8 @@ const Button = styled.button`
 type PostHeaderProps = {
   user: {
     username: string;
-    profilePhoto?: string;
+    profilePhoto: string;
+    userId: string;
   };
   postDate: Date;
 };
@@ -72,6 +76,7 @@ type PostHeaderProps = {
 function PostHeader({ user, postDate }: PostHeaderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { toggleFollow, isLoadingUserId } = useFollowStore();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -79,6 +84,12 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
   const openModal = () => {
     setIsModalOpen(true);
   };
+
+  const isLoadingUnfollowingUser = isLoadingUserId === user.userId;
+
+  useEffect(() => {
+    if (!isLoadingUnfollowingUser) closeModal();
+  }, [isLoadingUnfollowingUser]);
 
   return (
     <PostHeaderStyled>
@@ -97,10 +108,17 @@ function PostHeader({ user, postDate }: PostHeaderProps) {
       {isModalOpen && (
         <Modal onCloseModal={closeModal}>
           <MenuCard>
-            <MenuCard.Button onClick={() => console.log('unfollow')} danger>
-              Unfollow
+            <MenuCard.Button
+              onClick={() => toggleFollow(user.userId, true)}
+              danger
+            >
+              {isLoadingUnfollowingUser ? <Spinner color="#888" /> : 'Unfollow'}
             </MenuCard.Button>
-            <MenuCard.Button onClick={() => console.log('See post')}>
+            <MenuCard.Button
+              onClick={() => {
+                navigate(user.username);
+              }}
+            >
               Go to post
             </MenuCard.Button>
             <MenuCard.Button

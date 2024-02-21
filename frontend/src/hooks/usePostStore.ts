@@ -1,10 +1,14 @@
 import { AxiosError } from 'axios';
+
+import { useAppDispatch, useAppSelector } from './reduxHooks';
+
 import {
   commentPost,
   createPost,
   getFolloweesPost,
   likePost,
 } from '../api/postApi';
+
 import {
   reportPostError,
   startPostRequest,
@@ -17,7 +21,6 @@ import {
   postCreated,
   noMorePostFromFriends,
 } from '../store/post/postSlice';
-import { useAppDispatch, useAppSelector } from './reduxHooks';
 
 export const usePostStore = () => {
   const dispatch = useAppDispatch();

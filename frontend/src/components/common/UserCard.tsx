@@ -83,7 +83,7 @@ function UserCard({
           {caption}
         </UserCaption>
       </UserInfo>
-      <Button onClick={onClick}>
+      <Button onClick={onClick} disabled={isLoading}>
         {isLoading ? <Spinner color="#777" /> : buttonLabel}
       </Button>
     </UserCardStyled>

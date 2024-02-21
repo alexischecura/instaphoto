@@ -46,13 +46,13 @@ router
     validate(resetPasswordSchema, 'body'),
     resetPasswordHandler
   );
+router.use(authenticateUser);
+
 router.get(
   '/profile/:username',
   validate(usernameSchema, 'params'),
   getProfile
 );
-
-router.use(authenticateUser);
 
 router.post('/logout', logoutUserHandler);
 router.get('/me', getCurrentUserHandler);

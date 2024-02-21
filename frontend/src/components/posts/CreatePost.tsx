@@ -7,7 +7,7 @@ import LoadingCircle from '../common/LoadingCircle';
 
 const CreatePostStyled = styled.div`
   width: 60rem;
-  min-height: 80rem;
+  max-width: 90dvw;
   display: flex;
   flex-direction: column;
 `;
@@ -25,7 +25,7 @@ const Divider = styled.div`
 `;
 
 const Form = styled.form`
-  min-height: 75rem;
+  height: 80dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,15 +43,16 @@ const FileUploadContainer = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60rem;
+  height: 100%;
 `;
 
 const ImagePreview = styled.img`
-  height: 75rem;
   object-fit: cover;
+  width: 100%;
+  height: 80dvh;
 `;
 
 const Content = styled.div`
@@ -146,7 +147,7 @@ function CreatePost() {
       ) : (
         <Form onSubmit={handleSubmit}>
           {formState.imageURL ? (
-            <ImageContainer>
+            <PostContainer>
               <ImagePreview src={formState.imageURL} />
               <Divider />
               <Content>
@@ -163,7 +164,7 @@ function CreatePost() {
                 />
                 <MainButton text="Create Post" type="submit" />
               </Content>
-            </ImageContainer>
+            </PostContainer>
           ) : (
             <FileUploadContainer>
               <IoImageOutline />
@@ -174,7 +175,7 @@ function CreatePost() {
                 onChange={handleFileInputChange}
               />
               <MainButton
-                text="Select from computer"
+                text="Select from your device"
                 type="button"
                 onClick={handleButtonClick}
               />

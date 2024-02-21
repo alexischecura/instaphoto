@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import {
   createManyUsers,
   findProfile,
+  findUserWithFollowers,
   updateUser,
 } from '../services/userService';
 import {
@@ -36,8 +37,9 @@ export const getProfile = async (
   next: NextFunction
 ) => {
   try {
-    const user = await findProfile(req.params.username);
-    if (!user) {
+    const userProfile = await findProfile(req.params.username);
+
+    if (!userProfile) {
       return next(
         new NotFoundError(
           `User with the username ${req.params.username} not found`
@@ -45,7 +47,14 @@ export const getProfile = async (
       );
     }
 
-    return res.status(200).json(user);
+    const currentUser = await findUserWithFollowers({
+      where: { id: res.locals.user.id },
+    });
+    const isFollowing = currentUser?.followees.some(
+      (user) => user.followerId === userProfile?.id
+    );
+
+    return res.status(200).json({ ...userProfile, isFollowing });
   } catch (error) {
     console.log(error);
     return next(

@@ -3,13 +3,7 @@ import { usePostStore } from '../../hooks/usePostStore';
 import PostCard from '../posts/PostCard';
 import styled from 'styled-components';
 import Spinner from '../common/Spinner';
-
-const Message = styled.p`
-  font-size: 1.4rem;
-  font-weight: 600;
-  text-align: center;
-  padding: 2.4rem 0;
-`;
+import SuggestionUsers from './RecommendedUsers';
 
 const SpinnerContainer = styled.div`
   text-align: center;
@@ -50,13 +44,14 @@ function FolloweesPost() {
   }, []);
 
   return (
-    <div>
+    <>
       {followeesPosts ? (
         followeesPosts.map((post) => {
           return (
             <PostCard
               username={post.user.username}
               profilePhoto={post.user.profilePhoto}
+              userId={post.user.id}
               mediaName={post.postPhoto}
               content={post.content}
               likes={post.likes}
@@ -68,10 +63,7 @@ function FolloweesPost() {
           );
         })
       ) : (
-        <Message>
-          Appear no one of the users than you are following has a post, try to
-          follow another user
-        </Message>
+        <SuggestionUsers />
       )}
       <div
         ref={observedElement}
@@ -85,12 +77,8 @@ function FolloweesPost() {
           <Spinner color="#333" />
         </SpinnerContainer>
       )}
-      {noMoreFriendsPost && (
-        <Message>
-          Looks like you've seen everything! You can follow someone else.
-        </Message>
-      )}
-    </div>
+      {noMoreFriendsPost && followeesPosts && <SuggestionUsers />}
+    </>
   );
 }
 

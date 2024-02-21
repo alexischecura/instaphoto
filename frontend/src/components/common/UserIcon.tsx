@@ -11,6 +11,7 @@ type UserIconProps = {
 
 const ProfilePicture = styled.img<UserIconProps>`
   border-radius: 50%;
+  object-fit: cover;
 
   width: ${({ size }) =>
     size === 'sm' ? '36px' : size === 'md' ? '64px' : '96px'};
@@ -19,9 +20,9 @@ const ProfilePicture = styled.img<UserIconProps>`
 
   @media (max-width: 1250px) {
     width: ${({ size }) =>
-      size === 'sm' ? '32px' : size === 'md' ? '40px' : '74px'};
+      size === 'sm' ? '32px' : size === 'md' ? '40px' : '96px'};
     height: ${({ size }) =>
-      size === 'sm' ? '32px' : size === 'md' ? '40px' : '74px'};
+      size === 'sm' ? '32px' : size === 'md' ? '40px' : '96px'};
   }
 `;
 

@@ -29,8 +29,15 @@ export const profileSlice = createSlice({
       state.isLoadingProfile = false;
       state.errorMessage = action.payload;
     },
+    toggleFollowState: (state) => {
+      if (state.profile) state.profile.isFollowing = !state.profile.isFollowing;
+    },
   },
 });
 
-export const { startLoadingProfile, errorLoadingProfile, setLoadedProfile } =
-  profileSlice.actions;
+export const {
+  startLoadingProfile,
+  errorLoadingProfile,
+  setLoadedProfile,
+  toggleFollowState,
+} = profileSlice.actions;

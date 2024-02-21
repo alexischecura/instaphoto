@@ -3,12 +3,14 @@ import { SimpleProfile } from '../../types/user';
 
 type InitialState = {
   isLoadingSuggestions: boolean;
+  isLoadingUserId: string;
   suggestedProfiles: SimpleProfile[] | [];
   errorMessage: string | undefined;
 };
 
 const initialState: InitialState = {
   isLoadingSuggestions: false,
+  isLoadingUserId: '',
   suggestedProfiles: [],
   errorMessage: undefined,
 };
@@ -18,25 +20,22 @@ const followSlice = createSlice({
   initialState,
   reducers: {
     startFollowRequest: (state, action: PayloadAction<string>) => {
-      state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
-        if (profile.id === action.payload) {
-          return { ...profile, isLoading: true };
-        }
-        return profile;
-      });
+      state.isLoadingUserId = action.payload;
     },
     successFollowingUser: (state, action: PayloadAction<string>) => {
+      state.isLoadingUserId = '';
       state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
         if (profile.id === action.payload) {
-          return { ...profile, isFollowing: true, isLoading: false };
+          return { ...profile, isFollowing: true };
         }
         return profile;
       });
     },
     successUnfollowingUser: (state, action: PayloadAction<string>) => {
+      state.isLoadingUserId = ''
       state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
         if (profile.id === action.payload) {
-          return { ...profile, isFollowing: false, isLoading: false };
+          return { ...profile, isFollowing: false };
         }
         return profile;
       });
@@ -66,7 +65,7 @@ const followSlice = createSlice({
       state.errorMessage = action.payload.errorMessage;
       state.suggestedProfiles = state.suggestedProfiles.map((profile) => {
         if (profile.id === action.payload.id) {
-          return { ...profile, isLoading: false };
+          return { ...profile };
         }
         return profile;
       });

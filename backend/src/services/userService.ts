@@ -51,6 +51,7 @@ export const findProfile = async (username: string) => {
   return await prisma.user.findFirst({
     where: { username, active: true },
     select: {
+      id: true,
       username: true,
       fullName: true,
       profilePhoto: true,
@@ -108,7 +109,7 @@ export const updateUser = async (
 };
 
 export const createManyUsers = async (input: Prisma.UserCreateManyInput[]) => {
-  const usersToInsert = input.map((user) => ({ ...user, verified: true }));
+  const usersToInsert = input.map((user) => ({ ...user }));
 
   return await prisma.user.createMany({
     data: usersToInsert,

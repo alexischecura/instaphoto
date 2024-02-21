@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { IoChevronDown, IoNotificationsOutline } from 'react-icons/io5';
-import UserIcon from '../common/UserIcon';
+import { IoLogOutOutline, IoNotificationsOutline } from 'react-icons/io5';
 
 import Modal from '../common/Modal';
 import MenuCard from '../common/MenuCard';
+import UserIcon from '../common/UserIcon';
+import Notifications from './Notifications';
 
 import { useAuthStore } from '../../hooks/useAuthStore';
 
@@ -14,6 +15,7 @@ const UserNavCardStyled = styled.div`
   align-items: center;
   justify-content: center;
   width: 32rem;
+  gap: 1rem;
   padding: 0 2.4rem;
 
   & button {
@@ -34,8 +36,12 @@ const UserNavCardStyled = styled.div`
   }
 `;
 
-const NotificationButton = styled.button`
-  margin-right: 2rem;
+const NotificationsContainer = styled.div`
+  position: relative;
+
+  @media (max-width: 500px) {
+    position: static;
+  }
 `;
 
 function UserNavCard() {
@@ -44,29 +50,43 @@ function UserNavCard() {
     startLogOut,
   } = useAuthStore();
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const onCloseModal = () => setIsModalOpen(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  const toggleModal = () => setIsModalOpen((isModalOpen) => !isModalOpen);
+
+  const toggleNotifications = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsNotificationOpen((isNotificationOpen) => !isNotificationOpen);
+  };
+
+  const closeNotifications = () => {
+    setIsNotificationOpen(false);
+  };
 
   return (
     <>
       <UserNavCardStyled>
-        <NotificationButton>
-          <IoNotificationsOutline />
-        </NotificationButton>
+        <NotificationsContainer>
+          <button onClick={toggleNotifications}>
+            <IoNotificationsOutline />
+          </button>
+          {isNotificationOpen && <Notifications onClose={closeNotifications} />}
+        </NotificationsContainer>
         <NavLink to={username}>
           <UserIcon size="sm" username={username} profilePhoto={profilePhoto} />
         </NavLink>
-        <button onClick={() => setIsModalOpen(true)}>
-          <IoChevronDown />
+        <button onClick={toggleModal}>
+          <IoLogOutOutline />
         </button>
       </UserNavCardStyled>
       {isModalOpen && (
-        <Modal onCloseModal={onCloseModal}>
+        <Modal onCloseModal={toggleModal}>
           <MenuCard title={'Are you sure to log out?'}>
             <MenuCard.Button onClick={startLogOut} danger>
               Confirm
             </MenuCard.Button>
-            <MenuCard.Button onClick={onCloseModal}>Cancel</MenuCard.Button>
+            <MenuCard.Button onClick={toggleModal}>Cancel</MenuCard.Button>
           </MenuCard>
         </Modal>
       )}

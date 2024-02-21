@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import {
-  loginUserSchema,
-  signUpUserSchema,
-} from '../schemas/authSchemas';
+import { loginUserSchema, signUpUserSchema } from '../schemas/authSchemas';
 import { Post } from './post';
 
 export type LoginUserType = z.infer<typeof loginUserSchema>;
@@ -22,7 +19,6 @@ export type SimpleProfile = {
   id: string;
   profilePhoto: string;
   isFollowing?: boolean;
-  isLoading?: boolean;
 };
 
 export type Follow = {
@@ -32,6 +28,7 @@ export type Follow = {
 };
 
 export type Profile = {
+  id: string;
   username: string;
   fullName: string;
   profilePhoto?: string;
@@ -40,6 +37,7 @@ export type Profile = {
   followers: Follow[];
   followees: Follow[];
   _count: Quantities;
+  isFollowing: boolean;
 };
 
 type Quantities = {
