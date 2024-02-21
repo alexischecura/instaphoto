@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { IoChevronDown, IoNotificationsOutline } from 'react-icons/io5';
-import UserIcon from '../common/UserIcon';
+import { IoLogOutOutline, IoNotificationsOutline } from 'react-icons/io5';
 
 import Modal from '../common/Modal';
 import MenuCard from '../common/MenuCard';
+import UserIcon from '../common/UserIcon';
+import Notifications from './Notifications';
 
 import { useAuthStore } from '../../hooks/useAuthStore';
-import Notifications from './Notifications';
 
 const UserNavCardStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 32rem;
+  gap: 1rem;
   padding: 0 2.4rem;
 
   & button {
@@ -43,10 +44,6 @@ const NotificationsContainer = styled.div`
   }
 `;
 
-const NotificationButton = styled.button`
-  margin-right: 2rem;
-`;
-
 function UserNavCard() {
   const {
     user: { username, profilePhoto },
@@ -71,16 +68,16 @@ function UserNavCard() {
     <>
       <UserNavCardStyled>
         <NotificationsContainer>
-          <NotificationButton onClick={toggleNotifications}>
+          <button onClick={toggleNotifications}>
             <IoNotificationsOutline />
-          </NotificationButton>
+          </button>
           {isNotificationOpen && <Notifications onClose={closeNotifications} />}
         </NotificationsContainer>
         <NavLink to={username}>
           <UserIcon size="sm" username={username} profilePhoto={profilePhoto} />
         </NavLink>
         <button onClick={toggleModal}>
-          <IoChevronDown />
+          <IoLogOutOutline />
         </button>
       </UserNavCardStyled>
       {isModalOpen && (

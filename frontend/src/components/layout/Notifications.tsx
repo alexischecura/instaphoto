@@ -5,7 +5,7 @@ const NotificationsStyled = styled.ul`
   z-index: 99;
   position: absolute;
   top: 2.4rem;
-  right: 3.6rem;
+  right: 2rem;
   background-color: var(--color-gray-0);
   border: 1px solid var(--color-gray-700);
   border-radius: 4px;
